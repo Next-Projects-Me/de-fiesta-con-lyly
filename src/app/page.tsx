@@ -13,8 +13,8 @@ export default function Home() {
                         <p>SITIO WEB EN</p>
                         <p>CONSTRUCCCIÓN</p>
                     </div>
-                    <div>
-                        <p className={`p-10 text-xl`}>
+                    <div className={`${paragraph.className} w-80 sm:w-auto my-10 px-3 sm:px-6 text-xl`}>
+                        <p>
                             Próximamente estará disponible nuestra página web dónde podrás conocer
                             todos nuestros productos disponibles para tu celebración...
                             Estamos felices de cada día crecer junto a ti... Gracias por tu apoyo
@@ -29,7 +29,6 @@ export default function Home() {
                                 <RiWhatsappFill className="w-6 h-6" />
                                 <span className="ml-2">
                                     <p>3136406080 - 3173866890</p>
-                                    <p></p>
                                 </span>
                             </div>
 
