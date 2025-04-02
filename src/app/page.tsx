@@ -13,7 +13,7 @@ export default function Home() {
                         <p>SITIO WEB EN</p>
                         <p>CONSTRUCCCIÓN</p>
                     </div>
-                    <div className={`${paragraph.className} w-80 sm:w-auto my-10 px-3 sm:px-6 text-xl`}>
+                    <div className={`w-80 sm:w-auto my-10 px-3 text-2xl sm:px-6 sm:my-16`}>
                         <p>
                             Próximamente estará disponible nuestra página web dónde podrás conocer
                             todos nuestros productos disponibles para tu celebración...
