@@ -9,5 +9,5 @@ export const titleFont = Montserrat_Alternates({
 
 export const paragraph = Fredoka({
     subsets: ['latin'],
-    weight: ['500', '700']
+    weight: ['400', '400']
 })
