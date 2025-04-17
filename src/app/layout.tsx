@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { inter } from "@/config/fonts";
+
 import "./globals.css";
-
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
+import { Provider } from "@/components/provider/Provider";
 
 export const metadata: Metadata = {
-    title: "De Fiesta Con Lyly - Shop",
-    description: "Tienda virtual de productos para fiesta y eventos",
+    title: {
+        template: '%s - Teslo | Shop',
+        default: 'Home - Teslo | Shop'
+    },
+    description: "Una tienda virtual de productos",
 };
 
 export default function RootLayout({
@@ -24,10 +19,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-            >
-                {children}
+            <body className={`${inter.className}`}>
+                <Provider>
+                    {children}
+                </Provider>
             </body>
         </html>
     );
