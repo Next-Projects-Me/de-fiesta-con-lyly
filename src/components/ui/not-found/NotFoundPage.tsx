@@ -19,11 +19,11 @@ export const NotFoundPage = () => {
                 </p>
             </div>
             <div className='px-5 mx-5'>
-                <Image src="/imgs/starman_750x750.png" 
-                    alt='Starman' 
-                    className='p-5 sm:p-0' 
-                    width={ 550 } 
-                    height={ 550 }/>
+                <Image src="/imgs/Pinata-burrito.png"
+                    alt='Pinata Burrito'
+                    className='p-5 sm:p-0'
+                    width={400}
+                    height={400} />
             </div>
 
         </div>

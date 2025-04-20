@@ -6,8 +6,8 @@ import { Provider } from "@/components/provider/Provider";
 
 export const metadata: Metadata = {
     title: {
-        template: '%s - Teslo | Shop',
-        default: 'Home - Teslo | Shop'
+        template: '%s - DFCL | Shop',
+        default: 'Home - DFCL | Shop'
     },
     description: "Una tienda virtual de productos",
 };
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${inter.className}`}>
+            <body className={`${inter.className} max-h-svh`}>
                 <Provider>
                     {children}
                 </Provider>

@@ -3,6 +3,7 @@
 import { login } from '@/actions/auth/login';
 import { registerUser } from '@/actions/auth/register';
 import clsx from 'clsx';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -13,7 +14,12 @@ type Inputs = {
     password: string;
 }
 
-export const RegisterForm = () => {
+interface Props {
+    isModalAuth: boolean;
+    setModalAuth?: () => void;
+}
+
+export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
 
     const [errorMessage, setErrorMessage] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
@@ -85,28 +91,51 @@ export const RegisterForm = () => {
                 {...register('password', { required: true, minLength: 6 })}
             />
 
+            <p className="mb-5">
+                {/* Disclaimer */}
+                <span className="text-xs">
+                    Al hacer clic en &quot;Crear cuenta&quot;, acepta nuestros <a href="#" className="underline">términos y condiciones</a> y <a href="#" className="underline">políticas de privacidad</a>
+                </span>
+            </p>
 
             <span className='text-red-500'>{errorMessage}</span>
 
-
             <button
-                className="btn-primary">
+                className="btn-primary cursor-pointer">
                 Crear cuenta
             </button>
 
-
-            {/* divisor l ine */}
+            {/* divisor line */}
             <div className="flex items-center my-5">
                 <div className="flex-1 border-t border-gray-500"></div>
-                <div className="px-2 text-gray-800">O</div>
+                <Image
+                    src="/imgs/Pinata-burrito.png"
+                    alt="Burrito"
+                    width={60}
+                    height={60}
+                    className='mx-10'
+                />
                 <div className="flex-1 border-t border-gray-500"></div>
             </div>
 
-            <Link
-                href="/auth/login"
-                className="btn-secondary text-center">
-                Ingresar
-            </Link>
+            {
+                !isModalAuth
+                    ? (
+                        <Link
+                            href="/auth/login"
+                            className="btn-secondary text-center cursor-pointer">
+                            Ingresar
+                        </Link>
+                    )
+                    : (
+                        <button
+                            onClick={() => setModalAuth?.()}
+                            className="btn-secondary text-center cursor-pointer">
+                            Ingresar
+                        </button>
+                    )
+            }
+
 
         </form>
     )

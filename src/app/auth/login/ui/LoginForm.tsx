@@ -1,12 +1,18 @@
 "use client";
 
-import Link from 'next/link';
-import clsx from 'clsx';
-import { useActionState, useEffect } from 'react';
+import { authenticate, authenticateWithGoogle } from '@/actions/auth/login';
 import { IoInformationOutline } from 'react-icons/io5';
-import { authenticate } from '@/actions/auth/login';
+import { useActionState, useEffect } from 'react';
+import clsx from 'clsx';
+import Image from 'next/image';
+import Link from 'next/link';
 
-export const LoginForm = () => {
+interface Props {
+    isModalAuth: boolean;
+    setModalAuth?: () => void;
+}
+
+export const LoginForm = ({ isModalAuth, setModalAuth }: Props) => {
 
     const [state, formAction, isPending] = useActionState(authenticate, undefined);
 
@@ -28,7 +34,7 @@ export const LoginForm = () => {
 
             <label htmlFor="password">Contraseña</label>
             <input
-                className="px-5 py-2 border bg-gray-200 rounded mb-5"
+                className="px-5 py-2 border bg-gray-200 rounded"
                 type="password"
                 name="password" />
             <div
@@ -56,18 +62,55 @@ export const LoginForm = () => {
                 Ingresar
             </button>
 
+            <Link href="/auth/recovery-password"
+                className='self-center mt-3 hover:text-primary'>
+                ¿Olvidaste tu contraseña?
+            </Link>
+
             {/* divisor line */}
             <div className="flex items-center my-5">
                 <div className="flex-1 border-t border-gray-500"></div>
-                <div className="px-2 text-gray-800">O</div>
+                <Image
+                    src="/imgs/Pinata-burrito.png"
+                    alt="Burrito"
+                    width={60}
+                    height={60}
+                    className='mx-10'
+                />
                 <div className="flex-1 border-t border-gray-500"></div>
             </div>
 
-            <Link
-                href="/auth/new-account"
-                className="btn-secondary text-center">
-                Crear una nueva cuenta
-            </Link>
+            <button
+                onClick={() => authenticateWithGoogle()}
+                className="btn-secondary text-center cursor-pointer flex justify-center mb-3">
+                <Image
+                    src="/imgs/Google_logo.png"
+                    width={25}
+                    height={25}
+                    alt='Google logo'
+                    className='mr-3'
+                />
+                Ingresa con Google
+            </button>
+
+            {
+                !isModalAuth
+                    ? (
+                        <Link
+                            href="/auth/new-account"
+                            className="btn-secondary text-center cursor-pointer">
+                            Crear una nueva cuenta
+                        </Link>
+                    )
+                    :
+                    (
+                        <button
+                            onClick={() => setModalAuth?.()}
+                            className="btn-secondary text-center cursor-pointer">
+                            Crear una nueva cuenta
+                        </button>
+                    )
+            }
 
         </form>
     )
