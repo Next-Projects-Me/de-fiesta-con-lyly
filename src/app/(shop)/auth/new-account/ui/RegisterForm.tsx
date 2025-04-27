@@ -88,15 +88,14 @@ export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
                     )
                 }
                 type="password"
-                {...register('password', { required: true, minLength: 6 })}
+                {...register('password', { required: true, minLength: 8 })}
             />
 
-            <p className="mb-5">
-                {/* Disclaimer */}
+            {/* <p className="mb-5">
                 <span className="text-xs">
                     Al hacer clic en &quot;Crear cuenta&quot;, acepta nuestros <a href="#" className="underline">términos y condiciones</a> y <a href="#" className="underline">políticas de privacidad</a>
                 </span>
-            </p>
+            </p> */}
 
             <span className='text-red-500'>{errorMessage}</span>
 

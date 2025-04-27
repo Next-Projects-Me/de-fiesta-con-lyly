@@ -76,6 +76,8 @@ model User {
   password      String
   role          Role      @default(user)
   image         String?
+  google        Boolean   @default(false)
+  isActive      Boolean   @default(true)
 
   address UserAddress?
   Order   Order[]

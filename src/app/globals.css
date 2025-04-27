@@ -71,3 +71,11 @@ body {
 .btn-disabled {
   @apply bg-gray-600 text-white py-2 px-4 rounded transition-all;
 }
+
+.container-page-form {
+  @apply grid grid-cols-1 sm:grid-cols-4 my-10 px-5;
+}
+
+.container-form {
+  @apply col-start-1 col-span-2 sm:col-start-2;
+}

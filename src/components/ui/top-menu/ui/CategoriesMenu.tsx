@@ -1,23 +1,46 @@
-import clsx from "clsx"
-import { FaChild, FaTheaterMasks } from "react-icons/fa"
-import { GiBowTieRibbon, GiGlassCelebration, GiPartyPopper } from "react-icons/gi"
-import { IoBalloon } from "react-icons/io5"
-import { TbRating18Plus } from "react-icons/tb"
+'use client';
 
-interface Props {
-    isNavMenuOpen: boolean
-}
+import { FaChild, FaTheaterMasks } from "react-icons/fa";
+import { GiBowTieRibbon, GiGlassCelebration, GiPartyPopper } from "react-icons/gi";
+import { IoBalloon } from "react-icons/io5";
+import { TbRating18Plus } from "react-icons/tb";
+import { useEffect, useRef } from "react";
+import { useUiStore } from "@/store/ui/ui-store";
+import clsx from "clsx";
+
+
 // grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5
-export const CategoriesMenu = ({ isNavMenuOpen }: Props) => {
+export const CategoriesMenu = () => {
+
+    const isNavMenuOpen = useUiStore(state => state.isNavMenuOpen);
+    const closeNavMenu = useUiStore(store => store.closeNavMenu);
+    const divRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (divRef.current && !divRef.current.contains(event.target as Node)) {
+                closeNavMenu();
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+
     return (
-        <div className={
-            clsx(
-                "overflow-y-scroll absolute z-10 text-xl grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 px-5 py-3 items-start w-full bg-white text-primary shadow-md fade-in",
-                {
-                    "hidden": !isNavMenuOpen,
-                }
-            )
-        }>
+        <div ref={divRef}
+            className={
+                clsx(
+                    "overflow-y-scroll absolute z-10 text-xl grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 px-5 py-3 items-start w-full bg-white text-primary shadow-md fade-in",
+                    {
+                        "hidden": !isNavMenuOpen,
+                    }
+                )
+            }>
+
             <div className="mb-4">
                 <span className="flex items-center font-bold">
                     <GiBowTieRibbon className="mr-3 my-2" />ACCESORIOS

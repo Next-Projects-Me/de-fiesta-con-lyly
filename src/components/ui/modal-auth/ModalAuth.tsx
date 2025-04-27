@@ -1,16 +1,15 @@
 'use client';
 
-import { useEffect, useRef } from "react";
+import { LoginForm } from "@/app/(shop)/auth/login/ui/LoginForm";
+import { RegisterForm } from "@/app/(shop)/auth/new-account/ui/RegisterForm";
+import { useEffect, useRef, useState } from "react";
 import { useUiStore } from "@/store/ui/ui-store";
 import clsx from "clsx";
 
-interface Props {
-    isModalLoginOpen: boolean;
-    children: React.ReactNode;
-}
 
-export const ModalAuth = ({ children, isModalLoginOpen }: Props) => {
+export const ModalAuth = () => {
 
+    const isModalLoginOpen = useUiStore(state => state.isModalLoginOpen);
     const closeModalLogin = useUiStore(store => store.closeModalLogin)
     const divRef = useRef<HTMLDivElement>(null);
 
@@ -27,6 +26,16 @@ export const ModalAuth = ({ children, isModalLoginOpen }: Props) => {
         };
     }, []);
 
+    const [modalSelected, setModalSelected] = useState('login');
+
+    const onModalSelected = () => {
+        if (modalSelected === 'login') {
+            setModalSelected('register')
+        }
+        else setModalSelected('login')
+    }
+
+
     return (
         <div
             ref={divRef}
@@ -40,7 +49,19 @@ export const ModalAuth = ({ children, isModalLoginOpen }: Props) => {
                 )
             }>
             <div className="absolute -right-2 z-10 p-10 mt-2 bg-white border-2 border-primary">
-                {children}
+                {
+                    (modalSelected === 'login')
+                        ? (
+                            <LoginForm
+                                isModalAuth={true}
+                                setModalAuth={() => onModalSelected()} />
+                        )
+                        : (
+                            <RegisterForm
+                                isModalAuth={true}
+                                setModalAuth={() => onModalSelected()} />
+                        )
+                }
             </div>
         </div>
     )

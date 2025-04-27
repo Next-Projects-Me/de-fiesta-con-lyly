@@ -1,11 +1,7 @@
 'use server';
 
 import { signIn } from '@/auth.config';
-import prisma from '@/lib/prisma';
-import { sleep } from '@/utils/sleep';
-import bcrypt from 'bcryptjs';
 import { AuthError } from 'next-auth';
-
 
 export async function authenticate(
     prevState: string | undefined,
@@ -40,8 +36,6 @@ export async function authenticateWithGoogle() {
 
         await signIn('google', { callbackUrl: '/' });
 
-        return 'Success';
-
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
@@ -68,5 +62,4 @@ export const login = async (email: string, password: string) => {
             message: 'No se pudo realizar el logueo'
         }
     }
-
 }

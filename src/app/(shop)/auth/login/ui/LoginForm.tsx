@@ -1,11 +1,12 @@
 "use client";
 
-import { authenticate, authenticateWithGoogle } from '@/actions/auth/login';
-import { IoInformationOutline } from 'react-icons/io5';
+import { authenticate } from '@/actions/auth/login';
 import { useActionState, useEffect } from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
+import { GoogleButton } from './GoogleButton';
+import { MdVpnKeyOff } from 'react-icons/md';
 
 interface Props {
     isModalAuth: boolean;
@@ -45,8 +46,8 @@ export const LoginForm = ({ isModalAuth, setModalAuth }: Props) => {
                 {
                     state && (
                         <div className='flex flex-row mb-2'>
-                            <IoInformationOutline className="h-5 w-5 text-red-500" />
-                            <p className="text-sm text-red-500">Credenciales no son correctas</p>
+                            <MdVpnKeyOff className="h-5 w-5 text-red-500" />
+                            <p className="text-sm text-red-500">&nbsp;Credenciales no son correctas</p>
                         </div>
                     )}
             </div>
@@ -80,18 +81,7 @@ export const LoginForm = ({ isModalAuth, setModalAuth }: Props) => {
                 <div className="flex-1 border-t border-gray-500"></div>
             </div>
 
-            <button
-                onClick={() => authenticateWithGoogle()}
-                className="btn-secondary text-center cursor-pointer flex justify-center mb-3">
-                <Image
-                    src="/imgs/Google_logo.png"
-                    width={25}
-                    height={25}
-                    alt='Google logo'
-                    className='mr-3'
-                />
-                Ingresa con Google
-            </button>
+            <GoogleButton />
 
             {
                 !isModalAuth
