@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useCartStore } from '@/store/cart/cart-store';
 import { useAddressStore } from '@/store/address/address-store';
 import { currencyFormat } from '@/utils/currencyFormat';
@@ -38,7 +38,7 @@ export const PlaceOrder = () => {
 
         if (!resp.ok) {
             setIsPlacingOrder(false);
-            setErrorMessage(resp.message);
+            setErrorMessage(resp.message as SetStateAction<string>);
             return;
         }
 

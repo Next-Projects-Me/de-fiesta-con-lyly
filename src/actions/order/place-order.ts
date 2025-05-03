@@ -96,6 +96,7 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
                     subTotal: subTotal,
                     tax: tax,
                     total: total,
+                    isPaid: true,
                     OrderItem: {
                         createMany: {
                             data: productsIds.map((p) => ({
@@ -136,11 +137,11 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
             prismaTx: prismaTx
         }
 
-    } catch (error: any) {
+    } catch (error) {
         console.log(error);
         return {
             ok: false,
-            message: error?.message,
+            message: error,
         }
     }
 }

@@ -67,9 +67,9 @@ export default async function ProductBySlugPage({ params }: Props) {
                 <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>
                     {product?.title}
                 </h1>
-                <p className="text-lg mb-5">{currencyFormat(product.price)}</p>
+                <p className="text-lg mb-5">{currencyFormat(product!.price)}</p>
 
-                <AddToCar product={product} />
+                <AddToCar product={product!} />
 
                 <h3 className="font-bold text-sm">
                     Descripción

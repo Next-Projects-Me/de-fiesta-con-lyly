@@ -36,14 +36,14 @@ export const Sidebar = () => {
         <div>
             {
                 isSideMenuOpen && (
-                    <div className='fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30' />
+                    <div className='overflow-y-scroll fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30' />
                 )
             }
             {
                 isSideMenuOpen && (
                     <div
                         onClick={closeMenu}
-                        className='fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm'
+                        className='overflow-y-scroll fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm'
                     />
                 )
             }
@@ -52,7 +52,7 @@ export const Sidebar = () => {
                 //todo: efecto de slide
                 className={
                     clsx(
-                        'fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300',
+                        'fixed p-5 right-0 top-0 w-screen sm:w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300',
                         {
                             'translate-x-full': !isSideMenuOpen
                         }
@@ -79,7 +79,7 @@ export const Sidebar = () => {
                         <>
                             <Link
                                 href="/profile"
-                                onClick={closeMenu}
+                                onClick={() => closeMenu()}
                                 className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
                             >
                                 <IoPersonOutline size={30} />
@@ -87,6 +87,7 @@ export const Sidebar = () => {
                             </Link>
 
                             <Link
+                                onClick={() => closeMenu()}
                                 href="/orders"
                                 className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
                             >
@@ -128,7 +129,8 @@ export const Sidebar = () => {
                         <>
                             <div className='w-full h-px bg-gray-200 my-10' />
                             <Link
-                                href="/"
+                                onClick={() => closeMenu()}
+                                href="/admin/products"
                                 className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
                             >
                                 <IoShirtOutline size={30} />
@@ -136,7 +138,8 @@ export const Sidebar = () => {
                             </Link>
 
                             <Link
-                                href="/"
+                                onClick={() => closeMenu()}
+                                href="/admin/orders"
                                 className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
                             >
                                 <IoTicketOutline size={30} />
@@ -144,7 +147,8 @@ export const Sidebar = () => {
                             </Link>
 
                             <Link
-                                href="/"
+                                onClick={() => closeMenu()}
+                                href="/admin/users"
                                 className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
                             >
                                 <IoPeopleOutline size={30} />

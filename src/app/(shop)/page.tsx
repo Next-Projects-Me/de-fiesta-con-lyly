@@ -25,7 +25,7 @@ export default async function HomePage({ searchParams }: Props) {
         <>
             <Title
                 title="Tienda"
-                subtitle="Todos los productos"
+                subtitle="Todas las categorías"
                 className="mb-2"
             />
 

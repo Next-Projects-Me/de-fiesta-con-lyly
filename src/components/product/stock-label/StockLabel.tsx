@@ -2,7 +2,6 @@
 
 import { getStockBySlug } from "@/actions/product/get-stock-by-slug";
 import { titleFont } from "@/config/fonts";
-import { sleep } from "@/utils/sleep";
 import { useEffect, useState } from "react";
 
 interface Props {

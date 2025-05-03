@@ -5,7 +5,6 @@ import { countries } from './seed-countries';
 async function main() {
 
     // 1. Borrar registros nuevos
-
     await prisma.orderAddress.deleteMany();
     await prisma.orderItem.deleteMany();
     await prisma.order.deleteMany();
@@ -22,14 +21,13 @@ async function main() {
     //     prisma.category.deleteMany()
     // ]);
 
-
     const { categories, products, users } = initialData;
 
     await prisma.user.createMany({
         data: users
     });
 
-    // Categorias
+    // Categorías
     const categoriesData = categories.map((name) => ({ name }));
 
     await prisma.category.createMany({

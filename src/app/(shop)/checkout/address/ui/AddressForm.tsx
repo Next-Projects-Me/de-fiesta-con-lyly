@@ -33,7 +33,7 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
     const router = useRouter();
     const { handleSubmit, register, formState: { isValid }, reset } = useForm<FormInputs>({
         defaultValues: {
-            ...(userStoredAddress as any),
+            ...(userStoredAddress as Partial<Address>),
             rememberAddress: false
         }
     });
@@ -59,7 +59,6 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
         if (rememberAddress) {
             await setUserAddress(restAddress, session!.user.id)
         } else {
-            console.log('Pasa');
             await deleteUserAddress(session!.user.id)
         }
 
