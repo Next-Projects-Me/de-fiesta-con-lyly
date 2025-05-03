@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "ts-node src/seed/seed-database.ts"
+    "seed": "ts-node src/seed/seed-database.ts",
+    "postinstall": "prisma migrate deploy && prisma generate --no-engine"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
