@@ -9,5 +9,3 @@
 5. Correr las migraciones de prisma `npx prisma migrate dev`
 6. Ejecutar seed `npm run seed`
 7. Correr el proyecto `npm run dev`
-
-# Correr en prod
