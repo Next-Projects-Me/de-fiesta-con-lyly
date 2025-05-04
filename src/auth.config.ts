@@ -5,6 +5,17 @@ import bcryptjs from 'bcryptjs';
 import { z } from 'zod';
 
 export const authConfig: NextAuthConfig = {
+    cookies: {
+        sessionToken: {
+            name: `__Secure-next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: 'lax', // o 'none' si usas HTTPS con dominios cruzados
+                path: '/',
+                secure: true,
+            },
+        },
+    },
     pages: {
         signIn: '/auth/login',
         newUser: '/auth/new-account'
