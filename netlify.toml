@@ -3,4 +3,4 @@
   publish = ".next"
 
 [functions]
-  included_files = ["node_modules/.prisma/client/**", "prisma/schema.prisma", "src/actions/**"]
+  included_files = ["node_modules/.prisma/client/**", "prisma/schema.prisma"]
