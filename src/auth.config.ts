@@ -64,7 +64,8 @@ export const authConfig: NextAuthConfig = {
                 return modifiedUser;
             },
         }),
-    ]
+    ],
+    trustHost: true
 };
 
 
