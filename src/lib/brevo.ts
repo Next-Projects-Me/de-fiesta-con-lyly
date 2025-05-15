@@ -17,16 +17,17 @@ interface Params {
 
 export async function sendEmail({ email, name, link }: Params) {
 
-    smtpEmail.subject = 'Recuperación de contraseña'
-    smtpEmail.to = [
-        {
-            email: email,
-            name: name
-        }
-    ]
+    try {
+        smtpEmail.subject = 'Recuperación de contraseña'
+        smtpEmail.to = [
+            {
+                email: email,
+                name: name
+            }
+        ]
 
-    smtpEmail.htmlContent =
-        `<html>
+        smtpEmail.htmlContent =
+            `<html>
             <body>
                 <h1>Querido usuario</h1>
                 <p>A continuación encontrará el link para el cambio de contraseña: </p>
@@ -34,10 +35,15 @@ export async function sendEmail({ email, name, link }: Params) {
             </body>
         </html>`;
 
-    smtpEmail.sender = {
-        email: "alejandrovaz9522@gmail.com",
-        name: "De Fiesta Con Lyly"
-    }
+        smtpEmail.sender = {
+            email: "alejandrovaz9522@gmail.com",
+            name: "De Fiesta Con Lyly"
+        }
 
-    await apiInstance.sendTransacEmail(smtpEmail);
+        await apiInstance.sendTransacEmail(smtpEmail);
+
+    }
+    catch (error) {
+        console.log(error)
+    }
 }

@@ -23,7 +23,7 @@ export const getProductBySlug = async (slug: string) => {
 
         return {
             ...product,
-            images: product.ProductImage.map(img => img.url)
+            images: product.ProductImage.map(item => item.url)
         }
 
     }

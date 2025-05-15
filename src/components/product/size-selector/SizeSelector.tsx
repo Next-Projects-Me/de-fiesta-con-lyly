@@ -1,21 +1,20 @@
-import type { Size } from '@/interfaces/product.interface'
 import { clsx } from 'clsx';
 import React from 'react'
 
 interface Props {
-    selectedSize: Size | undefined;
-    availabelSizes: Size[] | undefined;
-    onSizeChanged: (size: Size) => void;
+    selectedSize: string | undefined;
+    availableSizes: string[] | undefined;
+    onSizeChanged: (size: string) => void;
 }
 
 
-export const SizeSelector = ({ selectedSize, availabelSizes, onSizeChanged }: Props) => {
+export const SizeSelector = ({ selectedSize, availableSizes, onSizeChanged }: Props) => {
     return (
         <div className='my-5'>
             <h3 className='font-bold mb-4'>Tallas disponibles</h3>
             <div className='flex'>
                 {
-                    availabelSizes?.map(size => (
+                    availableSizes?.map(size => (
                         <button
                             onClick={() => onSizeChanged(size)}
                             key={size}

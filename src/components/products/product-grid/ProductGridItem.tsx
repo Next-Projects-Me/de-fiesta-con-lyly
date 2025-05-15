@@ -15,12 +15,12 @@ export const ProductGridItem = ({ product }: Props) => {
     const [displayImage, setDisplayImage] = useState(product.images[0]);
 
     return (
-        <div className='rounded-md overflow-hidden fade-in'>
-            <Link href={`/product/${product.slug}`} >
+        <div className='rounded-md overflow-hidden fade-in p-3 hover:shadow-black-400 hover:shadow-2xl'>
+            <Link href={`/product/${product.slug}`} className='flex justify-center' >
                 <Image
                     src={`/products/${displayImage}`}
                     alt={product.title}
-                    className='w-full object-cover rounded'
+                    className='w-full h-80 sm:w-64 sm:h-64 object-cover rounded'
                     width={500}
                     height={500}
                     onMouseEnter={() => setDisplayImage(product.images[1])}
@@ -28,13 +28,19 @@ export const ProductGridItem = ({ product }: Props) => {
                 />
             </Link>
 
-            <div className='p-4 flex flex-col'>
+            <div className='mt-3'>
                 <Link
-                    className='hover:text-blue-600'
+                    className='hover:text-primary'
                     href={`/product/${product.slug}`} >
                     {product.title}
                 </Link>
-                <span className='font-bold'>{currencyFormat(product.price)}</span>
+                <p className='font-bold mt-2'>{currencyFormat(product.price)}</p>
+                {/* <div className='flex justify-between'>
+                    <p className='font-bold'>{currencyFormat(product.price)}</p>
+                    <button className='text-gray-500 hover:text-primary text-2xl cursor-pointer'>
+                        <FaPlusCircle />
+                    </button>
+                </div> */}
             </div>
         </div>
     )

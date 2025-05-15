@@ -32,17 +32,13 @@ export const ProductsinCart = () => {
                             alt={product.title}
                             width={100}
                             height={100}
-                            style={{
-                                width: '100',
-                                height: '100',
-                            }}
-                            className="mr-5 rounded"
+                            className="mr-5 rounded w-40 h-40"
                         />
                         <div>
                             <Link
                                 className="hover:underline cursor-pointer"
                                 href={`/product/${product.slug}`}>
-                                {product.size} - {product.title}
+                                Talla: {product.size} - Título: {product.title} - Color: {product.color} - Número: {product.number}
                             </Link>
                             <p>{currencyFormat(product.price)}</p>
                             <QuantitySelector

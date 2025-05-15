@@ -7,7 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { FaUser } from "react-icons/fa"
-import { IoCartOutline, IoSearchCircle } from "react-icons/io5"
+import { IoCartOutline, IoMenuOutline, IoSearchCircle } from "react-icons/io5"
 
 export const SearchMenu = () => {
 
@@ -24,7 +24,7 @@ export const SearchMenu = () => {
     }, [])
 
     return (
-        <div className="flex items-center justify-evenly pr-5 sm:pr-15">
+        <div className="flex items-center justify-evenly pr-5 sm:pr-15 sm:mb-30">
             <button type="submit" className="p-2.5 ms-2 hidden sm:block">
                 <IoSearchCircle className="w-12 h-12 text-purple-700 transform hover:scale-125 cursor-pointer" />
             </button>
@@ -38,27 +38,29 @@ export const SearchMenu = () => {
                 <div className="relative">
                     {
                         (totalItemsInCart > 0 && loaded) && (
-                            <span className="fade-in absolute z-10 text-[15px] px-1 rounded-full font-bold -top-2 -right-2 bg-primary text-white">
+                            <span className="fade-in absolute z-10 text-[15px] px-1 rounded-full font-bold -top-2 -right-2 bg-lime-300 text-black">
                                 {totalItemsInCart}
                             </span>
                         )
                     }
-                    <IoCartOutline className="w-10 h-10 transform hover:scale-125" />
+                    <IoCartOutline className="w-10 h-10 transform hover:scale-125 text-white sm:text-black" />
                 </div>
             </Link>
             <button
                 onClick={openSideMenu}
                 className="m-2 p-2 rounded-md hover:scale-125 cursor-pointer hidden sm:block">
-                {
+                <IoMenuOutline className="w-10 h-10 text-lime-500 cursor-pointer" />
+
+                {/* {
                     (!isAuthenticated || !profileImage)
                         ? <FaUser className="w-10 h-10 hover:scale-100 text-lime-400" />
                         : <Image
                             src={profileImage!}
-                            width={40}
-                            height={40}
+                            width={70}
+                            height={70}
                             alt="Imagen de perfil"
-                            className="rounded-4xl" />
-                }
+                            className="rounded-full" />
+                } */}
             </button>
         </div>
     )

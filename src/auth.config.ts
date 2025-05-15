@@ -1,9 +1,9 @@
-import prisma from './lib/prisma';
-import NextAuth, { type NextAuthConfig } from 'next-auth';
-import bcryptjs from 'bcryptjs';
 import { z } from 'zod';
+import bcryptjs from 'bcryptjs';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
+import NextAuth, { type NextAuthConfig } from 'next-auth';
+import prisma from './lib/prisma';
 
 export const authConfig: NextAuthConfig = {
     providers: [
@@ -32,8 +32,18 @@ export const authConfig: NextAuthConfig = {
                 if (!user) return null;
                 if (!bcryptjs.compareSync(password, user.password)) return null;
 
-                const { password: _, ...rest } = user;
-                return rest;
+                const newUser = {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    password: "",
+                    emailVerified: user.emailVerified,
+                    roleId: user.roleId,
+                    image: user.image,
+                    google: user.google,
+                }
+
+                return newUser;
             },
         }),
     ],
@@ -48,31 +58,52 @@ export const authConfig: NextAuthConfig = {
         async jwt({ token, user, profile }) {
 
             if (profile) {
-
                 if (profile.email_verified) {
-                    const googleUser = await prisma.user.findUnique({ where: { email: user.email! } });
+
+                    const googleUser = await prisma.user.findUnique({
+                        where: {
+                            email: user.email!
+                        },
+                    });
+
                     if (!googleUser) {
+
+                        const role = await prisma.role.findFirst({
+                            where: {
+                                role: 'user'
+                            },
+                        });
+
+                        if (!role) {
+                            throw new Error("No existe el rol de usuario");
+                        }
+
                         const userRegistered = await prisma.user.create({
                             data: {
                                 name: profile.name!,
                                 email: profile.email!.toLowerCase(),
                                 password: '',
                                 image: profile.picture,
-                                google: true
+                                google: true,
+                                roleId: role.id
                             },
                             select: {
                                 id: true,
                                 name: true,
                                 email: true,
-                                role: true
+                                roleId: true
                             }
                         })
 
                         token.id = userRegistered.id;
-                        token.role = userRegistered.role;
+                        token.roleId = userRegistered.roleId;
+                    }
+                    else {
+                        token.id = googleUser.id;
+                        token.roleId = googleUser.roleId;
                     }
                 }
-                else throw new Error("El usuario de Google no está verificado ");
+                else throw new Error("El usuario de Google no está verificado.");
             }
 
             if (user) {
@@ -82,7 +113,16 @@ export const authConfig: NextAuthConfig = {
             return token;
         },
         async session({ session, token }) {
-            session.user = token.data as any;
+
+            const newUser = {
+                name: token.name,
+                email: token.email,
+                roleId: token.roleId,
+                image: token.picture,
+            }
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            session.user = newUser as any;
             return session;
         },
         async redirect() {

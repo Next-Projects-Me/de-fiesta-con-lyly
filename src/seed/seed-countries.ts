@@ -1,6 +1,6 @@
 interface SeedCountry {
-    name: string;
     id: string;
+    name: string;
 }
 
 export const countries: SeedCountry[] = [

@@ -21,20 +21,24 @@ interface Props {
 
 export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
 
+    const [isPending, setIsPending] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
+        setIsPending(true);
         setErrorMessage('');
         const { name, email, password } = data;
         const resp = await registerUser(name, email, password);
 
         if (!resp.ok) {
+            setIsPending(false);
             setErrorMessage(resp.message);
             return;
         }
 
+        setIsPending(false);
         await login(email.toLowerCase(), password);
         window.location.replace('/');
     }
@@ -42,17 +46,11 @@ export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
 
-            {/* {
-                errors.name?.type === 'required' && (
-                    <span className='text-red-500'>* El nombre es obligatorio</span>
-                )
-            } */}
-
             <label htmlFor="email">Correo electrónico</label>
             <input
                 className={
                     clsx(
-                        "px-5 py-2 border bg-gray-200 rounded mb-5",
+                        "px-5 py-2 border bg-gray-200 rounded",
                         {
                             'border-red-500': errors.email
                         }
@@ -60,47 +58,83 @@ export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
                 }
                 type="email"
                 autoFocus
-                {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+                {...register('email', {
+                    required: 'El correo es obligatorio',
+                    pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: 'Debe ingresar un dominio. Ejemplo: @dominio.com'
+                    }
+                })}
             />
+            {
+                errors.email && (<p className="text-red-500 text-xs">{errors.email.message}</p>)
+            }
 
-            <label htmlFor="text">Nombre completo</label>
+
+            <label htmlFor="text" className='mt-5'>Nombre completo</label>
             <input
                 className={
                     clsx(
-                        "px-5 py-2 border bg-gray-200 rounded mb-5",
+                        "px-5 py-2 border bg-gray-200 rounded",
                         {
                             'border-red-500': errors.name
                         }
                     )
                 }
                 type="text"
-                {...register('name', { required: true })}
+                {...register('name', { required: 'El nombres es obligatorio' })}
             />
+            {
+                errors.name && (<p className="text-red-500 text-xs">{errors.name.message}</p>)
+            }
 
-            <label htmlFor="password">Contraseña</label>
+            <label htmlFor="password" className='mt-5'>Contraseña</label>
             <input
                 className={
                     clsx(
-                        "px-5 py-2 border bg-gray-200 rounded mb-5",
+                        "px-5 py-2 border bg-gray-200 rounded",
                         {
                             'border-red-500': errors.password
                         }
                     )
                 }
                 type="password"
-                {...register('password', { required: true, minLength: 8 })}
+                {...register('password', {
+                    required: 'La contraseña es obligatoria',
+                    pattern: {
+                        value: /^(?=.*[A-Z])(?=.*[\W_]).+$/,
+                        message: 'Debe contener al menos una mayúscula y un carácter especial',
+                    },
+                    minLength: {
+                        value: 8,
+                        message: 'Debe tener al menos 8 caracteres'
+                    }
+                })}
             />
+            {
+                errors.password && (<p className="text-red-500 text-xs">{errors.password.message}</p>)
+            }
 
-            {/* <p className="mb-5">
+            <p className="my-5">
                 <span className="text-xs">
                     Al hacer clic en &quot;Crear cuenta&quot;, acepta nuestros <a href="#" className="underline">términos y condiciones</a> y <a href="#" className="underline">políticas de privacidad</a>
                 </span>
-            </p> */}
+            </p>
 
-            <span className='text-red-500'>{errorMessage}</span>
+            <span className='text-red-500 text-sm mb-2'>{errorMessage}</span>
 
             <button
-                className="btn-primary cursor-pointer">
+                disabled={
+                    isPending ? true : false
+                }
+                className={
+                    clsx(
+                        "cursor-pointer",
+                        {
+                            "btn-primary": !isPending,
+                            "btn-disabled": isPending
+                        })
+                }>
                 Crear cuenta
             </button>
 

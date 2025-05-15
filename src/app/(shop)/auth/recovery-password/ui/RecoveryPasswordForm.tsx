@@ -2,6 +2,7 @@
 
 import { recoveryPassword } from "@/actions/auth/recovery";
 import { sleep } from "@/utils/sleep";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -15,25 +16,28 @@ type Inputs = {
 export const RecoveryPasswordForm = () => {
 
     const [message, setMessage] = useState('');
+    const [isPending, setIsPending] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
+        setIsPending(true);
         setErrorMessage('');
         setMessage('');
 
         const resp = await recoveryPassword(data.email);
 
         if (!resp.ok) {
+            setIsPending(false);
             setErrorMessage(resp.message);
             return;
         }
 
+        setIsPending(false);
         setMessage(resp.message);
-
         sleep(10);
-        // window.location.replace('/');
+        window.location.replace('/');
     }
 
 
@@ -47,8 +51,18 @@ export const RecoveryPasswordForm = () => {
                 className="px-5 py-2 border bg-gray-200 rounded focus:border-primary"
                 type="email"
                 autoFocus
-                {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+                {...register('email', {
+                    required: 'El correo es obligatorio',
+                    pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: 'Debe ingresar un correo válido. Ejemplo: ejemplo@dominio.com'
+                    }
+                }
+                )}
             />
+            {
+                errors.email && (<p className="text-red-500 text-xs">{errors.email.message}</p>)
+            }
 
             <div
                 className="flex h-8 items-end space-x-1"
@@ -75,7 +89,17 @@ export const RecoveryPasswordForm = () => {
             </div>
 
             <button
-                className="btn-primary text-center cursor-pointer flex justify-center mb-3">
+                disabled={
+                    isPending ? true : false
+                }
+                className={
+                    clsx(
+                        "text-center cursor-pointer flex justify-center mb-3",
+                        {
+                            "btn-primary": !isPending,
+                            "btn-disabled": isPending
+                        })
+                }>
                 Enviar
             </button>
 

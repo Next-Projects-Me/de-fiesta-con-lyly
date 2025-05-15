@@ -27,7 +27,7 @@ export const CategoriesMenu = () => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [closeNavMenu]);
 
 
     return (
@@ -57,6 +57,9 @@ export const CategoriesMenu = () => {
                     <li className="hover:text-primary cursor-pointer" >Bases para pastel</li>
                     <li className="hover:text-primary cursor-pointer" >Velas</li>
                 </ul>
+            </div>
+
+            <div className="mb-4">
                 <span className="flex items-center font-bold">
                     <FaChild className="mr-3 my-2" />INFANTIL
                 </span>
@@ -64,6 +67,10 @@ export const CategoriesMenu = () => {
                     <li className="hover:text-primary cursor-pointer">Niñas</li>
                     <li className="hover:text-primary cursor-pointer">Niños</li>
                 </ul>
+            </div>
+
+
+            <div className="mb-4">
                 <span className="flex items-center font-bold">
                     <TbRating18Plus className="mr-3 my-2" />ADULTOS
                 </span>
@@ -87,42 +94,6 @@ export const CategoriesMenu = () => {
                     <li className="hover:text-primary cursor-pointer" >Fiesta de Neon</li>
                 </ul>
             </div>
-
-            {/* <div className="mb-4">
-                <span className="flex items-center font-bold">
-                    <FaChild className="mr-3 my-2" />INFANTIL
-                </span>
-                <ul className="text-gray-600">
-                    <li className="hover:text-primary cursor-pointer">Niñas</li>
-                    <li className="hover:text-primary cursor-pointer">Niños</li>
-                </ul>
-            </div> */}
-
-
-            {/* <div className="mb-4">
-                <span className="flex items-center font-bold">
-                    <TbRating18Plus className="mr-3 my-2" />ADULTOS
-                </span>
-                <ul className="text-gray-600">
-                    <li className="hover:text-primary cursor-pointer" >Fiesta Mexicana</li>
-                    <li className="hover:text-primary cursor-pointer" >Rock</li>
-                    <li className="hover:text-primary cursor-pointer" >Hora Loca</li>
-                    <li className="hover:text-primary cursor-pointer" >Hawaiana</li>
-                    <li className="hover:text-primary cursor-pointer" >Colombiana</li>
-                    <li className="hover:text-primary cursor-pointer" >Aguacates</li>
-                    <li className="hover:text-primary cursor-pointer" >Casino</li>
-                    <li className="hover:text-primary cursor-pointer" >Emoji</li>
-                    <li className="hover:text-primary cursor-pointer" >Hollywood</li>
-                    <li className="hover:text-primary cursor-pointer" >Pride</li>
-                    <li className="hover:text-primary cursor-pointer" >50 años</li>
-                    <li className="hover:text-primary cursor-pointer" >Star Wars</li>
-                    <li className="hover:text-primary cursor-pointer" >Harry Potter</li>
-                    <li className="hover:text-primary cursor-pointer" >Vaqueros</li>
-                    <li className="hover:text-primary cursor-pointer" >Disco</li>
-                    <li className="hover:text-primary cursor-pointer" >Margaritas</li>
-                    <li className="hover:text-primary cursor-pointer" >Fiesta de Neon</li>
-                </ul>
-            </div> */}
 
             <div className="mb-4">
                 <span className="flex items-center font-bold">
@@ -141,6 +112,9 @@ export const CategoriesMenu = () => {
                     <li className="hover:text-primary cursor-pointer">Halloween</li>
                     <li className="hover:text-primary cursor-pointer">San Valentín</li>
                 </ul>
+            </div>
+
+            <div className="mb-4">
                 <span className="flex items-center font-bold">
                     <IoBalloon className="mr-3 my-2" />GLOBOS
                 </span>
@@ -153,20 +127,6 @@ export const CategoriesMenu = () => {
                     <li className="hover:text-primary cursor-pointer">Infladores</li>
                 </ul>
             </div>
-
-            {/* <div className="mb-4">
-                <span className="flex items-center font-bold">
-                    <IoBalloon className="mr-3 my-2" />GLOBOS
-                </span>
-                <ul className="text-gray-600">
-                    <li className="hover:text-primary cursor-pointer">Personaje</li>
-                    <li className="hover:text-primary cursor-pointer">Metalizados</li>
-                    <li className="hover:text-primary cursor-pointer">Burbujas</li>
-                    <li className="hover:text-primary cursor-pointer">Cantoyas</li>
-                    <li className="hover:text-primary cursor-pointer">Base para globos</li>
-                    <li className="hover:text-primary cursor-pointer">Infladores</li>
-                </ul>
-            </div> */}
 
             <div className="mb-4">
                 <span className="flex items-center font-bold">

@@ -24,7 +24,7 @@ export const recoveryPassword = async (email: string) => {
         if (!user) {
             return {
                 ok: false,
-                message: 'Ese correo no se encuentra registrado'
+                message: 'El correo ingresado, no se encuentra registrado'
             }
         }
 

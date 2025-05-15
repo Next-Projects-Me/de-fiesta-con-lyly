@@ -3,8 +3,6 @@
 import { logout } from "@/actions/auth/logout";
 import { useUiStore } from "@/store/ui/ui-store";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
-import { useEffect } from "react";
 
 export const NavigationMenu = () => {
 
@@ -47,29 +45,38 @@ export const NavigationMenu = () => {
     }
 
     return (
-        <div className="sr-only sm:not-sr-only flex justify-evenly px-5 items-center w-full h-10 text-xl text-gray-600">
-            <button onClick={() => onOpeningNav()} className="cursor-pointer hover:text-primary hover:scale-120 duration-200">
-                PRODUCTOS
-            </button>
-            <button className="cursor-pointer hover:text-primary hover:scale-120 duration-200">
-                ¿QUIÉNES SOMOS?
-            </button>
-            <button className="cursor-pointer hover:text-primary hover:scale-120 duration-200">
-                ¿QUÉ HACEMOS?
-            </button>
-            {
-                isAuthenticated
-                    ? (
-                        <button onClick={() => onLogout()} className="cursor-pointer hover:text-primary hover:scale-120 duration-200">
-                            CERRAR SESIÓN
-                        </button>
-                    )
-                    : (
-                        <button onClick={() => onOpeningModalLogin()} className="cursor-pointer hover:text-primary hover:scale-120 duration-200">
-                            INGRESAR
-                        </button>
-                    )
-            }
+        <div className="bg-primary hidden sm:flex justify-between items-center h-16 text-xl shadow-gray-300 shadow-xl text-white">
+
+            <div className="flex justify-evenly w-[30%] md:w-[40%]">
+
+                <button onClick={() => onOpeningNav()} className="cursor-pointer hover:scale-120 duration-200">
+                    Productos
+                </button>
+
+                <button className="cursor-pointer hover:scale-120 duration-200">
+                    ¿Quiénes Somos?
+                </button>
+            </div>
+
+            <div className="flex justify-evenly w-[30%] md:w-[40%]">
+                <button className="w-full cursor-pointer hover:scale-120 duration-200 ">
+                    ¿Qué Hacemos?
+                </button>
+                {
+                    isAuthenticated
+                        ? (
+                            <button onClick={() => onLogout()} className="w-full cursor-pointer hover:scale-120 duration-200">
+                                Cerrar Sesión
+                            </button>
+                        )
+                        : (
+                            <button onClick={() => onOpeningModalLogin()} className="w-full cursor-pointer hover:scale-120 duration-200">
+                                Ingresar
+                            </button>
+                        )
+                }
+
+            </div>
 
         </div>
     )

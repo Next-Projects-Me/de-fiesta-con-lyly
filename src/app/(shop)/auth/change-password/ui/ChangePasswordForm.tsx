@@ -2,43 +2,48 @@
 
 import { changePassword } from '@/actions/auth/recovery';
 import { MdVpnKey, MdVpnKeyOff } from 'react-icons/md';
-import { sleep } from '@/utils/sleep';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { sleep } from '@/utils/sleep';
+import clsx from 'clsx';
 
 type Inputs = {
     newPassword: string;
     confirmedPassword: string;
 }
 
-export const ChangePasswordForm = () => {
+function ChangePassword() {
 
     const params = useSearchParams();
     const token = params.get('token')!;
 
     const [message, setMessage] = useState('');
+    const [isPending, setIsPending] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
+        setIsPending(true);
         setErrorMessage('');
         setMessage('');
 
         const resp = await changePassword(token, data.newPassword, data.confirmedPassword);
 
         if (!resp.ok) {
+            setIsPending(false);
             setErrorMessage(resp.message);
             return;
         }
 
         setMessage(resp.message);
+        setIsPending(false);
 
-        //sleep(2);
-        // window.location.replace('/auth/login');
+        sleep(10);
+        window.location.replace('/');
     }
 
 
@@ -49,18 +54,43 @@ export const ChangePasswordForm = () => {
 
             <label htmlFor="password">Nueva contraseña</label>
             <input
-                className="px-5 py-2 border bg-gray-200 rounded mb-5"
+                className="px-5 py-2 border bg-gray-200 rounded"
                 type="password"
                 autoFocus
-                {...register('newPassword', { required: true, minLength: 8 })}
+                {...register('newPassword', {
+                    required: 'La contraseña es obligatoria',
+                    pattern: {
+                        value: /^(?=.*[A-Z])(?=.*[\W_]).+$/,
+                        message: 'Debe contener al menos una mayúscula y un carácter especial',
+                    },
+                    minLength: {
+                        value: 8,
+                        message: 'Debe tener al menos 8 caracteres'
+                    }
+                })}
             />
+            {
+                errors.newPassword && (<p className="text-red-500 text-xs">{errors.newPassword.message}</p>)
+            }
 
-            <label htmlFor="confirm-password">Confirmar Contraseña</label>
+            <label htmlFor="confirm-password" className='mt-3'>Confirmar Contraseña</label>
             <input
                 className="px-5 py-2 border bg-gray-200 rounded"
                 type="password"
-                {...register('confirmedPassword', { required: true, minLength: 8 })}
+                {...register('confirmedPassword', {
+                    required: 'La confirmación de la contraseña es obligatoria',
+                    validate: {
+                        checkSamePassword: async (confirmedPassword, { newPassword }) => {
+                            if (confirmedPassword !== newPassword) {
+                                return 'Las contraseñas no coinciden'
+                            }
+                        },
+                    }
+                })}
             />
+            {
+                errors.confirmedPassword && (<p className="text-red-500 text-xs">{errors.confirmedPassword.message}</p>)
+            }
 
             <div
                 className="flex h-8 items-end space-x-1"
@@ -87,7 +117,17 @@ export const ChangePasswordForm = () => {
             </div>
 
             <button
-                className="btn-primary text-center cursor-pointer flex justify-center mb-3">
+                disabled={
+                    isPending ? true : false
+                }
+                className={
+                    clsx(
+                        "text-center cursor-pointer flex justify-center mb-3",
+                        {
+                            "btn-primary": !isPending,
+                            "btn-disabled": isPending
+                        })
+                }>
                 Restablecer
             </button>
 
@@ -110,6 +150,15 @@ export const ChangePasswordForm = () => {
             </Link>
 
         </form>
+    )
+}
+
+
+export const ChangePasswordForm = () => {
+    return (
+        <Suspense>
+            <ChangePassword />
+        </Suspense>
     )
 }
 

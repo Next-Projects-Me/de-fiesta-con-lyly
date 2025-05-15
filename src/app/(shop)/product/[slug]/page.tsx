@@ -19,9 +19,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params
     const product = await getProductBySlug(slug);
 
-    // optionally access and extend (rather than replace) parent metadata
-    // const previousImages = (await parent).openGraph?.images || []
-
     return {
         title: product?.title ?? 'Producto no encontrado',
         description: product?.description ?? '',
@@ -43,8 +40,8 @@ export default async function ProductBySlugPage({ params }: Props) {
     }
 
     return (
-        <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div className="col-span-1 md:col-span-2">
+        <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div className="col-span-1 md:col-span-3">
 
                 <ProductMobileSlideshow
                     title={product?.title}
@@ -60,11 +57,11 @@ export default async function ProductBySlugPage({ params }: Props) {
 
             </div>
 
-            <div className="col-span-1 px-5">
+            <div className="col-span-1 px-5 md:col-span-1">
 
                 <StockLabel slug={product?.slug ?? ''} />
 
-                <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>
+                <h1 className={`antialiased font-bold text-xl`}>
                     {product?.title}
                 </h1>
                 <p className="text-lg mb-5">{currencyFormat(product!.price)}</p>

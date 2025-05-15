@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { logout } from '@/actions/auth/logout';
 
 import {
-    IoCloseOutline,
+    IoCloseCircle,
     IoLogInOutline,
     IoLogOutOutline,
     IoPeopleOutline,
@@ -24,7 +24,7 @@ export const Sidebar = () => {
 
     const { data: session } = useSession();
     const isAuthenticated = !!session?.user;
-    const isAdmin = (session?.user.role === 'admin');
+    const isAdmin = (session?.user.roleId === 1);
 
     const onLogout = async () => {
         await logout();
@@ -49,19 +49,18 @@ export const Sidebar = () => {
             }
 
             <nav
-                //todo: efecto de slide
                 className={
                     clsx(
-                        'fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300',
+                        'fixed p-5 right-0 top-0 w-full sm:w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300',
                         {
                             'translate-x-full': !isSideMenuOpen
                         }
                     )
                 }
             >
-                <IoCloseOutline
-                    size={50}
-                    className='absolute top-5 right-5 cursor-pointer'
+                <IoCloseCircle
+                    size={30}
+                    className='absolute top-5 right-5 cursor-pointer text-primary'
                     onClick={closeMenu}
                 />
 

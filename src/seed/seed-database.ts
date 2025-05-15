@@ -1,10 +1,12 @@
-import { initialData } from "./seed";
+import { initialData } from './seed';
 import prisma from '../lib/prisma';
-import { countries } from './seed-countries';
 
 async function main() {
 
     // 1. Borrar registros nuevos
+    await prisma.gender.deleteMany();
+    await prisma.color.deleteMany();
+    await prisma.size.deleteMany();
 
     await prisma.orderAddress.deleteMany();
     await prisma.orderItem.deleteMany();
@@ -12,49 +14,54 @@ async function main() {
 
     await prisma.userAddress.deleteMany();
     await prisma.user.deleteMany();
+    await prisma.role.deleteMany();
     await prisma.productImage.deleteMany();
     await prisma.product.deleteMany();
     await prisma.category.deleteMany();
-    await prisma.country.deleteMany();
+
     // await Promise.all([
     //     prisma.productImage.deleteMany(),
     //     prisma.product.deleteMany(),
     //     prisma.category.deleteMany()
     // ]);
 
+    const Seed = initialData;
 
-    const { categories, products, users } = initialData;
-
-    await prisma.user.createMany({
-        data: users
+    await prisma.gender.createMany({
+        data: Seed.genders
     });
 
-    // Categorias
-    const categoriesData = categories.map((name) => ({ name }));
+    await prisma.color.createMany({
+        data: Seed.colors
+    });
+
+    await prisma.size.createMany({
+        data: Seed.sizes
+    });
+
+    await prisma.role.createMany({
+        data: Seed.roles,
+    });
 
     await prisma.category.createMany({
-        data: categoriesData
+        data: Seed.categories
     });
 
-    const categoriesDB = await prisma.category.findMany();
-
-    const categoriesMap = categoriesDB.reduce((map, category) => {
-        map[category.name.toLowerCase()] = category.id;
-        return map;
-    }, {} as Record<string, string>)
+    await prisma.user.createMany({
+        data: Seed.users
+    });
 
     // Productos
-    products.forEach(async (product) => {
-        const { type, images, ...rest } = product
+    Seed.products.forEach(async (product) => {
+
+        const { images, ...rest } = product
 
         const dbProduct = await prisma.product.create({
             data: {
-                ...rest,
-                categoryId: categoriesMap[type]
+                ...rest
             }
         })
 
-        // Images        
         const imagesData = images.map(image => ({
             url: image,
             productId: dbProduct.id
@@ -63,12 +70,52 @@ async function main() {
         await prisma.productImage.createMany({
             data: imagesData
         });
-    })
+    });
+
+    // await prisma.product.createMany({
+    //     data: Seed.products
+    // });
+
+    // Categorias
+    // const categoriesData = categories.map((name) => ({ name }));
+
+    // await prisma.category.createMany({
+    //     data: categoriesData
+    // });
+
+    // const categoriesDB = await prisma.category.findMany();
+
+    // const categoriesMap = categoriesDB.reduce((map, category) => {
+    //     map[category.name.toLowerCase()] = category.id;
+    //     return map;
+    // }, {} as Record<string, string>)
+
+    // Productos
+    // products.forEach(async (product) => {
+    //     const { type, images, ...rest } = product
+
+    //     const dbProduct = await prisma.product.create({
+    //         data: {
+    //             ...rest,
+    //             categoryId: categoriesMap[type]
+    //         }
+    //     })
+
+    //     // Images        
+    //     const imagesData = images.map(image => ({
+    //         url: image,
+    //         productId: dbProduct.id
+    //     }))
+
+    //     await prisma.productImage.createMany({
+    //         data: imagesData
+    //     });
+    // })
 
     //Ciudades   
-    await prisma.country.createMany({
-        data: countries
-    });
+    // await prisma.country.createMany({
+    //     data: countries
+    // });
 
 }
 

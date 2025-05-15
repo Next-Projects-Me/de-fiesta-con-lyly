@@ -2,6 +2,7 @@
 
 import { signIn } from '@/auth.config';
 import { AuthError } from 'next-auth';
+import { stringify } from 'querystring';
 
 export async function authenticate(
     prevState: string | undefined,
@@ -10,6 +11,7 @@ export async function authenticate(
     try {
 
         // console.log({ login: Object.fromEntries(formData), prev: prevState });
+
 
         await signIn('credentials', {
             ...Object.fromEntries(formData),
@@ -53,13 +55,29 @@ export async function authenticateWithGoogle() {
 export const login = async (email: string, password: string) => {
 
     try {
-        await signIn('Credentials', { email, password });
-        return { ok: true }
+        await signIn('credentials', { email, password, redirect: false });
+        return {
+            ok: true,
+            message: 'Ingresa correctamente'
+        }
+
     } catch (error) {
         console.log(error);
-        return {
-            ok: false,
-            message: 'No se pudo realizar el logueo'
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case 'CredentialsSignin':
+                    return {
+                        ok: false,
+                        message: 'Credenciales inválidas.'
+                    }
+                default:
+                    return {
+                        ok: false,
+                        message: 'Error no controlado.'
+                    };
+            }
         }
+
+        throw error;
     }
 }

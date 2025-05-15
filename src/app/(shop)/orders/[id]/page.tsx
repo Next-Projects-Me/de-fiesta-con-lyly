@@ -1,6 +1,5 @@
 import { getOrderById } from "@/actions/order/get-order-by-id";
 import { Title } from "@/components/ui/title/Title";
-import { initialData } from "@/seed/seed";
 import clsx from "clsx";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -20,9 +19,7 @@ export default async function OrdersByIdPage({ params }: Props) {
         redirect('/')
     }
 
-    console.log(order);
-
-    const address = order!?.OrderAddress;
+    const address = order?.OrderAddress;
 
     // Todo: verificar
     //Redirect(/)

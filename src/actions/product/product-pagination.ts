@@ -1,25 +1,25 @@
 'use server';
 
 import prisma from "@/lib/prisma";
-import { Gender } from "@prisma/client";
-
 
 interface PaginationOptions {
     page?: number;
     take?: number;
-    gender?: Gender
+    categoryId?: number
 }
 
 
-export const getPaginatedProductsWithImages = async ({ page = 1, take = 12, gender }: PaginationOptions) => {
+export const getPaginatedProductsWithImages = async ({ page = 1, take = 50, categoryId }: PaginationOptions) => {
 
     if (isNaN(Number(page))) page = 1;
     if (page < 1) page = 1;
 
-    if (isNaN(Number(take))) take = 12;
-    if (take < 1) take = 12;
+    if (isNaN(Number(take))) take = 50;
+    if (take < 1) take = 50;
 
     try {
+
+        if (categoryId) categoryId = parseInt(categoryId.toString())
 
         // 1. Obtener los productos
         const products = await prisma.product.findMany({
@@ -29,19 +29,25 @@ export const getPaginatedProductsWithImages = async ({ page = 1, take = 12, gend
                     select: {
                         url: true
                     }
+                },
+                category: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
                 }
             },
             skip: (page - 1) * take,
             take: take,
             where: {
-                gender: gender
+                categoryId: categoryId
             }
-        })
+        });
 
         // 2. Obtener el total de páginas
         const totalCount = await prisma.product.count({
             where: {
-                gender: gender
+                categoryId: categoryId
             }
         });
 
@@ -52,7 +58,8 @@ export const getPaginatedProductsWithImages = async ({ page = 1, take = 12, gend
             totalPages: totalPages,
             products: products.map(product => ({
                 ...product,
-                images: product.ProductImage.map(image => image.url)
+                category: product.category.name,
+                images: product.ProductImage.map(item => item.url)
             }))
         }
 
@@ -60,5 +67,4 @@ export const getPaginatedProductsWithImages = async ({ page = 1, take = 12, gend
     catch (error) {
         throw new Error(`No se pudo cargar los productos. ${error}`)
     }
-
 }

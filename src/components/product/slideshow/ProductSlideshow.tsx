@@ -1,18 +1,18 @@
 'use client';
 
-import { useState } from "react";
+import { FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
+import { Swiper as SwiperObject } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useState } from "react";
+import Image from "next/image";
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
-
-import './slideshow.css'
-
-import { Swiper as SwiperObject } from "swiper";
-import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
-import Image from "next/image";
+import 'swiper/css/zoom';
+import './slideshow.css';
+import { ImageModal } from "./ui/ImageModal";
 
 interface Props {
     images?: string[];
@@ -22,7 +22,21 @@ interface Props {
 
 export const ProductSlideshow = ({ images, title = "Titulo", className }: Props) => {
 
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState("");
+
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperObject>();
+
+    const handleImageClick = (image: string) => {
+        setSelectedImage(image);
+        setIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsOpen(false);
+        setSelectedImage("");
+    };
+
 
     return (
         <div className={className}>
@@ -32,16 +46,14 @@ export const ProductSlideshow = ({ images, title = "Titulo", className }: Props)
                     '--swiper-pagination-color': '#fff',
                 } as React.CSSProperties
                 }
+                pagination={{ clickable: true }}
                 spaceBetween={10}
                 navigation={true}
-                autoplay= {{
-                    delay: 2500
+                thumbs={{
+                    swiper: thumbsSwiper
                 }}
-                thumbs={{ 
-                    swiper: thumbsSwiper && !thumbsSwiper.destroy ? thumbsSwiper : null
-                }}
-                modules={[FreeMode, Navigation, Thumbs, Autoplay]}
-                className="mySwiper2"
+                modules={[FreeMode, Navigation, Thumbs, Pagination]}
+                className="w-full sm:h-[500px] md:h-[550px] lg:h-[800px]"
             >
                 {
                     images?.map(image => (
@@ -51,7 +63,9 @@ export const ProductSlideshow = ({ images, title = "Titulo", className }: Props)
                                 width={1024}
                                 height={800}
                                 src={`/products/${image}`}
-                                alt={title} />
+                                alt={title}
+                                onClick={() => handleImageClick(image)}
+                            />
                         </SwiperSlide>
                     ))
                 }
@@ -78,6 +92,15 @@ export const ProductSlideshow = ({ images, title = "Titulo", className }: Props)
                     ))
                 }
             </Swiper>
+
+            {isOpen && (
+                <ImageModal
+                    selectedImage={selectedImage}
+                    closeModal={closeModal}
+                    width={500}
+                    height={500}
+                />
+            )}
 
         </div>
     )
