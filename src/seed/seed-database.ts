@@ -1,5 +1,8 @@
 import { initialData } from './seed';
 import prisma from '../lib/prisma';
+import { cities } from '../seed/seed-cities';
+import { departments } from '../seed/seed-departments';
+import { subcategories } from './seed-subcategories';
 
 async function main() {
 
@@ -17,7 +20,11 @@ async function main() {
     await prisma.role.deleteMany();
     await prisma.productImage.deleteMany();
     await prisma.product.deleteMany();
+    await prisma.subcategory.deleteMany();
     await prisma.category.deleteMany();
+
+    await prisma.city.deleteMany();
+    await prisma.department.deleteMany();
 
     // await Promise.all([
     //     prisma.productImage.deleteMany(),
@@ -47,6 +54,10 @@ async function main() {
         data: Seed.categories
     });
 
+    await prisma.subcategory.createMany({
+        data: subcategories
+    })
+
     await prisma.user.createMany({
         data: Seed.users
     });
@@ -72,51 +83,25 @@ async function main() {
         });
     });
 
-    // await prisma.product.createMany({
-    //     data: Seed.products
-    // });
+    // Departamentos
+    await prisma.department.createMany({
+        data: departments
+    });
 
-    // Categorias
-    // const categoriesData = categories.map((name) => ({ name }));
+    // Ciudades
+    cities.map(async (item) => {
 
-    // await prisma.category.createMany({
-    //     data: categoriesData
-    // });
+        const detail = departments.find(x => x.name.includes(item.departamento));
+        item.ciudades.map(async (city) => {
 
-    // const categoriesDB = await prisma.category.findMany();
-
-    // const categoriesMap = categoriesDB.reduce((map, category) => {
-    //     map[category.name.toLowerCase()] = category.id;
-    //     return map;
-    // }, {} as Record<string, string>)
-
-    // Productos
-    // products.forEach(async (product) => {
-    //     const { type, images, ...rest } = product
-
-    //     const dbProduct = await prisma.product.create({
-    //         data: {
-    //             ...rest,
-    //             categoryId: categoriesMap[type]
-    //         }
-    //     })
-
-    //     // Images        
-    //     const imagesData = images.map(image => ({
-    //         url: image,
-    //         productId: dbProduct.id
-    //     }))
-
-    //     await prisma.productImage.createMany({
-    //         data: imagesData
-    //     });
-    // })
-
-    //Ciudades   
-    // await prisma.country.createMany({
-    //     data: countries
-    // });
-
+            await prisma.city.createMany({
+                data: {
+                    name: city,
+                    departmentId: detail!.id
+                }
+            });
+        });
+    });
 }
 
 (() => {

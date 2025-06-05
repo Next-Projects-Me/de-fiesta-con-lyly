@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cart/cart-store";
 import { currencyFormat } from "@/utils/currencyFormat";
+import Link from "next/link";
 
 export const ProductsinCart = () => {
 
@@ -22,23 +23,41 @@ export const ProductsinCart = () => {
         <>
             {
                 productsInCart.map(product => (
-                    <div key={`${product.slug}-${product.size}`} className="flex mb-5">
+                    <div key={`${product.slug}-${product.size}-${product.color}-${product.number}-${product.gender}`}
+                        className="flex border-b-2 border-gray-200 mb-5">
                         <Image
                             src={`/products/${product.image}`}
                             alt={product.title}
                             width={100}
                             height={100}
-                            style={{
-                                width: '100',
-                                height: '100',
-                            }}
-                            className="mr-5 rounded"
+                            className="mr-5 rounded  w-42 h-42"
                         />
-                        <div>
-                            <span>
-                                {product.size} - {product.title} ({product.quantity})
-                            </span>
-                            <p className="font-bold">{currencyFormat(product.price * product.quantity)}</p>
+                        <div className="mb-20">
+                            <Link className="hover:underline cursor-pointer font-bold"
+                                href={`/product/${product.slug}`}>
+                                {product.title}
+                            </Link>
+                            <div className="mt-3">
+                                {
+                                    product.size && <p>Talla: {product.size}</p>
+                                }
+                                {
+                                    product.color && (
+                                        <div className="flex items-center">
+                                            <p>Color: </p>
+                                            <div className="w-5 h-5 rounded-full ml-2" style={{ background: product.color }}></div>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    product.number && <p>Número: {product.number}</p>
+                                }
+                                {
+                                    product.number && <p>Letras: {product.number}</p>
+                                }
+
+                            </div>
+                            <p className="my-2">{currencyFormat(product.price)}</p>
                         </div>
                     </div>
                 ))

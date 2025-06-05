@@ -25,7 +25,10 @@ export const getOrderById = async (id: string) => {
                     select: {
                         price: true,
                         quantity: true,
-                        size: true,
+                        sizes: true,
+                        colors: true,
+                        genders: true,
+                        numbers: true,
                         product: {
                             select: {
                                 title: true,
@@ -45,7 +48,7 @@ export const getOrderById = async (id: string) => {
 
         if (!order) throw `${id} no existe`;
 
-        if (session.user.role == 'user') {
+        if (session.user.roleId == 1) {
             if (session.user.id !== order.userId) {
                 throw `${id} no es de ese usuario`
             }

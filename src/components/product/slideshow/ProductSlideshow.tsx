@@ -39,68 +39,75 @@ export const ProductSlideshow = ({ images, title = "Titulo", className }: Props)
 
 
     return (
-        <div className={className}>
-            <Swiper
-                style={{
-                    '--swiper-navigation-color': '#fff',
-                    '--swiper-pagination-color': '#fff',
-                } as React.CSSProperties
-                }
-                pagination={{ clickable: true }}
-                spaceBetween={10}
-                navigation={true}
-                thumbs={{
-                    swiper: thumbsSwiper
-                }}
-                modules={[FreeMode, Navigation, Thumbs, Pagination]}
-                className="w-full sm:h-[500px] md:h-[550px] lg:h-[800px]"
-            >
-                {
-                    images?.map(image => (
-                        <SwiperSlide key={image}>
-                            <Image
-                                className="rounded-lg object-fill"
-                                width={1024}
-                                height={800}
-                                src={`/products/${image}`}
-                                alt={title}
-                                onClick={() => handleImageClick(image)}
-                            />
-                        </SwiperSlide>
-                    ))
-                }
-            </Swiper>
-            <Swiper
-                onSwiper={setThumbsSwiper}
-                spaceBetween={10}
-                slidesPerView={4}
-                freeMode={true}
-                watchSlidesProgress={true}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="mySwiper"
-            >
-                {
-                    images?.map(image => (
-                        <SwiperSlide key={image}>
-                            <Image
-                                className="rounded-lg object-fill"
-                                width={300}
-                                height={300}
-                                src={`/products/${image}`}
-                                alt={title} />
-                        </SwiperSlide>
-                    ))
-                }
-            </Swiper>
+        <div className={`${className} flex-col h-full place-items-center`}>
+            <div className="w-[600px] h-[600px] rounded">
+                <Swiper
+                    style={{
+                        '--swiper-navigation-color': '#fff',
+                        '--swiper-pagination-color': '#fff',
+                    } as React.CSSProperties
+                    }
+                    pagination={{ clickable: true }}
+                    spaceBetween={10}
+                    navigation={true}
+                    thumbs={{
+                        swiper: thumbsSwiper
+                    }}
+                    modules={[FreeMode, Navigation, Thumbs, Pagination]}
+                    className="w-full h-full"
+                >
+                    {
+                        images?.map(image => (
+                            <SwiperSlide key={image} className="flex justify-center">
+                                <Image
+                                    className="object-contain rounded"
+                                    width={800}
+                                    height={800}
+                                    src={`/products/${image}`}
+                                    alt={title}
+                                    onClick={() => handleImageClick(image)}
+                                />
+                            </SwiperSlide>
+                        ))
+                    }
+                </Swiper>
+            </div>
 
-            {isOpen && (
-                <ImageModal
-                    selectedImage={selectedImage}
-                    closeModal={closeModal}
-                    width={500}
-                    height={500}
-                />
-            )}
+            <div className="w-full h-[150px]">
+                <Swiper
+                    onSwiper={setThumbsSwiper}
+                    spaceBetween={2}
+                    slidesPerView={4}
+                    freeMode={true}
+                    watchSlidesProgress={true}
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    className="mySwiper w-[600px] h-full"
+                >
+                    {
+                        images?.map(image => (
+                            <SwiperSlide key={image}>
+                                <Image
+                                    className="rounded-lg object-fill"
+                                    width={900}
+                                    height={900}
+                                    src={`/products/${image}`}
+                                    alt={title} />
+                            </SwiperSlide>
+                        ))
+                    }
+                </Swiper>
+
+            </div>
+
+            {
+                isOpen && (
+                    <ImageModal
+                        selectedImage={selectedImage}
+                        closeModal={closeModal}
+                        width={500}
+                        height={500}
+                    />
+                )}
 
         </div>
     )

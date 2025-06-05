@@ -7,7 +7,7 @@ export interface SeedProduct {
     price: number;
     slug: string;
     title: string;
-    categoryId: number;
+    subcategoryId: number;
     images: string[];
     sizes?: string[];
     colors?: string[];
@@ -19,6 +19,7 @@ export interface SeedProduct {
 interface SeedCategory {
     id: number;
     name: string;
+    icon: number;
 }
 
 interface SeedUser {
@@ -33,7 +34,7 @@ interface SeedData {
     colors: { id: number, color: string }[];
     sizes: { id: number, size: string }[];
     roles: { id: number, role: string }[];
-    categories: { id: number, name: string }[];
+    categories: SeedCategory[];
     users: SeedUser[];
     products: SeedProduct[];
 }
@@ -61,12 +62,15 @@ export const initialData: SeedData = {
         { id: 2, role: 'user' }
     ],
     categories: [
-        { id: 1, name: "Accesorios" },
-        { id: 2, name: "Globos" },
-        { id: 3, name: "Disfraces" },
-        { id: 4, name: "Mascaras" },
-        { id: 5, name: "Para la mesa" },
-        { id: 6, name: "Adultos" }
+        { id: 1, name: "Accesorios", icon: 1 },
+        { id: 2, name: "Globos", icon: 5 },
+        { id: 3, name: "Disfraces", icon: 9 },
+        { id: 4, name: "Mascaras", icon: 7 },
+        { id: 5, name: "Para la mesa", icon: 11 },
+        { id: 6, name: "Adultos", icon: 3 },
+        { id: 7, name: "Infantil", icon: 2 },
+        { id: 8, name: "Celebraciones", icon: 4 },
+        { id: 9, name: "Despedidas", icon: 6 },
     ],
     users: [
         {
@@ -90,9 +94,7 @@ export const initialData: SeedData = {
             price: 75000,
             slug: "mens_chill_crew_neck_sweatshirt",
             title: "Set de globos metálicos",
-            categoryId: 2,
-            sizes: ['S', 'M', 'L'],
-            colors: ['#ff0000', '#00ff00', '#0000ff'],
+            subcategoryId: 26,
             numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
             images: [
                 '1740176-00-A_0_2000.jpg',
@@ -106,7 +108,7 @@ export const initialData: SeedData = {
             price: 20000,
             slug: "men_quilted_shirt_jacket",
             title: "Guirnaldas LED para iluminar fiestas",
-            categoryId: 1,
+            subcategoryId: 12,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -121,7 +123,7 @@ export const initialData: SeedData = {
             price: 13000,
             slug: "men_raven_lightweight_zip_up_bomber_jacket",
             title: "Confeti en forma de estrellas doradas",
-            categoryId: 1,
+            subcategoryId: 7,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -137,7 +139,7 @@ export const initialData: SeedData = {
             price: 45000,
             slug: "men_turbine_long_sleeve_tee",
             title: "Disfraz de pirata con accesorios",
-            categoryId: 3,
+            subcategoryId: 28,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -152,7 +154,7 @@ export const initialData: SeedData = {
             price: 40000,
             slug: "men_turbine_short_sleeve_tee",
             title: "Vasos desechables con estampados",
-            categoryId: 5,
+            subcategoryId: 20,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -167,7 +169,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_cybertruck_owl_tee",
             title: "Platos de papel temáticos",
-            categoryId: 5,
+            subcategoryId: 17,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -182,7 +184,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_solar_roof_tee",
             title: "Cañón de confeti con efecto",
-            categoryId: 1,
+            subcategoryId: 7,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -197,7 +199,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_let_the_sun_shine_tee",
             title: "Cortina de lentejuelas brillante",
-            categoryId: 5,
+            subcategoryId: 10,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -212,7 +214,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_3d_large_wordmark_tee",
             title: "Centro de mesa con luces LED",
-            categoryId: 5,
+            subcategoryId: 40,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -227,7 +229,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_3d_t_logo_tee",
             title: "Gorros de fiesta en colores pastel",
-            categoryId: 1,
+            subcategoryId: 36,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -242,7 +244,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_3d_small_wordmark_tee",
             title: "Manteles temáticos de animales ",
-            categoryId: 5,
+            subcategoryId: 41,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -257,7 +259,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_plaid_mode_tee",
             title: "Banderines de tela con diseño retro ",
-            categoryId: 1,
+            subcategoryId: 1,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -272,7 +274,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_powerwall_tee",
             title: "Disfraz de hada con alas y varita mágica",
-            categoryId: 1,
+            subcategoryId: 28,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -287,7 +289,7 @@ export const initialData: SeedData = {
             price: 30000,
             slug: "men_battery_day_tee",
             title: "Velas aromáticas decorativas",
-            categoryId: 1,
+            subcategoryId: 21,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -302,7 +304,7 @@ export const initialData: SeedData = {
             price: 30000,
             slug: "men_cybertruck_bulletproof_tee",
             title: "Piñata en forma de estrella",
-            categoryId: 1,
+            subcategoryId: 15,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -317,7 +319,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_haha_yes_tee",
             title: "Cajas sorpresa para souvenirs",
-            categoryId: 1,
+            subcategoryId: 3,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -332,7 +334,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "men_s3xy_tee",
             title: "Kit de maquillaje neón",
-            categoryId: 1,
+            subcategoryId: 63,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -347,7 +349,7 @@ export const initialData: SeedData = {
             price: 40000,
             slug: "men_3d_wordmark_long_sleeve_tee",
             title: "Palillos decorativos con figuras",
-            categoryId: 1,
+            subcategoryId: 42,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -362,7 +364,7 @@ export const initialData: SeedData = {
             price: 40000,
             slug: "men_3d_t_logo_long_sleeve_tee",
             title: "Lámparas de papel colgantes ",
-            categoryId: 1,
+            subcategoryId: 24,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -377,7 +379,7 @@ export const initialData: SeedData = {
             price: 115000,
             slug: "men_raven_lightweight_hoodie",
             title: "Sombreros brillantes ",
-            categoryId: 1,
+            subcategoryId: 36,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -392,7 +394,7 @@ export const initialData: SeedData = {
             price: 13000,
             slug: "chill_pullover_hoodie",
             title: "Serpentinas de colores",
-            categoryId: 1,
+            subcategoryId: 18,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -407,7 +409,7 @@ export const initialData: SeedData = {
             price: 85000,
             slug: "men_chill_full_zip_hoodie",
             title: "Invitaciones personalizadas ",
-            categoryId: 1,
+            subcategoryId: 5,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -422,7 +424,7 @@ export const initialData: SeedData = {
             price: 85000,
             slug: "men_chill_quarter_zip_pullover_-_gray",
             title: "Pañuelos temáticos para fiestas vaqueras",
-            categoryId: 3,
+            subcategoryId: 43,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -437,7 +439,7 @@ export const initialData: SeedData = {
             price: 85000,
             slug: "men_chill_quarter_zip_pullover_-_white",
             title: "Pulseras fluorescentes que brillan",
-            categoryId: 1,
+            subcategoryId: 63,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -452,7 +454,7 @@ export const initialData: SeedData = {
             price: 70000,
             slug: "3d_large_wordmark_pullover_hoodie",
             title: "Globos con helio de letras para formar",
-            categoryId: 2,
+            subcategoryId: 26,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
@@ -468,7 +470,7 @@ export const initialData: SeedData = {
             price: 60000,
             slug: "cybertruck_graffiti_hoodie",
             title: "Máscaras de superhéroes",
-            categoryId: 4,
+            subcategoryId: 32,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -483,7 +485,7 @@ export const initialData: SeedData = {
             price: 30000,
             slug: "relaxed_t_logo_hat",
             title: "Caminos de mesa con purpurina",
-            categoryId: 1,
+            subcategoryId: 44,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -498,7 +500,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "thermal_cuffed_beanie",
             title: "Bebidas en polvo con colores",
-            categoryId: 1,
+            subcategoryId: 45,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -513,7 +515,7 @@ export const initialData: SeedData = {
             price: 22500,
             slug: "women_cropped_puffer_jacket",
             title: "Cápsulas de humo de colores",
-            categoryId: 1,
+            subcategoryId: 66,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -528,7 +530,7 @@ export const initialData: SeedData = {
             price: 13000,
             slug: "women_chill_half_zip_cropped_hoodie",
             title: "Tiaras con piedras brillantes",
-            categoryId: 1,
+            subcategoryId: 80,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -543,7 +545,7 @@ export const initialData: SeedData = {
             price: 11000,
             slug: "women_raven_slouchy_crew_sweatshirt",
             title: "Disco de luces LED portátil ",
-            categoryId: 1,
+            subcategoryId: 61,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -558,7 +560,7 @@ export const initialData: SeedData = {
             price: 45000,
             slug: "women_turbine_cropped_long_sleeve_tee",
             title: "Pistolas de burbujas",
-            categoryId: 1,
+            subcategoryId: 65,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -573,7 +575,7 @@ export const initialData: SeedData = {
             price: 40000,
             slug: "women_turbine_cropped_short_sleeve_tee",
             title: "Collares hawaianos de flores ",
-            categoryId: 3,
+            subcategoryId: 50,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -588,7 +590,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "women_t_logo_short_sleeve_scoop_neck_tee",
             title: "Servilletas con estampados personalizados",
-            categoryId: 5,
+            subcategoryId: 46,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -603,7 +605,7 @@ export const initialData: SeedData = {
             price: 40000,
             slug: "women_t_logo_long_sleeve_scoop_neck_tee",
             title: "Globos gigantes en forma de números",
-            categoryId: 2,
+            subcategoryId: 26,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
@@ -619,7 +621,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "women_small_wordmark_short_sleeve_v-neck_tee",
             title: "Tarjetas de agradecimiento con diseños ",
-            categoryId: 1,
+            subcategoryId: 5,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -634,7 +636,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "women_large_wordmark_short_sleeve_crew_neck_tee",
             title: "Carpas plegables con luces para celebraciones",
-            categoryId: 1,
+            subcategoryId: 4,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -649,7 +651,7 @@ export const initialData: SeedData = {
             price: 35000,
             slug: "women_plaid_mode_tee",
             title: "Humo de colores para efectos",
-            categoryId: 1,
+            subcategoryId: 66,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -664,7 +666,7 @@ export const initialData: SeedData = {
             price: 130000,
             slug: "women_powerwall_tee",
             title: "Caja de dulces temática con chocolates",
-            categoryId: 1,
+            subcategoryId: 3,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -679,7 +681,7 @@ export const initialData: SeedData = {
             price: 90000,
             slug: "women_corp_jacket",
             title: "Cinta adhesiva decorativa con brillo",
-            categoryId: 1,
+            subcategoryId: 6,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -694,7 +696,7 @@ export const initialData: SeedData = {
             price: 100000,
             slug: "women_raven_joggers",
             title: "Pirotecnia fría",
-            categoryId: 1,
+            subcategoryId: 16,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -709,7 +711,7 @@ export const initialData: SeedData = {
             price: 30000,
             slug: "kids_cybertruck_long_sleeve_tee",
             title: "Cajas de cartón decoradas",
-            categoryId: 1,
+            subcategoryId: 3,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -724,7 +726,7 @@ export const initialData: SeedData = {
             price: 25000,
             slug: "kids_scribble_t_logo_tee",
             title: "Set de stickers para personalizar ",
-            categoryId: 1,
+            subcategoryId: 20,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -739,7 +741,7 @@ export const initialData: SeedData = {
             price: 25000,
             slug: "kids_cybertruck_tee",
             title: "Gafas de colores extravagantes",
-            categoryId: 3,
+            subcategoryId: 34,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -754,7 +756,7 @@ export const initialData: SeedData = {
             price: 30000,
             slug: "kids_racing_stripe_tee",
             title: "Carteles personalizables ",
-            categoryId: 1,
+            subcategoryId: 66,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -769,7 +771,7 @@ export const initialData: SeedData = {
             price: 30000,
             slug: "kids_3d_t_logo_tee",
             title: "Chapas con frases divertidas",
-            categoryId: 1,
+            subcategoryId: 81,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -784,7 +786,7 @@ export const initialData: SeedData = {
             price: 30000,
             slug: "kids_checkered_tee",
             title: "Guantes LED que cambian de color",
-            categoryId: 1,
+            subcategoryId: 63,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -799,7 +801,7 @@ export const initialData: SeedData = {
             price: 25000,
             slug: "made_on_earth_by_humans_onesie",
             title: "Botellas de champán decorativas",
-            categoryId: 5,
+            subcategoryId: 45,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -814,7 +816,7 @@ export const initialData: SeedData = {
             price: 30000,
             slug: "scribble_t_logo_onesie",
             title: "Camisas hawaianas",
-            categoryId: 3,
+            subcategoryId: 50,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [
@@ -829,7 +831,7 @@ export const initialData: SeedData = {
             price: 30000,
             slug: "zero_emissions_(almost)_onesie",
             title: "Moldes de hielo con formas divertidas",
-            categoryId: 5,
+            subcategoryId: 45,
             sizes: ['S', 'M', 'L'],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             images: [

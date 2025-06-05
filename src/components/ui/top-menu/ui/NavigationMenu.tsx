@@ -45,20 +45,20 @@ export const NavigationMenu = () => {
     }
 
     return (
-        <div className="bg-primary hidden sm:flex justify-between items-center h-16 text-xl shadow-gray-300 shadow-xl text-white">
+        <div className="bg-primary hidden sm:flex justify-between items-center h-16 text-xl sm:text-sm md:text-lg lg:text-xl shadow-gray-300 shadow-xl text-white">
 
-            <div className="flex justify-evenly w-[30%] md:w-[40%]">
+            <div className="flex justify-evenly w-[32%] lg:w-[40%]">
 
-                <button onClick={() => onOpeningNav()} className="cursor-pointer hover:scale-120 duration-200">
+                <button onClick={() => onOpeningNav()} className="w-full cursor-pointer hover:scale-120 duration-200">
                     Productos
                 </button>
 
-                <button className="cursor-pointer hover:scale-120 duration-200">
+                <button className="w-full cursor-pointer hover:scale-120 duration-200">
                     ¿Quiénes Somos?
                 </button>
             </div>
 
-            <div className="flex justify-evenly w-[30%] md:w-[40%]">
+            <div className="flex justify-evenly w-[32%] lg:w-[40%]">
                 <button className="w-full cursor-pointer hover:scale-120 duration-200 ">
                     ¿Qué Hacemos?
                 </button>

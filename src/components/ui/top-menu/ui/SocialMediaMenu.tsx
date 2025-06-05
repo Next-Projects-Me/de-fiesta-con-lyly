@@ -10,7 +10,7 @@ export const SocialMediaMenu = () => {
     const openLeftSideMenu = useUiStore(state => state.openLeftSideMenu);
 
     return (
-        <div className="flex justify-center items-center sm:mb-30">
+        <div className="flex justify-center items-center sm:mb-30 z-10">
             <Link href="/" className="hidden sm:block">
                 <FaSquareInstagram className="w-14 h-14 text-pink-600 hover:scale-120" />
             </Link>

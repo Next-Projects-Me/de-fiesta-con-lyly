@@ -42,9 +42,12 @@ export const useCartStore = create<State>()(
 
                 const { cart } = get();
 
-                // 1. Revisar si el producto exite en el carrito de con la talla seleccionada
+                // 1. Revisar si el producto existe en el carrito de con la talla seleccionada
                 const productInCart = cart.some(
-                    (item) => item.id === product.id && item.size === product.size
+                    (item) => item.id === product.id
+                        && item.size === product.size
+                        && item.color === product.color
+                        && item.number === product.number
                 );
 
                 if (!productInCart) {
@@ -54,7 +57,12 @@ export const useCartStore = create<State>()(
 
                 // 2. Se que el product existe por talla tengo que incrementar 
                 const updatedCartProducts = cart.map((item) => {
-                    if (item.id === product.id && item.size === product.size) {
+
+                    if (item.id === product.id
+                        && item.size === product.size
+                        && item.color === product.color
+                        && item.number === product.number
+                    ) {
                         return { ...item, quantity: item.quantity + product.quantity }
                     }
 
@@ -68,22 +76,32 @@ export const useCartStore = create<State>()(
                 const { cart } = get();
 
                 const updateCartProducts = cart.map(item => {
-                    if (item.id === product.id && item.size === product.size) {
+                    if (item.id === product.id
+                        && item.size === product.size
+                        && item.color === product.color
+                        && item.number === product.number
+                    ) {
                         return { ...item, quantity: quantity }
                     }
+
                     return item;
                 });
 
                 set({ cart: updateCartProducts });
             },
             removeProduct: (product: CartProduct) => {
+
                 const { cart } = get();
 
                 const removeCartProduct = cart.filter(item =>
-                    item.id !== product.id || item.size !== product.size
+                    item?.id !== product.id
+                    || item.size !== product.size
+                    || item.color !== product.color
+                    || item.number !== product.number
                 );
 
                 set({ cart: removeCartProduct });
+
             },
             clearCart: () => {
                 set({ cart: [] });

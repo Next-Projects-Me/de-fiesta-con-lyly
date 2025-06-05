@@ -14,7 +14,7 @@ import {
     IoShirtOutline,
     IoTicketOutline
 } from 'react-icons/io5';
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 
 export const LeftSidebar = () => {
@@ -53,7 +53,7 @@ export const LeftSidebar = () => {
             <nav
                 className={
                     clsx(
-                        'fixed p-5 top-0 left-0 h-screen w-72 z-20 bg-white animate-slide-right transition-all duration-500 flex flex-col justify-between',
+                        'overflow-y-scroll fixed p-5 top-0 left-0 h-screen w-72 z-20 bg-white animate-slide-right transition-all duration-500 flex flex-col justify-between',
                         {
                             'translate-x-0': isLeftSideMenuOpen,
                             '-translate-x-full': !isLeftSideMenuOpen
@@ -62,40 +62,26 @@ export const LeftSidebar = () => {
                 }
             >
                 <div className="flex flex-col justify-self-start">
-                    {/* <IoCloseCircle
-                    size={30}
-                    className='absolute top-5 right-5 cursor-pointer text-primary'
-                    onClick={closeLeftSideMenu}
-                />
 
-                <div className='relative mt-14'>
-                    <IoSearchOutline size={20} className='absolute top-2 left-2' />
-                    <input
-                        type='text'
-                        placeholder='Buscar'
-                        className='w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500'
-                    />
-                </div> */}
-
-                    <div className="mt-10 p-2 rounded-md cursor-pointer self-center">
+                    <div className="mt-10 p-2 rounded-md self-center">
                         {
                             (!isAuthenticated || !profileImage)
-                                ? <FaUser className="w-14 h-14 text-lime-400" />
+                                ? <FaUserCircle className="w-22 h-22 text-primary" />
                                 : <Image
                                     src={profileImage!}
-                                    width={90}
-                                    height={90}
+                                    width={100}
+                                    height={100}
                                     alt="Imagen de perfil"
                                     className="rounded-full" />
                         }
                     </div>
 
-                    <div
-                        className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                    <button
+                        className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all cursor-pointer'
                     >
                         <IoTicketOutline size={30} />
                         <span className='ml-3 text-xl'>Productos</span>
-                    </div>
+                    </button>
 
                     {
                         isAuthenticated && (
@@ -103,7 +89,7 @@ export const LeftSidebar = () => {
 
                                 <Link
                                     href="/orders"
-                                    className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                                    className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
                                 >
                                     <IoTicketOutline size={30} />
                                     <span className='ml-3 text-xl'>Mis Ordenes</span>
@@ -111,7 +97,7 @@ export const LeftSidebar = () => {
                                 <Link
                                     href="/profile"
                                     onClick={closeLeftSideMenu}
-                                    className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                                    className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
                                 >
                                     <IoPersonOutline size={30} />
                                     <span className='ml-3 text-xl'>Perfil</span>

@@ -12,10 +12,11 @@ import {
     IoLogOutOutline,
     IoPeopleOutline,
     IoPersonOutline,
-    IoSearchOutline,
     IoShirtOutline,
     IoTicketOutline
 } from 'react-icons/io5';
+import { FaUserCircle } from 'react-icons/fa';
+import Image from 'next/image';
 
 export const Sidebar = () => {
 
@@ -24,6 +25,8 @@ export const Sidebar = () => {
 
     const { data: session } = useSession();
     const isAuthenticated = !!session?.user;
+    const profileImage = session?.user.image;
+
     const isAdmin = (session?.user.roleId === 1);
 
     const onLogout = async () => {
@@ -36,14 +39,14 @@ export const Sidebar = () => {
         <div>
             {
                 isSideMenuOpen && (
-                    <div className='fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30' />
+                    <div className='fixed top-0 left-0 w-screen h-screen z-30 bg-black opacity-30' />
                 )
             }
             {
                 isSideMenuOpen && (
                     <div
                         onClick={closeMenu}
-                        className='fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm'
+                        className='fade-in fixed top-0 left-0 w-screen h-screen z-30 backdrop-filter backdrop-blur-sm'
                     />
                 )
             }
@@ -51,26 +54,31 @@ export const Sidebar = () => {
             <nav
                 className={
                     clsx(
-                        'fixed p-5 right-0 top-0 w-full sm:w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300',
+                        'overflow-y-scroll fixed p-5 right-0 top-0 w-full sm:w-[450px] h-screen bg-white z-40 shadow-2xl transform transition-all duration-300 flex flex-col',
                         {
                             'translate-x-full': !isSideMenuOpen
                         }
                     )
                 }
             >
+
                 <IoCloseCircle
                     size={30}
                     className='absolute top-5 right-5 cursor-pointer text-primary'
                     onClick={closeMenu}
                 />
 
-                <div className='relative mt-14'>
-                    <IoSearchOutline size={20} className='absolute top-2 left-2' />
-                    <input
-                        type='text'
-                        placeholder='Buscar'
-                        className='w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500'
-                    />
+                <div className="mt-10 p-2 rounded-md self-center">
+                    {
+                        (!isAuthenticated || !profileImage)
+                            ? <FaUserCircle className="w-28 h-28 text-primary" />
+                            : <Image
+                                src={profileImage!}
+                                width={120}
+                                height={120}
+                                alt="Imagen de perfil"
+                                className="rounded-full" />
+                    }
                 </div>
 
                 {
@@ -87,14 +95,50 @@ export const Sidebar = () => {
 
                             <Link
                                 href="/orders"
+                                onClick={closeMenu}
+                                className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                            >
+                                <IoTicketOutline size={30} />
+                                <span className='ml-3 text-xl'>Mis Ordenes</span>
+                            </Link>
+                        </>
+                    )
+                }
+
+                {
+                    isAdmin && (
+                        <>
+                            <div className='w-full h-px bg-gray-200 my-5' />
+                            <Link
+                                href="/"
+                                onClick={closeMenu}
+                                className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                            >
+                                <IoShirtOutline size={30} />
+                                <span className='ml-3 text-xl'>Productos</span>
+                            </Link>
+
+                            <Link
+                                href="/"
+                                onClick={closeMenu}
                                 className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
                             >
                                 <IoTicketOutline size={30} />
                                 <span className='ml-3 text-xl'>Ordenes</span>
                             </Link>
+
+                            <Link
+                                href="/"
+                                onClick={closeMenu}
+                                className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                            >
+                                <IoPeopleOutline size={30} />
+                                <span className='ml-3 text-xl'>Usuarios</span>
+                            </Link>
                         </>
                     )
                 }
+
 
                 {
                     isAuthenticated && (
@@ -120,39 +164,6 @@ export const Sidebar = () => {
                         </Link>
                     )
                 }
-
-
-                {
-                    isAdmin && (
-                        <>
-                            <div className='w-full h-px bg-gray-200 my-10' />
-                            <Link
-                                href="/"
-                                className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-                            >
-                                <IoShirtOutline size={30} />
-                                <span className='ml-3 text-xl'>Productos</span>
-                            </Link>
-
-                            <Link
-                                href="/"
-                                className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-                            >
-                                <IoTicketOutline size={30} />
-                                <span className='ml-3 text-xl'>Ordenes</span>
-                            </Link>
-
-                            <Link
-                                href="/"
-                                className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-                            >
-                                <IoPeopleOutline size={30} />
-                                <span className='ml-3 text-xl'>Usuarios</span>
-                            </Link>
-                        </>
-                    )
-                }
-
             </nav>
         </div>
     )

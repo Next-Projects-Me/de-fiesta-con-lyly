@@ -1,40 +1,45 @@
 'use client';
 
-import type { Country } from "@/interfaces/country.interface";
-import clsx from "clsx";
-import { useSession } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { useEffect } from "react";
-import { useAddressStore } from "@/store/address/address-store";
-import { setUserAddress } from "@/actions/address/set-user-address";
-import { deleteUserAddress } from "@/actions/address/delete-user-address";
 import { Address } from "@/interfaces/address.interface";
+import { City } from "@/interfaces/cities.interface";
+import { Controller, useForm } from "react-hook-form";
+import { deleteUserAddress } from "@/actions/address/delete-user-address";
+import { Department } from "@/interfaces/departments.interface";
+import { setUserAddress } from "@/actions/address/set-user-address";
+import { useAddressStore } from "@/store/address/address-store";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import clsx from "clsx";
 
 type FormInputs = {
     firstName: string;
     lastName: string;
     address: string;
     address2?: string;
-    postalCode: string;
-    city: string;
-    country: string;
+    departmentId: string;
+    cityId: number;
     phone: string;
     rememberAddress: boolean;
 }
 
 interface Props {
-    countries: Country[];
+    departments: Department[];
+    cities: City[];
     userStoredAddress?: Partial<Address>;
 }
 
-export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
+export const AddressForm = ({ departments, cities, userStoredAddress = {} }: Props) => {
 
     const router = useRouter();
-    const { handleSubmit, register, formState: { isValid }, reset } = useForm<FormInputs>({
+
+    const setAddress = useAddressStore(state => state.setAddress);
+    const address = useAddressStore(state => state.address);
+
+    const { control, watch, handleSubmit, register, formState: { isValid }, reset } = useForm<FormInputs>({
         defaultValues: {
             ...(userStoredAddress as Partial<Address>),
-            rememberAddress: false
+            rememberAddress: false,
         }
     });
 
@@ -42,13 +47,13 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
         required: true,
     });
 
-    const setAddress = useAddressStore(state => state.setAddress);
-    const address = useAddressStore(state => state.address);
+    const selectedDepartment = watch('departmentId', '');
 
     useEffect(() => {
         if (address.firstName) {
             reset(address);
         }
+
     }, [address, reset]);
 
     const onSubmit = async (data: FormInputs) => {
@@ -59,7 +64,6 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
         if (rememberAddress) {
             await setUserAddress(restAddress, session!.user.id)
         } else {
-            console.log('Pasa');
             await deleteUserAddress(session!.user.id)
         }
 
@@ -101,33 +105,48 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
             </div>
 
             <div className="flex flex-col mb-2">
-                <span>Código postal</span>
-                <input
-                    type="text"
-                    className="p-2 border rounded-md bg-gray-200" {...register('postalCode', { required: true })}
+                <span>Departamento</span>
+                <Controller
+                    name="departmentId"
+                    control={control}
+                    render={({ field }) => (
+                        <select {...field}
+                            className="p-2 border rounded-md bg-gray-200" {...register('departmentId', { required: true })}
+                        >
+                            <option value="">[ Seleccione ]</option>
+                            {
+                                departments.map(department => (
+                                    <option key={department.id} value={department.id}>{department.name}</option>
+                                ))
+                            }
+                        </select>
+                    )}
                 />
             </div>
-
             <div className="flex flex-col mb-2">
                 <span>Ciudad</span>
-                <input
-                    type="text"
-                    className="p-2 border rounded-md bg-gray-200" {...register('city', { required: true })}
+                <Controller
+                    name="cityId"
+                    control={control}
+                    render={({ field }) => (
+                        <select {...field}
+                            className="p-2 border rounded-md bg-gray-200" {...register('cityId', { required: true })}
+                        >
+                            <option value="">[ Seleccione ]</option>
+                            {
+                                selectedDepartment
+                                    ?
+                                    cities.filter(city => city.departmentId === selectedDepartment).map(city => (
+                                        <option key={city.id} value={city.id}>{city.name}</option>
+                                    ))
+                                    :
+                                    cities.filter(city => city.departmentId === address.departmentId).map(city => (
+                                        <option key={city.id} value={city.id}>{city.name}</option>
+                                    ))
+                            }
+                        </select>
+                    )}
                 />
-            </div>
-
-            <div className="flex flex-col mb-2">
-                <span>País</span>
-                <select
-                    className="p-2 border rounded-md bg-gray-200" {...register('country', { required: true })}
-                >
-                    <option value="">[ Seleccione ]</option>
-                    {
-                        countries.map(country => (
-                            <option key={country.id} value={country.id}>{country.name}</option>
-                        ))
-                    }
-                </select>
             </div>
 
             <div className="flex flex-col mb-2">
@@ -138,7 +157,7 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
                 />
             </div>
 
-            <div className="flex flex-col mb-2 sm:mt-10">
+            <div className="col-start-1 flex flex-col mb-2 sm:mt-5">
 
                 <div className="inline-flex items-center mb-10">
                     <label
@@ -173,18 +192,19 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
                 <button
                     disabled={!isValid}
                     type="submit"
-                    // className="btn-primary flex w-full sm:w-1/2 justify-center "
                     className={
-                        clsx({
-                            'btn-primary': isValid,
-                            'btn-disabled': !isValid,
-                        })
+                        clsx(
+                            'cursor-pointer',
+                            {
+                                'btn-primary': isValid,
+                                'btn-disabled': !isValid,
+                            }
+                        )
                     }
                 >
                     Siguiente
                 </button>
             </div>
-
         </form>
     )
 }

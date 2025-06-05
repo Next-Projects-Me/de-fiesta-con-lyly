@@ -5,6 +5,17 @@ import prisma from "@/lib/prisma";
 export const deleteUserAddress = async (userId: string) => {
     try {
 
+        const userAddress = await prisma.userAddress.findUnique({
+            where: { userId }
+        });
+
+        if (!userAddress) {
+            return {
+                ok: false,
+                message: 'No se encontró la dirección'
+            }
+        }
+
         await prisma.userAddress.delete({
             where: { userId }
         });

@@ -1,45 +1,73 @@
+'use client';
+
 import { CategoriesMenu } from "./ui/CategoriesMenu";
+import { ModalAuth } from "@/components/auth/modal-auth/ModalAuth";
 import { NavigationMenu } from "./ui/NavigationMenu";
 import { SearchMenu } from "./ui/SearchMenu";
 import { SocialMediaMenu } from "./ui/SocialMediaMenu";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
 import Image from "next/image";
-import { titleFont, titleFont2 } from "@/config/fonts";
-import { ModalAuth } from "@/components/auth/modal-auth/ModalAuth";
+import Link from "next/link";
+
+interface Props {
+    categories: Category[]
+}
 
 
-export const TopMenu = () => {
+export const TopMenu = ({ categories }: Props) => {
+
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         setIsScrolled(window.scrollY > 50);
+    //     };
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => window.removeEventListener('scroll', handleScroll);
+    // }, []);
+
 
     return (
-        // className="fixed top-0 w-full z-10 bg-white"
-        <nav className="fixed top-0 w-full z-10 bg-primary sm:bg-white sm:shadow-none">
-            <div id="top-menu" className="grid grid-cols-3 justify-start items-center w-full sm:h-32 mb-3">
+        <nav className="">
+            <div className="bg-primary sm:bg-white sm:shadow-none z-20 fixed top-0 w-full">
+                <div className={
+                    clsx(
+                        "grid grid-cols-3 justify-start items-center w-full mb-3 sm:h-16 transform transition-all duration-600",
+                        // {
+                        //     'sm:h-16': isScrolled,
+                        //     'sm:h-32': !isScrolled,
+                        // }
+                    )
+                }>
 
-                <SocialMediaMenu />
+                    <SocialMediaMenu />
 
-                <div className="">
-                    <Link
-                        href="/"
-                        className="flex justify-center items-center z-10">
-                        <Image src="/imgs/Logo_redondo_sin_fondo.png"
-                            className="my-2"
-                            width={250}
-                            height={250}
-                            alt="Logo-DFCL" />
-                        {/* <p className={`${titleFont.className} text-4xl text-primary`}>DFCL</p> */}
-                    </Link>
+                    <div className="">
+                        <Link
+                            href="/"
+                            className="flex justify-center items-center">
+                            <Image src="/imgs/Logo_redondo_sin_fondo.png"
+                                className="my-2 transform transition-all duration-600"
+                                width={180}
+                                height={180}
+                                // width={isScrolled ? 180 : 250}
+                                // height={isScrolled ? 180 : 250}
+                                alt="Logo-DFCL" />
+                        </Link>
+                    </div>
+
+                    <SearchMenu />
+
                 </div>
 
-                <SearchMenu />
+                <NavigationMenu />
 
+                <hr className="block sm:hidden border-2 border-white mt-0 sm:mt-3 " />
+
+                <ModalAuth />
             </div>
-
-            <NavigationMenu />
-
-            <hr className="sm:hidden border-2 border-primary mt-0 sm:mt-3 " />
-
-            <CategoriesMenu />
-            <ModalAuth />
+            <CategoriesMenu isScrolled={isScrolled} categories={categories} />
         </nav>
     )
 }

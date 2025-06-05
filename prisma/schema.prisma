@@ -35,8 +35,8 @@ model Role {
 }
 
 model City {
-  id   String @id
-  city String
+  id   Int    @id @default(autoincrement())
+  name String
 
   department   Department @relation(fields: [departmentId], references: [id])
   departmentId String
@@ -46,8 +46,8 @@ model City {
 }
 
 model Department {
-  id         String @id
-  department String
+  id   String @id
+  name String
 
   UserAddress  UserAddress[]
   OrderAddress OrderAddress[]
@@ -55,8 +55,22 @@ model Department {
 }
 
 model Category {
-  id      Int       @id @default(autoincrement())
-  name    String    @unique
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  icon     Int
+  isActive Boolean @default(true)
+
+  Subcategory Subcategory[]
+}
+
+model Subcategory {
+  id       Int     @id @default(autoincrement())
+  name     String
+  isActive Boolean @default(true)
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
   Product Product[]
 }
 
@@ -81,8 +95,8 @@ model Product {
   numbers     String[]
   tags        String[]
 
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+  subcategoryId Int
 
   OrderItem    OrderItem[]
   ProductImage ProductImage[]
@@ -113,6 +127,7 @@ model Order {
   itemsInOrder Int
   isPaid       Boolean   @default(false)
   paidAt       DateTime?
+  paymentLink  String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -125,12 +140,13 @@ model Order {
 }
 
 model OrderItem {
-  id       String   @id @default(uuid())
+  id       String  @id @default(uuid())
   quantity Int
   price    Float
-  sizes    String[]
-  genders  String[]
-  colors   String[]
+  sizes    String?
+  genders  String?
+  colors   String?
+  numbers  String?
 
   order   Order  @relation(fields: [orderId], references: [id])
   orderId String
@@ -140,16 +156,15 @@ model OrderItem {
 }
 
 model UserAddress {
-  id         String  @id @default(uuid())
-  firstName  String
-  lastName   String
-  address    String
-  address2   String?
-  postalCode String
-  phone      String
+  id        String  @id @default(uuid())
+  firstName String
+  lastName  String
+  address   String
+  address2  String?
+  phone     String
 
-  city   City   @relation(fields: [cityId], references: [id])
-  cityId String
+  city   City @relation(fields: [cityId], references: [id])
+  cityId Int
 
   department   Department @relation(fields: [departmentId], references: [id])
   departmentId String
@@ -159,16 +174,15 @@ model UserAddress {
 }
 
 model OrderAddress {
-  id         String  @id @default(uuid())
-  firstName  String
-  lastName   String
-  address    String
-  address2   String?
-  postalCode String
-  phone      String
+  id        String  @id @default(uuid())
+  firstName String
+  lastName  String
+  address   String
+  address2  String?
+  phone     String
 
-  city   City   @relation(fields: [cityId], references: [id])
-  cityId String
+  city   City @relation(fields: [cityId], references: [id])
+  cityId Int
 
   department   Department @relation(fields: [departmentId], references: [id])
   departmentId String

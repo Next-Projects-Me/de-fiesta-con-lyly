@@ -1,19 +1,12 @@
 'use client';
 
-import { useCartStore } from "@/store/cart/cart-store"
-import { useUiStore } from "@/store/ui/ui-store"
-import { useSession } from "next-auth/react"
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { FaUser } from "react-icons/fa"
-import { IoCartOutline, IoMenuOutline, IoSearchCircle } from "react-icons/io5"
+import { IoCartOutline, IoMenuOutline, IoSearchCircle } from "react-icons/io5";
+import { useCartStore } from "@/store/cart/cart-store";
+import { useEffect, useState } from "react";
+import { useUiStore } from "@/store/ui/ui-store";
+import Link from "next/link";
 
 export const SearchMenu = () => {
-
-    const { data: session } = useSession();
-    const isAuthenticated = !!session?.user;
-    const profileImage = session?.user.image;
 
     const totalItemsInCart = useCartStore(state => state.getTotalItems());
     const openSideMenu = useUiStore(state => state.openSideMenu);
@@ -38,7 +31,7 @@ export const SearchMenu = () => {
                 <div className="relative">
                     {
                         (totalItemsInCart > 0 && loaded) && (
-                            <span className="fade-in absolute z-10 text-[15px] px-1 rounded-full font-bold -top-2 -right-2 bg-lime-300 text-black">
+                            <span className="fade-in absolute z-10 text-[15px] px-[6px] rounded-full font-bold -top-2 -right-2 bg-lime-300 text-black">
                                 {totalItemsInCart}
                             </span>
                         )
@@ -49,18 +42,7 @@ export const SearchMenu = () => {
             <button
                 onClick={openSideMenu}
                 className="m-2 p-2 rounded-md hover:scale-125 cursor-pointer hidden sm:block">
-                <IoMenuOutline className="w-10 h-10 text-lime-500 cursor-pointer" />
-
-                {/* {
-                    (!isAuthenticated || !profileImage)
-                        ? <FaUser className="w-10 h-10 hover:scale-100 text-lime-400" />
-                        : <Image
-                            src={profileImage!}
-                            width={70}
-                            height={70}
-                            alt="Imagen de perfil"
-                            className="rounded-full" />
-                } */}
+                <IoMenuOutline className="w-10 h-10 text-primary cursor-pointer" />
             </button>
         </div>
     )

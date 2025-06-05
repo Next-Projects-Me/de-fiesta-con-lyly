@@ -4,7 +4,7 @@ export interface Product {
     colors?: string[];
     numbers?: string[];
     genders?: string[];
-    categoryId: number;
+    subcategoryId: number;
     id: string;
     title: string;
     description: string;

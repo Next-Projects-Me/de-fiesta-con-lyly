@@ -1,7 +1,6 @@
 export const revalidate = 10080; // 7 días
 
 import notFound from "../not-found";
-import { titleFont } from "@/config/fonts";
 import { ProductSlideshow } from "@/components/product/slideshow/ProductSlideshow";
 import { ProductMobileSlideshow } from "@/components/product/slideshow/ProductMobileSlideshow";
 import { getProductBySlug } from "@/actions/product/get-product-by-slug";
@@ -40,8 +39,8 @@ export default async function ProductBySlugPage({ params }: Props) {
     }
 
     return (
-        <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-4 gap-3">
-            <div className="col-span-1 md:col-span-3">
+        <div className="sm:mt-15 mb-20 flex flex-col justify-center lg:flex-row gap-3">
+            <div className="col-span-2">
 
                 <ProductMobileSlideshow
                     title={product?.title}
@@ -52,12 +51,12 @@ export default async function ProductBySlugPage({ params }: Props) {
                 <ProductSlideshow
                     title={product?.title}
                     images={product?.images}
-                    className="hidden md:block"
+                    className="hidden md:flex"
                 />
 
             </div>
 
-            <div className="col-span-1 px-5 md:col-span-1">
+            <div className="px-5">
 
                 <StockLabel slug={product?.slug ?? ''} />
 

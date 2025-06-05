@@ -62,7 +62,7 @@ export const authConfig: NextAuthConfig = {
 
                     const googleUser = await prisma.user.findUnique({
                         where: {
-                            email: user.email!
+                            email: user.email!.toLowerCase()
                         },
                     });
 
@@ -115,14 +115,22 @@ export const authConfig: NextAuthConfig = {
         async session({ session, token }) {
 
             const newUser = {
+                id: token.id,
                 name: token.name,
                 email: token.email,
                 roleId: token.roleId,
                 image: token.picture,
             }
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            session.user = newUser as any;
+            if (!token.roleId) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                session.user = token.data as any;
+            }
+            else {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                session.user = newUser as any;
+            }
+
             return session;
         },
         async redirect() {

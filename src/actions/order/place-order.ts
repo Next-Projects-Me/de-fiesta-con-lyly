@@ -3,17 +3,16 @@
 import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
 import type { Address } from "@/interfaces/address.interface";
-import type { Size } from "@/interfaces/product.interface";
 
 interface ProductToOrder {
     productId: string;
     quantity: number;
-    size: Size;
+    size?: string;
+    color?: string;
+    number?: string;
 }
 
 export const placeOrder = async (productsIds: ProductToOrder[], address: Address) => {
-
-    // console.log({ productsIds })
 
     const session = await auth();
     const userId = session?.user.id;
@@ -100,7 +99,9 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
                         createMany: {
                             data: productsIds.map((p) => ({
                                 quantity: p.quantity,
-                                size: p.size,
+                                sizes: p.size,
+                                numbers: p.number,
+                                colors: p.color,
                                 productId: p.productId,
                                 price:
                                     products.find((product) => product.id === p.productId)
@@ -112,13 +113,13 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
             });
 
             // Validar si el valor es cero
-
             // 3. Crear la dirección de la orden
-            const { country, ...restAddress } = address;
+            const { cityId, departmentId, ...restAddress } = address;
             const orderAddress = await tx.orderAddress.create({
                 data: {
                     ...restAddress,
-                    countryId: country,
+                    cityId: parseInt(cityId.toString()),
+                    departmentId: departmentId,
                     orderId: order.id
                 }
             });

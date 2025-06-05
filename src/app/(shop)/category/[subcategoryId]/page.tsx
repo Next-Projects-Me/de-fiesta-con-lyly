@@ -7,38 +7,26 @@ import { ProductGrid } from "@/components/products/product-grid/ProductGrid";
 import { Title } from "@/components/ui/title/Title";
 
 interface Props {
-    params: Promise<{ categoryId: number }>
+    params: Promise<{ subcategoryId: number }>
     searchParams: Promise<{ page: string }>
 }
 
-export default async function GenderByIdPage({ params, searchParams }: Props) {
+export default async function SubcategoriesPage({ params, searchParams }: Props) {
 
-    const { categoryId } = await params;
+    const { subcategoryId } = await params;
     const pageParam = (await searchParams).page;
     const page = pageParam ? parseInt(pageParam) : 1;
 
-    const { products, totalPages } = await getPaginatedProductsWithImages({ page, categoryId });
+    const { products, totalPages } = await getPaginatedProductsWithImages({ page, subcategoryId });
 
     if (products.length === 0) {
-        redirect(`/category/${products[0].category}`);
+        redirect(`/category/${products[0].subcategoryId}`);
     }
-
-    // const label: Record<string, string> = {
-    //     'men': 'para hombres',
-    //     'women': 'para mujeres',
-    //     'kid': 'para niños',
-    //     'unisex': 'para todos'
-    // }
-
-
-    // if( id === 'kids'){
-    //   notFound();
-    // }
 
     return (
         <div>
             <Title
-                title={`${products[0].category} `}
+                title={`${products[0].subcategory} `}
                 subtitle="Todos los productos"
                 className="mb-2"
             />

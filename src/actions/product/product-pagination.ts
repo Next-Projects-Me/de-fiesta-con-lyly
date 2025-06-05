@@ -5,11 +5,11 @@ import prisma from "@/lib/prisma";
 interface PaginationOptions {
     page?: number;
     take?: number;
-    categoryId?: number
+    subcategoryId?: number
 }
 
 
-export const getPaginatedProductsWithImages = async ({ page = 1, take = 50, categoryId }: PaginationOptions) => {
+export const getPaginatedProductsWithImages = async ({ page = 1, take = 50, subcategoryId }: PaginationOptions) => {
 
     if (isNaN(Number(page))) page = 1;
     if (page < 1) page = 1;
@@ -19,7 +19,7 @@ export const getPaginatedProductsWithImages = async ({ page = 1, take = 50, cate
 
     try {
 
-        if (categoryId) categoryId = parseInt(categoryId.toString())
+        if (subcategoryId) subcategoryId = parseInt(subcategoryId.toString())
 
         // 1. Obtener los productos
         const products = await prisma.product.findMany({
@@ -30,7 +30,7 @@ export const getPaginatedProductsWithImages = async ({ page = 1, take = 50, cate
                         url: true
                     }
                 },
-                category: {
+                subcategory: {
                     select: {
                         id: true,
                         name: true
@@ -40,14 +40,14 @@ export const getPaginatedProductsWithImages = async ({ page = 1, take = 50, cate
             skip: (page - 1) * take,
             take: take,
             where: {
-                categoryId: categoryId
+                subcategoryId: subcategoryId
             }
         });
 
         // 2. Obtener el total de páginas
         const totalCount = await prisma.product.count({
             where: {
-                categoryId: categoryId
+                subcategoryId: subcategoryId
             }
         });
 
@@ -58,7 +58,7 @@ export const getPaginatedProductsWithImages = async ({ page = 1, take = 50, cate
             totalPages: totalPages,
             products: products.map(product => ({
                 ...product,
-                category: product.category.name,
+                subcategory: product.subcategory.name,
                 images: product.ProductImage.map(item => item.url)
             }))
         }

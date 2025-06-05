@@ -3,26 +3,27 @@ import Link from "next/link";
 import { ProductsinCart } from "./ui/ProductsinCart";
 import { PlaceOrder } from "./ui/PlaceOrder";
 
-export default function ChekoutPage() {
+export default function CheckoutPage() {
     return (
-        <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
-            <div className="flex flex-col w-[1000pcx]">
-                <Title title='Verificar Orden' />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div className="flex justify-center items-center mb-20 px-10 sm:px-0">
+            <div className="flex flex-col w-full">
+                <div className="flex flex-col sm:flex-row justify-center">
 
-                    {/* Carrito */}
-                    <div className="flex flex-col mt-5">
-                        <span className="text-xl">Ajustar elementos</span>
-                        <Link href="/cart" className="underline mb-5">
-                            Editar carrito
-                        </Link>
+                    <div className="mr-10">
+                        <Title title='Verificar Orden' />
+                        <div className="flex flex-col mt-5">
+                            <span className="text-xl">Ajustar elementos</span>
+                            <Link href="/cart" className="underline mb-5">
+                                Editar carrito
+                            </Link>
 
-                        {/* Items */}
-                        <ProductsinCart />
+                            <ProductsinCart />
+                        </div>
+
                     </div>
-
-                    {/* Checkout - Resumen de orden  */}
-                    <PlaceOrder />
+                    <div className="sm:w-[60%] md:w-[40%]  bg-white rounded-xl shadow-xl sm:mt-20 p-7 h-fit">
+                        <PlaceOrder />
+                    </div>
                 </div>
             </div>
         </div>

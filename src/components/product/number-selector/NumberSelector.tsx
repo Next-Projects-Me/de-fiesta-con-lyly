@@ -10,7 +10,7 @@ export const NumberSelector = ({ selectedNumber, availableNumbers, onNumberChang
     return (
         <div className='my-5'>
             <h3 className='font-bold mb-4'>Números disponibles</h3>
-            <div className='flex'>
+            <div className='flex flex-wrap'>
                 {
                     availableNumbers?.map(number => (
                         <button

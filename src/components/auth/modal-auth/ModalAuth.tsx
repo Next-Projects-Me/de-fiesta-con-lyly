@@ -41,7 +41,7 @@ export const ModalAuth = () => {
             ref={divRef}
             className={
                 clsx(
-                    "absolute right-[14%] w-6 z-10 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent border-b-primary fade-in",
+                    "absolute right-[8%] w-6 z-10 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent border-b-primary fade-in",
                     {
                         "hidden sm:block": isModalLoginOpen,
                         "hidden": !isModalLoginOpen,

@@ -9,6 +9,7 @@ import { GoogleButton } from './GoogleButton';
 import { MdVpnKeyOff } from 'react-icons/md';
 import { useUiStore } from '@/store/ui/ui-store';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
 
 type Inputs = {
     email: string;
@@ -21,6 +22,9 @@ interface Props {
 }
 
 export const LoginForm = ({ isModalAuth, setModalAuth }: Props) => {
+
+    const params = useSearchParams();
+    const redirectTo = params.get('redirectTo')!;
 
     const closeAllMenus = useUiStore(state => state.closeAllMenus);
     const [errorMessage, setErrorMessage] = useState('');
@@ -42,7 +46,14 @@ export const LoginForm = ({ isModalAuth, setModalAuth }: Props) => {
         }
 
         setIsPending(false);
-        window.location.replace('/');
+
+        if (redirectTo) {
+            window.location.replace(redirectTo);
+        }
+        else {
+            window.location.replace('/');
+        }
+
     }
 
     return (

@@ -7,7 +7,7 @@ import { IoLogoFacebook, IoLogoInstagram } from "react-icons/io5";
 export const Footer = () => {
     return (
         <footer>
-            <div className="w-full p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-xs bg-primary text-white">
+            <div className="w-screen p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-xs bg-primary text-white">
                 <div className="pl-7 mt-10 sm:mt-5 sm:pl-20">
                     <h1 className="font-extrabold mb-5">CONTACTO</h1>
                     <p className="mb-3">Bogotá, Colombia</p>
