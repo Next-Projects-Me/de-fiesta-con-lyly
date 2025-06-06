@@ -1,55 +1,34 @@
-import { titleFont, paragraph } from "@/config/fonts";
+import { titleFont } from "@/config/fonts";
 import Image from "next/image";
-import { IoLocationSharp } from "react-icons/io5";
-import { RiWhatsappFill } from "react-icons/ri";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 export default function Home() {
     return (
-        <div className="grid grid-cols-1 w-screen md:grid-cols-2 bg-secondary">
+        <div className="grid sm:grid-cols-2 grid-cols-1 p-10 h-screen text-secondary">
+            <div className="flex flex-col items-center justify-center text-center">
+                <h1 className={`${titleFont.className} text-4xl font-bold mb-10`}>SITIO WEB EN CONSTRUCCIÓN</h1>
+                <p className="text-center text-2xl mb-10">
+                    Próximamente estará disponible nuestra página web dónde podrás conocer todos nuestros productos
+                    disponibles para tu celebración... Estamos felices de cada día crecer junto a ti...
+                    Gracias por tu apoyo
+                </p>
+                <div className="bg-white rounded-lg p-4 flex flex-col items-center justify-center">
+                    <p className={`${titleFont.className} text-2xl font-bold mb-4`}>CONTÁCTANOS</p>
+                    <div className="flex flex-row items-center justify-center text-xl">
+                        <IoLogoWhatsapp className="mr-2" />
+                        <p>3136406080 - 3173866890</p>
+                    </div>
+                    <div className="flex flex-row items-center justify-center text-xl">
+                        <FaLocationDot className="mr-2" />
+                        <p>CRA 58 #128 B - 34</p>
+                    </div>
 
-            <div className="flex justify-center justify-items-center items-center col-span-1 h-screen ">
-                <div className={`text-center text-primary`}>
-                    <div className={`${titleFont.className} font-bold text-4xl text-wrap`}>
-                        <p>SITIO WEB EN</p>
-                        <p>CONSTRUCCCIÓN</p>
-                    </div>
-                    <div className={`w-80 sm:w-auto my-10 px-3 text-2xl sm:px-6 sm:my-16`}>
-                        <p>
-                            Próximamente estará disponible nuestra página web dónde podrás conocer
-                            todos nuestros productos disponibles para tu celebración...
-                            Estamos felices de cada día crecer junto a ti... Gracias por tu apoyo
-                        </p>
-                    </div>
-                    <div className={`${paragraph.className} mx-auto flex justify-center items-center text-xl bg-white rounded-2xl w-80 h-36`}>
-                        <div>
-                            <h2 className={`${titleFont.className} font-bold text-2xl`}>
-                                CONTÁCTANOS
-                            </h2>
-                            <div className="flex justify-center items-center mt-2">
-                                <RiWhatsappFill className="w-6 h-6" />
-                                <span className="ml-2">
-                                    <p>3136406080 - 3173866890</p>
-                                </span>
-                            </div>
-
-                            <div className="flex justify-center items-center text-xl">
-                                <IoLocationSharp className="w-7 h-7" />
-                                <span className="ml-1">
-                                    <p>CRA 58 #128 B - 34</p>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div className="flex justify-center items-center col-span-1 h-screen bg-secondary">
-                <Image
-                    src="/imgs/logo_in_construction.png"
-                    width={550}
-                    height={550}
-                    alt="Imagen de una pinata de burrro y mensaje 'under construction' "
-                />
+            <div className="flex flex-col items-center justify-center mt-10">
+                <Image src="/images/logo_in_construction.png" alt="Logo" width={600} height={600} />
             </div>
-        </div >
+        </div>
     );
 }
