@@ -113,13 +113,16 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
             });
 
             // Validar si el valor es cero
-            // 3. Crear la dirección de la orden
-            const { cityId, departmentId, ...restAddress } = address;
+            // 3. Crear la dirección de la orden  
             const orderAddress = await tx.orderAddress.create({
                 data: {
-                    ...restAddress,
-                    cityId: parseInt(cityId.toString()),
-                    departmentId: departmentId,
+                    firstName: address.firstName,
+                    lastName: address.lastName,
+                    address: address.address,
+                    address2: address?.address2,
+                    phone: address.phone,
+                    cityId: parseInt(address.cityId.toString()),
+                    departmentId: address.departmentId,
                     orderId: order.id
                 }
             });

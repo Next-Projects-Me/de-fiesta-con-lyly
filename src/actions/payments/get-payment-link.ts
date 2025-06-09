@@ -16,7 +16,7 @@ export const getPaymentLink = async (orderId: string, amount: number) => {
             tip_amount: 0
         },
         expiration_date: getExpirationDate(),
-        // callback_url: "https://defiestaconlyly.com"
+        callback_url: redirectUrl
     }
 
     const apiBase = process.env.BOLD_API_BASE;
@@ -60,9 +60,9 @@ export const getPaymentLink = async (orderId: string, amount: number) => {
 }
 
 const getExpirationDate = () => {
-    let currentNanoseconds = Date.now() * 1e6;
-    let tenMinutesInNanoseconds = 10 * 60 * 1e9;
-    let futureNanoseconds = currentNanoseconds + tenMinutesInNanoseconds;
+    const currentNanoseconds = Date.now() * 1e6;
+    const tenMinutesInNanoseconds = 10 * 60 * 1e9;
+    const futureNanoseconds = currentNanoseconds + tenMinutesInNanoseconds;
 
     return futureNanoseconds;
 }

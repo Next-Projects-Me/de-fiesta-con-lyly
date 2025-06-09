@@ -60,7 +60,7 @@ export const ProductSlideshow = ({ images, title = "Titulo", className }: Props)
                         images?.map(image => (
                             <SwiperSlide key={image} className="flex justify-center">
                                 <Image
-                                    className="object-contain rounded"
+                                    className="object-contain rounded cursor-zoom-in"
                                     width={800}
                                     height={800}
                                     src={`/products/${image}`}

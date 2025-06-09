@@ -7,12 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "prisma generate",
     "seed": "ts-node src/seed/seed-database.ts"
   },
   "dependencies": {
     "@getbrevo/brevo": "^2.2.0",
     "@prisma/client": "^6.4.1",
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.6.1",
     "clsx": "^2.1.1",
     "jsonwebtoken": "^9.0.2",
     "next": "^15.1.8",

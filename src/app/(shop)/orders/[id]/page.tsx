@@ -21,8 +21,6 @@ export default async function OrdersByIdPage({ params }: Props) {
 
     const address = order?.OrderAddress;
 
-    // Todo: verificar
-    //Redirect(/)
 
     return (
         <div className="flex justify-center items-center mb-20 px-10 sm:px-0">

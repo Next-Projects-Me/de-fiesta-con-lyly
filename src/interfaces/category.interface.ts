@@ -1,11 +1,11 @@
-interface Category {
+export interface Category {
     id: number;
     icon: number;
     name: string;
     Subcategory: Subcategory[]
 }
 
-interface Subcategory {
+export interface Subcategory {
     id: number;
     name: string;
 }

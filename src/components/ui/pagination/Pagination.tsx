@@ -5,12 +5,13 @@ import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 import { generatePagination } from "@/utils/generatePaginationNumbers";
 import clsx from "clsx";
+import { Suspense } from "react";
 
 interface Props {
     totalPages: number;
 }
 
-export const Pagination = ({ totalPages }: Props) => {
+function LoadPagination({ totalPages }: Props) {
 
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -80,5 +81,13 @@ export const Pagination = ({ totalPages }: Props) => {
                 </ul>
             </nav>
         </div>
+    )
+}
+
+export const Pagination = ({ totalPages }: Props) => {
+    return (
+        <Suspense fallback={<div>Loading pagination...</div>}>
+            <LoadPagination totalPages={totalPages} />
+        </Suspense>
     )
 }

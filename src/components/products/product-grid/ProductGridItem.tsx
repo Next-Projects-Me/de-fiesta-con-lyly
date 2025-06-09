@@ -15,10 +15,10 @@ export const ProductGridItem = ({ product }: Props) => {
     const [displayImage, setDisplayImage] = useState(product.images[0]);
 
     return (
-        <div className='text-center rounded-md overflow-hidden fade-in p-3 hover:shadow-black-400 hover:shadow-2xl'>
+        <Link href={`/product/${product.slug}`}
+            className='text-center rounded-md overflow-hidden fade-in p-3 hover:shadow-black-400 hover:shadow-xl hover:cursor-pointer bg-white'>
 
-            <Link className='flex justify-center'
-                href={`/product/${product.slug}`}>
+            <div className='flex justify-center'>
                 <Image
                     src={`/products/${displayImage}`}
                     alt={product.title}
@@ -28,21 +28,23 @@ export const ProductGridItem = ({ product }: Props) => {
                     onMouseEnter={() => setDisplayImage(product.images[1])}
                     onMouseLeave={() => setDisplayImage(product.images[0])}
                 />
-            </Link>
+            </div>
 
 
             <div className='mt-3'>
-                <Link
-                    className='hover:text-primary'
-                    href={`/product/${product.slug}`} >
-                    {
+                <div className='hover:text-primary group'>
+                    <p className='truncate group-hover:whitespace-normal group-hover:overflow-visible group-hover:text-wrap transition-all duration-300'>
+                        {product.title}
+                    </p>
+
+                    {/* {
                         product.title.length > 23
                             ? product.title.substring(0, 23) + "..."
                             : product.title
-                    }
-                </Link>
+                    } */}
+                </div>
                 <p className='font-bold mt-2'>{currencyFormat(product.price)}</p>
             </div>
-        </div>
+        </Link>
     )
 }

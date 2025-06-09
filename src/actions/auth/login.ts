@@ -2,7 +2,6 @@
 
 import { signIn } from '@/auth.config';
 import { AuthError } from 'next-auth';
-import { stringify } from 'querystring';
 
 export async function authenticate(
     prevState: string | undefined,

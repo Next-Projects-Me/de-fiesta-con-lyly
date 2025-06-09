@@ -25,7 +25,7 @@
 } */
 
 body {
-  /* background: linear-gradient(
+  background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-start-rgb))
@@ -33,7 +33,7 @@ body {
     rgb(var(--background-end-rgb));
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-size: cover; */
+  background-size: cover;
 }
 
 @keyframes fadeIn {
@@ -82,4 +82,8 @@ body {
 
 .container-form {
   @apply col-start-1 col-span-2 sm:col-start-2;
+}
+
+.btn-danger {
+  @apply bg-red-500 hover:bg-red-700 text-white py-2 px-4 transition-all;
 }

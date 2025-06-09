@@ -5,10 +5,10 @@ import { ModalAuth } from "@/components/auth/modal-auth/ModalAuth";
 import { NavigationMenu } from "./ui/NavigationMenu";
 import { SearchMenu } from "./ui/SearchMenu";
 import { SocialMediaMenu } from "./ui/SocialMediaMenu";
-import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import { Category } from "@/interfaces/category.interface";
 
 interface Props {
     categories: Category[]
@@ -17,7 +17,7 @@ interface Props {
 
 export const TopMenu = ({ categories }: Props) => {
 
-    const [isScrolled, setIsScrolled] = useState(false);
+    // const [isScrolled, setIsScrolled] = useState(false);
 
     // useEffect(() => {
     //     const handleScroll = () => {
@@ -67,7 +67,7 @@ export const TopMenu = ({ categories }: Props) => {
 
                 <ModalAuth />
             </div>
-            <CategoriesMenu isScrolled={isScrolled} categories={categories} />
+            <CategoriesMenu categories={categories} />
         </nav>
     )
 }

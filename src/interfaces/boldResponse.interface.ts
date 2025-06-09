@@ -1,5 +1,6 @@
 export interface BoldResponse {
     payload: Payload;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     errors: any[];
 }
 

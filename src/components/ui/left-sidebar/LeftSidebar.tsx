@@ -14,7 +14,7 @@ import {
     IoShirtOutline,
     IoTicketOutline
 } from 'react-icons/io5';
-import { FaUser, FaUserCircle } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 
 export const LeftSidebar = () => {

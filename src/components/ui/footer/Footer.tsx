@@ -51,7 +51,7 @@ export const Footer = () => {
                 </div>
 
             </div>
-            <div className="flex justify-center items-center text-primary">
+            <div className="flex justify-center items-center text-primary bg-white">
                 <Image
                     className="m-2"
                     width={30}

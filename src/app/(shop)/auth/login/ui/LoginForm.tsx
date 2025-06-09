@@ -1,7 +1,7 @@
 "use client";
 
 import { login } from '@/actions/auth/login';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,7 +21,7 @@ interface Props {
     setModalAuth?: () => void;
 }
 
-export const LoginForm = ({ isModalAuth, setModalAuth }: Props) => {
+function LoadLoginForm({ isModalAuth, setModalAuth }: Props) {
 
     const params = useSearchParams();
     const redirectTo = params.get('redirectTo')!;
@@ -156,5 +156,14 @@ export const LoginForm = ({ isModalAuth, setModalAuth }: Props) => {
             }
 
         </form>
+    )
+}
+
+export const LoginForm = ({ isModalAuth, setModalAuth }: Props) => {
+
+    return (
+        <Suspense fallback={<div>Loading pagination...</div>}>
+            <LoadLoginForm isModalAuth={isModalAuth} setModalAuth={setModalAuth} />
+        </Suspense>
     )
 }

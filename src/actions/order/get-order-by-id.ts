@@ -46,11 +46,11 @@ export const getOrderById = async (id: string) => {
             }
         });
 
-        if (!order) throw `${id} no existe`;
+        if (!order) throw `orden #${id} no existe`;
 
-        if (session.user.roleId == 1) {
+        if (session.user.roleId !== 1) {
             if (session.user.id !== order.userId) {
-                throw `${id} no es de ese usuario`
+                throw `orden ${id} no es de ese usuario`
             }
         }
 

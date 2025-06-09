@@ -5,13 +5,14 @@ import { useEffect, useRef } from "react";
 import { useUiStore } from "@/store/ui/ui-store";
 import clsx from "clsx";
 import Link from "next/link";
+import { Category } from "@/interfaces/category.interface";
 
 interface Props {
-    isScrolled: Boolean;
+    // isScrolled: Boolean;
     categories: Category[];
 }
 
-export const CategoriesMenu = ({ isScrolled, categories }: Props) => {
+export const CategoriesMenu = ({ categories }: Props) => {
 
     const isNavMenuOpen = useUiStore(state => state.isNavMenuOpen);
     const closeNavMenu = useUiStore(store => store.closeNavMenu);

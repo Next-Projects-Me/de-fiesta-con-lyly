@@ -156,7 +156,7 @@ function ChangePassword() {
 
 export const ChangePasswordForm = () => {
     return (
-        <Suspense>
+        <Suspense fallback={<div>Loading pagination...</div>}>
             <ChangePassword />
         </Suspense>
     )

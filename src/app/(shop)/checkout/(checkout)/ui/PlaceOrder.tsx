@@ -36,8 +36,6 @@ export const PlaceOrder = () => {
             color: product?.color
         }));
 
-        console.log({ productsToOrder });
-
         const resp = await placeOrder(productsToOrder, address);
 
         if (!resp.ok) {

@@ -1,6 +1,7 @@
 export const revalidate = 0;
 
-import { getOrdersByUser } from '@/actions/order/get-orders-by-user';
+import { getPaginatedOrders } from '@/actions/order/get-paginated-orders';
+import { Pagination } from '@/components/ui/pagination/Pagination';
 import { Title } from '@/components/ui/title/Title';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -8,7 +9,7 @@ import { IoCardOutline } from 'react-icons/io5';
 
 export default async function OrdersPage() {
 
-    const { ok, orders = [] } = await getOrdersByUser();
+    const { ok, orders = [] } = await getPaginatedOrders();
 
     if (!ok) {
         redirect('/auth/login');
@@ -16,7 +17,7 @@ export default async function OrdersPage() {
 
     return (
         <>
-            <Title title="Orders" />
+            <Title title="Todas las Ordenes" />
 
             <div className="mb-10">
                 <table className="min-w-full">
@@ -73,6 +74,7 @@ export default async function OrdersPage() {
                     </tbody>
                 </table>
             </div>
+            <Pagination totalPages={1} />
         </>
     );
 }
