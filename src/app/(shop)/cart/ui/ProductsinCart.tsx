@@ -1,11 +1,11 @@
 'use client';
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cart/cart-store";
 import { QuantitySelector } from "@/components/product/quantity-selector/QuantitySelector";
 import { currencyFormat } from "@/utils/currencyFormat";
+import { ProductImage } from "@/components/product/product-image/ProductImage";
 
 export const ProductsinCart = () => {
 
@@ -23,19 +23,19 @@ export const ProductsinCart = () => {
     }
 
     return (
-        <>
+        <div className="border-interface p-5 mb-5">
             {
                 productsInCart.map(product => (
-                    <div key={`${product.slug}-${product.size}-${product.color}-${product.number}-${product.gender}`}
-                        className="flex border-b-2 border-gray-200 mb-5">
-                        <Image
-                            src={`/products/${product.image}`}
+                    <div key={`${product.slug}-${product.size}-${product.color}-${product.number}-${product.letter}-${product.gender}`}
+                        className="flex flex-col sm:flex-row items-center sm:items-start border-b-2 border-gray-200 mb-5">
+                        <ProductImage
+                            src={product.image}
                             alt={product.title}
-                            width={100}
-                            height={100}
-                            className="mr-5 rounded w-42 h-42"
+                            width={400}
+                            height={400}
+                            className="object-fill rounded w-full h-62 sm:w-42 sm:h-42 mb-5"
                         />
-                        <div className="">
+                        <div className="sm:ml-4 sm:mt-0 w-full sm:w-fit">
                             <Link className="hover:underline cursor-pointer font-bold"
                                 href={`/product/${product.slug}`}>
                                 {product.title}
@@ -56,7 +56,7 @@ export const ProductsinCart = () => {
                                     product.number && <p>Número: {product.number}</p>
                                 }
                                 {
-                                    product.number && <p>Letras: {product.number}</p>
+                                    product.letter && <p>Letras: {product.letter}</p>
                                 }
 
                             </div>
@@ -76,6 +76,6 @@ export const ProductsinCart = () => {
                     </div>
                 ))
             }
-        </>
+        </div>
     )
 }

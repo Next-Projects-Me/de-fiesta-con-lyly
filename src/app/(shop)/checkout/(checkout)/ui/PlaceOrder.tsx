@@ -1,67 +1,83 @@
 'use client';
 
-import clsx from 'clsx';
-import { SetStateAction, useEffect, useState } from 'react';
-import { useCartStore } from '@/store/cart/cart-store';
-import { useAddressStore } from '@/store/address/address-store';
 import { currencyFormat } from '@/utils/currencyFormat';
+import { LoadingSpinner } from '@/components/ui/loading-spinner/Loading';
 import { placeOrder } from '@/actions/order/place-order';
+import { toast, Toaster } from 'sonner';
+import { useAddressStore } from '@/store/address/address-store';
+import { useCartStore } from '@/store/cart/cart-store';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import clsx from 'clsx';
+import Link from 'next/link';
 
-export const PlaceOrder = () => {
+interface Props {
+    iva: number;
+    sending: number;
+}
+
+export const PlaceOrder = ({ iva, sending }: Props) => {
 
     const router = useRouter();
-    const [loaded, setLoaded] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [loadingPage, setLoadingPage] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
     const address = useAddressStore(state => state.address);
     const { getSummaryInformation } = useCartStore();
-    const { itemsInCart, subTotal, tax, total } = getSummaryInformation();
+    const { itemsInCart, subTotal, tax, total, sendingCost } = getSummaryInformation(iva, sending, address.city);
     const cart = useCartStore(state => state.cart);
     const clearCart = useCartStore(state => state.clearCart);
 
     useEffect(() => {
-        setLoaded(true);
+        setLoadingPage(true);
     }, []);
 
     const onPlaceOrder = async () => {
+
+        setLoading(true);
         setIsPlacingOrder(true);
 
         const productsToOrder = cart.map(product => ({
+            name: product.title,
             productId: product.id,
             quantity: product.quantity,
             size: product?.size,
             number: product?.number,
-            color: product?.color
+            color: product?.color,
+            letter: product?.letter
         }));
 
         const resp = await placeOrder(productsToOrder, address);
-
         if (!resp.ok) {
+            setLoading(false);
             setIsPlacingOrder(false);
-            setErrorMessage(resp.message as SetStateAction<string>);
+            toast.error(resp.message as string);
             return;
         }
 
         clearCart();
-        router.replace('/orders/' + resp.order?.id);
 
-        // await sleep(2);
+        toast.success(`Orden N°${resp.order?.code} ha sido creada correctamente`);
+
+        setTimeout(() => {
+            router.replace('/orders/' + resp.order?.code);
+        }, 2000);
     }
 
-    if (!loaded) {
-        return <p>Cargando...</p>
+    if (!loadingPage) {
+        return <LoadingSpinner />
     }
 
     return (
         <div className="">
+
             <h2 className="text-2xl mb-2">Dirección de entrega</h2>
             <div className="mb-10" >
                 <p className="text-2xl font-bold">{address.firstName} {address.lastName}</p>
                 <p>{address.address}</p>
                 <p>{address.address2}</p>
-                <p>{address.departmentId} - {address.cityId}</p>
+                <p>{address.city} - {address.department}</p>
                 <p>{address.phone}</p>
             </div>
 
@@ -78,40 +94,49 @@ export const PlaceOrder = () => {
                 <span>Subtotal</span>
                 <span className="text-right">{currencyFormat(subTotal)}</span>
 
-                <span>Impuestos (15%)</span>
+                <span>Impuestos ({iva * 100}%)</span>
                 <span className="text-right">{currencyFormat(tax)}</span>
 
-                <span className="mt-5 text-2xl">Total: </span>
-                <span className="mt-5 text-2xl text-right">{currencyFormat(total)}</span>
+                <span className="mt-5">Envío</span>
+                <span className="mt-5 text-right">{sendingCost > 0 ? currencyFormat(sendingCost) : "Gratis"}</span>
+                <span className="mt-1 text-2xl">Total: </span>
+                <span className="mt-1 text-2xl text-right">{currencyFormat(total)}</span>
             </div>
+
+            <Toaster richColors position='bottom-right' />
 
             <div className="mt-5 mb-2 w-full">
                 <p className="mb-5">
                     {/* Disclaimer */}
                     <span className="text-xs">
-                        Al hacer clic en &quot;Colocar orden&quot;, acepta nuestros <a href="#" className="underline">términos y condiciones</a> y <a href="#" className="underline">políticas de privacidad</a>
+                        Al hacer clic en &quot;Generar orden&quot;, acepta nuestros
+                        <Link href="/politics/terms" className="underline"> términos y condiciones</Link> y
+                        <Link href="/politics/data" className="underline"> políticas de tratamiento de datos</Link>
                     </span>
                 </p>
+
                 {
-                    errorMessage && (
-                        <p className='text-red-500'>{errorMessage}</p>
-                    )
+                    loading && <LoadingSpinner message='Generando orden...' />
                 }
 
-                <button
-                    // href="/orders/123"
-                    onClick={onPlaceOrder}
-                    className={
-                        clsx(
-                            'w-full cursor-pointer',
-                            {
-                                'btn-primary': !isPlacingOrder,
-                                'btn-disabled': isPlacingOrder
-                            })
-                    }
-                >
-                    Generar orden
-                </button>
+                {
+                    !loading &&
+                    <button
+                        // href="/orders/123"
+                        onClick={onPlaceOrder}
+                        className={
+                            clsx(
+                                'w-full cursor-pointer',
+                                {
+                                    'btn-primary': !isPlacingOrder,
+                                    'btn-disabled': isPlacingOrder
+                                })
+                        }
+                    >
+                        Generar orden
+                    </button>
+                }
+
             </div>
         </div>
     )

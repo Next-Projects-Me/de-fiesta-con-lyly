@@ -4,7 +4,6 @@ import { FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 import { Swiper as SwiperObject } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useState } from "react";
-import Image from "next/image";
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -13,6 +12,7 @@ import 'swiper/css/thumbs';
 import 'swiper/css/zoom';
 import './slideshow.css';
 import { ImageModal } from "./ui/ImageModal";
+import { ProductImage } from "../product-image/ProductImage";
 
 interface Props {
     images?: string[];
@@ -59,11 +59,11 @@ export const ProductSlideshow = ({ images, title = "Titulo", className }: Props)
                     {
                         images?.map(image => (
                             <SwiperSlide key={image} className="flex justify-center">
-                                <Image
+                                <ProductImage
                                     className="object-contain rounded cursor-zoom-in"
                                     width={800}
                                     height={800}
-                                    src={`/products/${image}`}
+                                    src={image}
                                     alt={title}
                                     onClick={() => handleImageClick(image)}
                                 />
@@ -86,11 +86,11 @@ export const ProductSlideshow = ({ images, title = "Titulo", className }: Props)
                     {
                         images?.map(image => (
                             <SwiperSlide key={image}>
-                                <Image
+                                <ProductImage
                                     className="rounded-lg object-fill"
                                     width={900}
                                     height={900}
-                                    src={`/products/${image}`}
+                                    src={image}
                                     alt={title} />
                             </SwiperSlide>
                         ))

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #e72755;
+  --primary: #f43f5e;
   --secondary: #c80633;
   --foreground-rgb: 0, 0, 0;
   /* --background-start-rgb: 214, 219, 220;
@@ -25,7 +25,7 @@
 } */
 
 body {
-  background: linear-gradient(
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-start-rgb))
@@ -33,7 +33,7 @@ body {
     rgb(var(--background-end-rgb));
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
 }
 
 @keyframes fadeIn {
@@ -64,8 +64,12 @@ body {
   animation-name: fadeIn;
 }
 
+.border-interface {
+  @apply rounded-xl shadow-lg shadow-purple-500 border-2 border-purple-200;
+}
+
 .btn-primary {
-  @apply bg-primary hover:bg-secondary text-white py-2 px-4 rounded transition-all;
+  @apply bg-primary hover:bg-secondary text-white py-2 px-4 rounded transition-all cursor-pointer;
 }
 
 .btn-secondary {
@@ -77,13 +81,13 @@ body {
 }
 
 .container-page-form {
-  @apply grid grid-cols-1 sm:grid-cols-4 my-10 mt-14 px-5;
+  @apply flex justify-center my-10 mt-14 px-5;
 }
 
 .container-form {
-  @apply col-start-1 col-span-2 sm:col-start-2;
+  @apply w-full sm:w-90 sm:col-start-2;
 }
 
 .btn-danger {
-  @apply bg-red-500 hover:bg-red-700 text-white py-2 px-4 transition-all;
+  @apply bg-primary hover:bg-primary text-white py-2 px-4 transition-all;
 }

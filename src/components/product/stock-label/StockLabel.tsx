@@ -1,22 +1,22 @@
 'use client';
 
-import { getStockBySlug } from "@/actions/product/get-stock-by-slug";
+import { getStockById } from "@/actions/product/get-stock-by-id";
 import { useCallback, useEffect, useState } from "react";
 
 interface Props {
-    slug?: string;
+    id?: number;
 }
 
-export const StockLabel = ({ slug }: Props) => {
+export const StockLabel = ({ id }: Props) => {
 
     const [stock, setStock] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
 
     const getStock = useCallback(async () => {
-        const inStock = await getStockBySlug(slug);
+        const inStock = await getStockById(id);
         setStock(inStock);
         setIsLoading(false);
-    }, [slug])
+    }, [id])
 
     useEffect(() => {
         getStock();

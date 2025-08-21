@@ -1,10 +1,10 @@
 import { getProductBySlug } from "@/actions/product/get-product-by-slug";
 import { Title } from "@/components/ui/title/Title";
 import { redirect } from "next/navigation";
-import { ProductForm } from "./ui/ProductForm";
-import { getSubcategories } from "@/actions/categories/get-subcategories";
+import { AdminProductForm } from "./ui/AdminProductForm";
 import { getColors } from "@/actions/features/get-colors";
 import { getSizes } from "@/actions/features/get-sizes";
+import { getActiveSubcategories } from "@/actions/categories/get-active-subcategories";
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -16,7 +16,7 @@ export default async function ProductPage({ params }: Props) {
 
     const [product, subcategories, sizes, colors] = await Promise.all([
         getProductBySlug(slug),
-        getSubcategories(),
+        getActiveSubcategories(),
         getSizes(),
         getColors(),
     ]);
@@ -30,12 +30,12 @@ export default async function ProductPage({ params }: Props) {
 
     return (
         <>
-            <Title title={title} />
-            <ProductForm
+            <Title title={title} className="ml-5 sm:ml-0" />
+            <AdminProductForm
                 product={product ?? {}}
                 subcategories={subcategories}
-                sizes={sizes}
-                colors={colors}
+                sizes={sizes!}
+                colors={colors!}
             />
         </>
     );

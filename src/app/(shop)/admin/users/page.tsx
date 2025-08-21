@@ -1,26 +1,22 @@
 export const revalidate = 0;
 
 import { Title } from '@/components/ui/title/Title';
-import { redirect } from 'next/navigation';
-import { UsersTable } from './ui/UsersTable';
-import { getPaginatedUsers } from '@/actions/users/get-paginated-users';
-import { Pagination } from '@/components/ui/pagination/Pagination';
+import { AdminUsersCard } from './ui/AdminUsersCard';
 
-export default async function UsersPage() {
+interface Props {
+    searchParams: Promise<{ page?: string }>
+}
 
-    const { ok, users = [] } = await getPaginatedUsers();
+export default async function UsersPage({ searchParams }: Props) {
 
-    if (!ok) {
-        redirect('/auth/login');
-    }
+    const pageParam = (await searchParams).page;
+    const page = pageParam ? parseInt(pageParam) : 1;
 
     return (
         <>
-            <Title title="Todas los usuarios" />
-
+            <Title title="Todos los usuarios" className="ml-5 sm:ml-0" />
             <div className="mb-10">
-                <UsersTable users={users} />
-                <Pagination totalPages={1} />
+                <AdminUsersCard page={page} />
             </div>
         </>
     );

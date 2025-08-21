@@ -1,10 +1,9 @@
 export const revalidate = 60;
 
-import { redirect } from "next/navigation";
-import { getPaginatedProductsWithImages } from "@/actions/product/product-pagination";
-import { Pagination } from "@/components/ui/pagination/Pagination";
 import { ProductGrid } from "@/components/products/product-grid/ProductGrid";
 import { Title } from "@/components/ui/title/Title";
+import { getAllProductsWithImages } from "@/actions/product/get-all-products-with-images";
+import { Pagination } from "@/components/ui/pagination/Pagination";
 
 interface Props {
     params: Promise<{ subcategoryId: number }>
@@ -17,25 +16,23 @@ export default async function SubcategoriesPage({ params, searchParams }: Props)
     const pageParam = (await searchParams).page;
     const page = pageParam ? parseInt(pageParam) : 1;
 
-    const { products, totalPages } = await getPaginatedProductsWithImages({ page, subcategoryId });
-
-    if (products.length === 0) {
-        redirect(`/category/${products[0].subcategoryId}`);
-    }
+    const { products, totalPages } = await getAllProductsWithImages(
+        { page, subcategory: subcategoryId, isAdminPage: false }
+    );
 
     return (
         <div>
             <Title
-                title={`${products[0].subcategory} `}
+                title={`${products![0].subcategory} `}
                 subtitle="Todos los productos"
-                className="mb-2"
+                className="mb-2 ml-5 mt-7 sm:ml-0"
             />
 
             <ProductGrid
-                products={products}
+                products={products!}
             />
 
-            <Pagination totalPages={totalPages} />
+            <Pagination totalPages={totalPages!} />
         </div>
     );
 }

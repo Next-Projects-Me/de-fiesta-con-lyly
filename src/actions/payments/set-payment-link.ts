@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 
-export const setPaymentLink = async (orderId: string, paymentLink: string) => {
+export const setPaymentLink = async (orderId: number, paymentLink: string) => {
 
     try {
 

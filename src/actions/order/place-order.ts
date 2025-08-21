@@ -1,15 +1,20 @@
 'use server';
 
 import { auth } from "@/auth.config";
+import { getIvaPercent } from "../costs/get-iva-percent";
+import { getSendingCost } from "../costs/get-sending-price";
+import { getStockById } from "../product/get-stock-by-id";
 import prisma from "@/lib/prisma";
 import type { Address } from "@/interfaces/address.interface";
 
 interface ProductToOrder {
-    productId: string;
+    name: string;
+    productId: number;
     quantity: number;
     size?: string;
     color?: string;
     number?: string;
+    letter?: string;
 }
 
 export const placeOrder = async (productsIds: ProductToOrder[], address: Address) => {
@@ -32,7 +37,18 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
         }
     });
 
+    for (const product of productsIds) {
+        const inStock = await getStockById(product.productId);
+        if (inStock === 0) {
+            return {
+                ok: false,
+                message: `Ya no hay unidades disponibles del producto ${product.name}`,
+            };
+        }
+    }
+
     const itemsInOrder = productsIds.reduce((count, p) => count + p.quantity, 0);
+    const iva = await getIvaPercent();
 
     const { subTotal, tax, total } = productsIds.reduce((totals, item) => {
 
@@ -46,12 +62,11 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
         const subTotal = product.price * productQuantity;
 
         totals.subTotal += subTotal;
-        totals.tax += subTotal * 0.15;
-        totals.total += subTotal * 1.15;
-
+        totals.tax += subTotal * iva;
+        totals.total += (subTotal * (iva + 1));
         return totals;
 
-    }, { subTotal: 0, tax: 0, total: 0 })
+    }, { subTotal: 0, tax: 0, total: 0 });
 
     try {
 
@@ -88,13 +103,25 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
             });
 
             // 2. Crear la orden - Encabezado.
+            const bogotaCity = await tx.city.findFirst({
+                where: { name: "Bogotá" },
+                select: { id: true }
+            });
+
+            let sendingCost = await getSendingCost();
+            if (address.cityId == bogotaCity?.id) {
+                sendingCost = (subTotal > 70000) ? 0 : sendingCost;
+            }
+
             const order = await tx.order.create({
                 data: {
+                    code: "",
                     userId: userId,
                     itemsInOrder: itemsInOrder,
                     subTotal: subTotal,
                     tax: tax,
-                    total: total,
+                    sendingCost: sendingCost!,
+                    total: total + sendingCost!,
                     OrderItem: {
                         createMany: {
                             data: productsIds.map((p) => ({
@@ -102,6 +129,7 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
                                 sizes: p.size,
                                 numbers: p.number,
                                 colors: p.color,
+                                letters: p.letter,
                                 productId: p.productId,
                                 price:
                                     products.find((product) => product.id === p.productId)
@@ -110,6 +138,13 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
                         },
                     },
                 },
+            });
+
+            // 2.1. Actualizar código
+            const generatedCode = `ORD-${new Date().getFullYear()}-${String(order.id).padStart(6, "0")}`
+            await tx.order.update({
+                where: { id: order.id },
+                data: { code: generatedCode }
             });
 
             // Validar si el valor es cero
@@ -121,14 +156,15 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
                     address: address.address,
                     address2: address?.address2,
                     phone: address.phone,
+                    document: address.document,
                     cityId: parseInt(address.cityId.toString()),
-                    departmentId: address.departmentId,
+                    departmentId: parseInt(address.departmentId.toString()),
                     orderId: order.id
                 }
             });
 
             return {
-                order: order,
+                order: { ...order, code: generatedCode },
                 orderAddress: orderAddress,
                 updatedProducts: [],
             }
@@ -141,10 +177,17 @@ export const placeOrder = async (productsIds: ProductToOrder[], address: Address
         }
 
     } catch (error) {
-        console.log(error);
+        if (error instanceof Error) {
+            console.log(error.message);
+            return {
+                ok: false,
+                message: error.message
+            };
+        }
+
         return {
             ok: false,
-            message: error,
-        }
+            message: 'Ha ocurrido un error inesperado',
+        };
     }
 }

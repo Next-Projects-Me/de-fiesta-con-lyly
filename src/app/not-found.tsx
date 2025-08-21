@@ -1,8 +1,8 @@
-import { NotFoundPage } from "@/components/ui/not-found/NotFoundPage";
+import { NotFoundGeneral } from "@/components/ui/not-found/NotFoundGeneral";
 
-export default function NotFoundGeneralPage() {
+export default function NotFoundPage() {
 
     return (
-        <NotFoundPage />
+        <NotFoundGeneral />
     );
 }

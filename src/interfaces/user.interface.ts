@@ -5,5 +5,6 @@ export interface User {
     emailVerified?: Date | null;
     password: string;
     roleId: number;
+    isActive: boolean;
     image?: string | null;
 }

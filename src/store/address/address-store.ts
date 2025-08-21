@@ -7,9 +7,12 @@ interface State {
         lastName: string;
         address: string;
         address2?: string;
-        departmentId: string;
+        department: string;
+        departmentId: number;
+        city: string;
         cityId: number;
         phone: string;
+        document: string;
     }
 
     // Methods 
@@ -26,9 +29,12 @@ export const useAddressStore = create<State>()(
                 lastName: '',
                 address: '',
                 address2: '',
-                departmentId: '',
+                department: '',
+                departmentId: 0,
+                city: '',
                 cityId: 0,
-                phone: ''
+                phone: '',
+                document: '',
             },
             setAddress: (address) => {
                 set({ address });

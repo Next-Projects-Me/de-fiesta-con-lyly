@@ -19,6 +19,11 @@
   background-position: center;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+  color: #e72755 !important; /* lime-500 */
+}
+
 .mySwiper {
   box-sizing: border-box;
   padding: 10px 0;

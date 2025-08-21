@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 
-export const BoldCheckPayment = async (orderId: string) => {
+export const BoldCheckPayment = async (orderId: number) => {
 
     const order = await prisma.order.findUnique({
         where: { id: orderId },
@@ -32,7 +32,7 @@ export const BoldCheckPayment = async (orderId: string) => {
     if (status !== 'PAID') {
         return {
             ok: false,
-            message: 'Aún no se ha pagado en PayPal'
+            message: 'Aún no se ha pagado en Bold'
         }
     }
 
@@ -47,6 +47,11 @@ export const BoldCheckPayment = async (orderId: string) => {
         })
 
         revalidatePath(`/orders/${orderId}`)
+
+        return {
+            ok: true,
+            message: 'Orden actualizada con éxito'
+        }
 
     } catch (error) {
         console.log(error);

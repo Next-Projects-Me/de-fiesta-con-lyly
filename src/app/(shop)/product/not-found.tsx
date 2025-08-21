@@ -1,8 +1,8 @@
-import { NotFoundPage } from "@/components/ui/not-found/NotFoundPage";
+import { NotFoundProduct } from "@/components/ui/not-found/NotFoundProduct";
 
 export default function NotFoundProductPage() {
 
     return (
-        <NotFoundPage />
+        <NotFoundProduct />
     );
 }

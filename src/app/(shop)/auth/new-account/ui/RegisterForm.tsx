@@ -3,7 +3,6 @@
 import { login } from '@/actions/auth/login';
 import { registerUser } from '@/actions/auth/register';
 import clsx from 'clsx';
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -117,7 +116,9 @@ export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
 
             <p className="my-5">
                 <span className="text-xs">
-                    Al hacer clic en &quot;Crear cuenta&quot;, acepta nuestros <a href="#" className="underline">términos y condiciones</a> y <a href="#" className="underline">políticas de privacidad</a>
+                    Al hacer clic en &quot;Crear cuenta&quot;, acepta nuestros
+                    <Link href="/politics/terms" className="underline"> términos y condiciones</Link> y
+                    <Link href="/politics/data" className="underline"> políticas de tratamiento de datos</Link>
                 </span>
             </p>
 
@@ -129,7 +130,7 @@ export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
                 }
                 className={
                     clsx(
-                        "cursor-pointer",
+                        "cursor-pointer mb-5",
                         {
                             "btn-primary": !isPending,
                             "btn-disabled": isPending
@@ -139,7 +140,7 @@ export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
             </button>
 
             {/* divisor line */}
-            <div className="flex items-center my-5">
+            {/* <div className="flex items-center my-5">
                 <div className="flex-1 border-t border-gray-500"></div>
                 <Image
                     src="/imgs/Pinata-burrito.png"
@@ -149,7 +150,7 @@ export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
                     className='mx-10'
                 />
                 <div className="flex-1 border-t border-gray-500"></div>
-            </div>
+            </div> */}
 
             {
                 !isModalAuth
@@ -168,8 +169,6 @@ export const RegisterForm = ({ isModalAuth, setModalAuth }: Props) => {
                         </button>
                     )
             }
-
-
         </form>
     )
 }

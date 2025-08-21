@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nueva orden recibida</title>
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    "
+  >
+    <table
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="
+        max-width: 600px;
+        margin: auto;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+      "
+    >
+      <!-- Logo -->
+      <tr>
+        <td style="text-align: center; padding: 20px">
+          <img
+            src="https://res.cloudinary.com/depyadmyc/image/upload/v1751682257/Logo_redondo_sin_fondo_dsvf9y.png"
+            alt="Logo de la empresa"
+            style="max-width: 180px; height: auto"
+          />
+        </td>
+      </tr>
+
+      <!-- Encabezado -->
+      <tr>
+        <td
+          style="
+            text-align: center;
+            background-color: #f43f5e;
+            color: white;
+            padding: 30px;
+          "
+        >
+          <h1 style="margin: 0">📦 Nueva orden recibida</h1>
+          <p style="font-size: 16px; margin-top: 10px">
+            Se ha registrado una nueva compra en la tienda.
+          </p>
+        </td>
+      </tr>
+
+      <!-- Detalles de la orden -->
+      <tr>
+        <td style="padding: 30px; color: #333">
+          <p style="font-size: 16px">Detalles de la orden:</p>
+          <ul style="list-style: none; padding-left: 0; font-size: 14px">
+            <li><strong>Número de orden:</strong> #{{order_number}}</li>
+            <li><strong>Número de documento:</strong> {{customer_document}}</li>
+            <li><strong>Nombre del cliente:</strong> {{customer_name}}</li>
+            <li><strong>Email del cliente:</strong> {{customer_email}}</li>
+            <li><strong>Fecha de compra:</strong> {{order_date}}</li>
+            <li><strong>Total de la orden:</strong> {{order_total}}</li>
+          </ul>
+          <p style="margin-top: 20px">
+            Puedes revisar más información desde el panel administrativo.
+          </p>
+          <div style="text-align: center">
+            <a
+              href="{{order_link}}"
+              style="
+                display: inline-block;
+                background: #f43f5e;
+                color: white;
+                padding: 12px 24px;
+                text-decoration: none;
+                border-radius: 6px;
+                margin-top: 15px;
+                font-weight: bold;
+              "
+              >Ver orden</a
+            >
+          </div>
+        </td>
+      </tr>
+
+      <!-- Footer -->
+      <tr>
+        <td
+          style="
+            padding: 30px;
+            background: #f0f0f0;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+          "
+        >
+          Este correo es solo informativo. No responder directamente.<br />
+          © 2025 TuTienda. Todos los derechos reservados.
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

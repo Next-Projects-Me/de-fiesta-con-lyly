@@ -5,7 +5,7 @@ import { persist } from "zustand/middleware";
 interface State {
     cart: CartProduct[];
     getTotalItems: () => number;
-    getSummaryInformation: () => SummaryInformation;
+    getSummaryInformation: (iva: number, sending: number, city?: string) => SummaryInformation;
     addProductToCart: (product: CartProduct) => void;
     updateProductQuantity: (product: CartProduct, quantity: number) => void;
     removeProduct: (product: CartProduct) => void;
@@ -23,18 +23,23 @@ export const useCartStore = create<State>()(
                 const { cart } = get();
                 return cart.reduce((total, item) => total + item.quantity, 0);
             },
-            getSummaryInformation: () => {
+            getSummaryInformation: (iva: number, sending: number, city?: string) => {
                 const { cart } = get();
                 const subTotal = cart.reduce(
                     (subTotal, product) => (product.quantity * product.price) + subTotal, 0
                 );
 
-                const tax = subTotal * 0.15;
-                const total = subTotal + tax;
+                let sendingCost = sending;
+                if (city?.includes("Bogotá")) {
+                    sendingCost = (subTotal > 70000) ? 0 : sendingCost;
+                }
+
+                const tax = subTotal * iva;
+                const total = subTotal + tax + sendingCost;
                 const itemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
                 return {
-                    subTotal, tax, total, itemsInCart
+                    subTotal, tax, total, sendingCost, itemsInCart
                 }
 
             },
@@ -48,6 +53,7 @@ export const useCartStore = create<State>()(
                         && item.size === product.size
                         && item.color === product.color
                         && item.number === product.number
+                        && item.letter === product.letter
                 );
 
                 if (!productInCart) {
@@ -62,6 +68,7 @@ export const useCartStore = create<State>()(
                         && item.size === product.size
                         && item.color === product.color
                         && item.number === product.number
+                        && item.letter === product.letter
                     ) {
                         return { ...item, quantity: item.quantity + product.quantity }
                     }
@@ -80,6 +87,7 @@ export const useCartStore = create<State>()(
                         && item.size === product.size
                         && item.color === product.color
                         && item.number === product.number
+                        && item.letter === product.letter
                     ) {
                         return { ...item, quantity: quantity }
                     }
@@ -98,6 +106,7 @@ export const useCartStore = create<State>()(
                     || item.size !== product.size
                     || item.color !== product.color
                     || item.number !== product.number
+                    || item.letter !== product.letter
                 );
 
                 set({ cart: removeCartProduct });

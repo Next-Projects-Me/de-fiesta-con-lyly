@@ -39,8 +39,8 @@ export default async function ProductBySlugPage({ params }: Props) {
     }
 
     return (
-        <div className="sm:mt-15 mb-20 flex flex-col justify-center lg:flex-row gap-3">
-            <div className="col-span-2">
+        <div className="sm:mt-20 mb-20 flex flex-col justify-center lg:flex-row gap-3">
+            <div className="">
 
                 <ProductMobileSlideshow
                     title={product?.title}
@@ -58,7 +58,7 @@ export default async function ProductBySlugPage({ params }: Props) {
 
             <div className="px-5">
 
-                <StockLabel slug={product?.slug ?? ''} />
+                <StockLabel id={product?.id ?? 0} />
 
                 <h1 className={`antialiased font-bold text-xl`}>
                     {product?.title}
@@ -67,9 +67,9 @@ export default async function ProductBySlugPage({ params }: Props) {
 
                 <AddToCar product={product!} />
 
-                <h3 className="font-bold text-sm">
+                <p className="font-bold text-sm">
                     Descripción
-                </h3>
+                </p>
                 <p className="font-light">
                     {product?.description}
                 </p>

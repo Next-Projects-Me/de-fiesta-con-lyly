@@ -6,8 +6,6 @@ import { revalidatePath } from "next/cache";
 
 export const changeUserRole = async (userId: string, roleId: number) => {
 
-    console.log(roleId)
-
     const session = await auth();
 
     if (session?.user.roleId !== 1) {

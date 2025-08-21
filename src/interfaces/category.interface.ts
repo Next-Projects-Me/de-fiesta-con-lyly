@@ -8,4 +8,5 @@ export interface Category {
 export interface Subcategory {
     id: number;
     name: string;
+    isActive?: boolean;
 }

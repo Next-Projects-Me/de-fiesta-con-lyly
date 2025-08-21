@@ -7,7 +7,7 @@ export const getCitiesByDepartment = async (departmentId: string) => {
     try {
         const cities = await prisma.city.findMany({
             where: {
-                departmentId: departmentId
+                departmentId: parseInt(departmentId)
             },
             orderBy: {
                 name: 'asc'

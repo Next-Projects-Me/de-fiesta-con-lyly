@@ -1,6 +1,6 @@
 'use server';
 
-import { sendEmail } from "@/lib/brevo";
+import { sendEmailToResetPassword } from "@/lib/brevo";
 import prisma from "@/lib/prisma";
 import bcryptjs from 'bcryptjs';
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
@@ -37,7 +37,7 @@ export const recoveryPassword = async (email: string) => {
             link: link
         }
 
-        sendEmail(userCrypt);
+        sendEmailToResetPassword(userCrypt);
 
         return {
             ok: true,

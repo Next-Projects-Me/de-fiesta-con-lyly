@@ -1,6 +1,11 @@
+import { getUserAddress } from "@/actions/address/get-user-address";
 import { auth } from "@/auth.config";
-import { Title } from "@/components/ui/title/Title";
 import { redirect } from "next/navigation";
+import { ProfileAddressForm } from "./ui/ProfileAddressForm";
+import { getDepartments } from "@/actions/departments/get-departments";
+import { getCities } from "@/actions/cities/get-cities";
+import { ProfileInformation } from "./ui/ProfileInformation";
+import { Toaster } from "sonner";
 
 export default async function ProfilePage() {
 
@@ -10,15 +15,15 @@ export default async function ProfilePage() {
         redirect('/')
     }
 
+    const address = await getUserAddress(session.user.id) ?? undefined;
+    const departments = await getDepartments();
+    const cities = await getCities();
+
     return (
         <div>
-            <Title title="Perfil" />
-            <pre>
-                {
-                    JSON.stringify(session.user, null, 2)
-                }
-            </pre>
-            <h3 className="text-3xl mb-10">Rol: {session.user.roleId}</h3>
+            <Toaster richColors position="bottom-right" />
+            <ProfileInformation fullname={session.user.name} email={session.user.email} />
+            <ProfileAddressForm address={address!} departments={departments} cities={cities} />
         </div>
     );
 }

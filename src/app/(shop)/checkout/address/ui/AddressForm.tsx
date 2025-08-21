@@ -1,35 +1,36 @@
 'use client';
 
 import { Address } from "@/interfaces/address.interface";
+import { CheckBox } from "@/components/ui/checkbox/CheckBox";
 import { City } from "@/interfaces/cities.interface";
 import { Controller, useForm } from "react-hook-form";
-import { deleteUserAddress } from "@/actions/address/delete-user-address";
 import { Department } from "@/interfaces/departments.interface";
 import { setUserAddress } from "@/actions/address/set-user-address";
 import { useAddressStore } from "@/store/address/address-store";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import clsx from "clsx";
+import Link from "next/link";
 
 type FormInputs = {
     firstName: string;
     lastName: string;
     address: string;
     address2?: string;
-    departmentId: string;
+    departmentId: number;
     cityId: number;
     phone: string;
+    document: string;
     rememberAddress: boolean;
 }
 
 interface Props {
     departments: Department[];
     cities: City[];
-    userStoredAddress?: Partial<Address>;
+    userAddress?: Partial<Address>;
 }
 
-export const AddressForm = ({ departments, cities, userStoredAddress = {} }: Props) => {
+export const AddressForm = ({ departments, cities, userAddress: userAddress = {} }: Props) => {
 
     const router = useRouter();
 
@@ -37,34 +38,29 @@ export const AddressForm = ({ departments, cities, userStoredAddress = {} }: Pro
     const address = useAddressStore(state => state.address);
 
     const { control, watch, handleSubmit, register, formState: { isValid }, reset } = useForm<FormInputs>({
-        defaultValues: {
-            ...(userStoredAddress as Partial<Address>),
-            rememberAddress: false,
-        }
+        defaultValues: userAddress,
     });
 
-    const { data: session } = useSession({
-        required: true,
-    });
-
-    const selectedDepartment = watch('departmentId', '');
+    const selectedDepartment = watch('departmentId', 0);
 
     useEffect(() => {
-        if (address.firstName) {
-            reset(address);
+        if (userAddress.firstName) {
+            reset(userAddress);
         }
 
-    }, [address, reset]);
+    }, [userAddress, reset]);
 
     const onSubmit = async (data: FormInputs) => {
 
         const { rememberAddress, ...restAddress } = data;
-        setAddress(restAddress);
+
+        const department = departments.findLast(dep => dep.id == restAddress.departmentId);
+        const city = cities.findLast(city => city.id == restAddress.cityId);
+
+        setAddress({ ...restAddress, department: department!.name, city: city!.name });
 
         if (rememberAddress) {
-            await setUserAddress(restAddress, session!.user.id)
-        } else {
-            await deleteUserAddress(session!.user.id)
+            await setUserAddress(restAddress)
         }
 
         router.push('/checkout')
@@ -136,11 +132,11 @@ export const AddressForm = ({ departments, cities, userStoredAddress = {} }: Pro
                             {
                                 selectedDepartment
                                     ?
-                                    cities.filter(city => city.departmentId === selectedDepartment).map(city => (
+                                    cities.filter(city => city.departmentId == selectedDepartment).map(city => (
                                         <option key={city.id} value={city.id}>{city.name}</option>
                                     ))
                                     :
-                                    cities.filter(city => city.departmentId === address.departmentId).map(city => (
+                                    cities.filter(city => city.departmentId == address.departmentId).map(city => (
                                         <option key={city.id} value={city.id}>{city.name}</option>
                                     ))
                             }
@@ -152,58 +148,59 @@ export const AddressForm = ({ departments, cities, userStoredAddress = {} }: Pro
             <div className="flex flex-col mb-2">
                 <span>Teléfono</span>
                 <input
-                    type="text"
+                    type="number"
                     className="p-2 border rounded-md bg-gray-200" {...register('phone', { required: true })}
                 />
             </div>
-
-            <div className="col-start-1 flex flex-col mb-2 sm:mt-5">
-
-                <div className="inline-flex items-center mb-10">
-                    <label
-                        className="relative flex cursor-pointer items-center rounded-full p-3"
-                        htmlFor="checkbox"
-                    >
-                        <input
-                            type="checkbox"
-                            className="border-gray-500 before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500 hover:before:opacity-10"
-                            id="checkbox"
-                            {...register('rememberAddress')}
-                        />
-                        <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-3.5 w-3.5"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                stroke="currentColor"
-                                strokeWidth="1"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                    clipRule="evenodd"
-                                ></path>
-                            </svg>
-                        </div>
-                    </label>
-                    <span>¿Recordar dirección?</span>
-                </div>
-                <button
-                    disabled={!isValid}
-                    type="submit"
-                    className={
-                        clsx(
-                            'cursor-pointer',
-                            {
-                                'btn-primary': isValid,
-                                'btn-disabled': !isValid,
-                            }
-                        )
-                    }
+            <div className="flex flex-col mb-2">
+                <span>Documento (Solo para facturación)</span>
+                <input
+                    type="number"
+                    className="p-2 border rounded-md bg-gray-200" {...register('document', { required: true })}
+                />
+            </div>
+            <div className="flex items-center col-start-1">
+                <label
+                    className="relative flex cursor-pointer items-center rounded-full"
+                    htmlFor="checkbox"
                 >
-                    Siguiente
-                </button>
+                    <Controller
+                        name="rememberAddress"
+                        control={control}
+                        defaultValue={false}
+                        render={({ field }) => (
+                            <CheckBox
+                                isChecked={field.value}
+                                onChange={field.onChange}
+                            />
+                        )}
+                    />
+                </label>
+                <span>¿Recordar esta dirección?</span>
+            </div>
+            <div className="flex md:flex-col mb-2 col-start-1">
+                <div>
+                    <Link href="/checkout/other-address" >
+                        <button type="button" className="btn-primary mr-3 mb-5">
+                            Enviar a otra dirección
+                        </button>
+                    </Link>
+                    <button
+                        disabled={!isValid}
+                        type="submit"
+                        className={
+                            clsx(
+                                'cursor-pointer',
+                                {
+                                    'btn-primary': isValid,
+                                    'btn-disabled': !isValid,
+                                }
+                            )
+                        }
+                    >
+                        Siguiente
+                    </button>
+                </div>
             </div>
         </form>
     )

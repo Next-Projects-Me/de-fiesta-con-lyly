@@ -1,13 +1,25 @@
 'use server';
 
-import type { Address } from "@/interfaces/address.interface";
+import { auth } from "@/auth.config";
+import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
+import type { Address } from "@/interfaces/address.interface";
 
-export const setUserAddress = async (address: Address, userId: string) => {
+export const setUserAddress = async (address: Address) => {
 
     try {
 
-        const newAddress = await createOrReplaceAddress(address, userId);
+        const session = await auth();
+        if (!session?.user) {
+            return {
+                ok: false,
+                message: 'Debe estar autenticado'
+            }
+        }
+
+        const newAddress = await createOrReplaceAddress(address, session.user.id);
+
+        revalidatePath('/profile');
 
         return {
             ok: true,
@@ -24,9 +36,8 @@ export const setUserAddress = async (address: Address, userId: string) => {
 }
 
 const createOrReplaceAddress = async (address: Address, userId: string) => {
+
     try {
-
-
         const storeAddress = await prisma.userAddress.findUnique({
             where: { userId }
         });
@@ -34,11 +45,12 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
         const addressToSave = {
             address: address.address,
             address2: address.address2,
-            departmentId: address.departmentId,
+            departmentId: parseInt(address.departmentId.toString()),
             cityId: parseInt(address.cityId.toString()),
             firstName: address.firstName,
             lastName: address.lastName,
             phone: address.phone,
+            document: address.document
         }
 
         if (!storeAddress) {

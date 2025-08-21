@@ -47,17 +47,17 @@ export const authConfig: NextAuthConfig = {
             },
         }),
     ],
-    cookies: {
-        sessionToken: {
-            name: `__Secure-next-auth.session-token`,
-            options: {
-                httpOnly: true,
-                sameSite: 'lax', // o 'none' si usas HTTPS con dominios cruzados
-                path: '/',
-                secure: true,
-            },
-        },
-    },
+    // cookies: {
+    //     sessionToken: {
+    //         name: `__Secure-next-auth.session-token`,
+    //         options: {
+    //             httpOnly: true,
+    //             sameSite: 'lax', // o 'none' si usas HTTPS con dominios cruzados
+    //             path: '/',
+    //             secure: true,
+    //         },
+    //     },
+    // },
     pages: {
         signIn: '/auth/login',
         newUser: '/auth/new-account'
@@ -81,7 +81,7 @@ export const authConfig: NextAuthConfig = {
 
                         const role = await prisma.role.findFirst({
                             where: {
-                                role: 'user'
+                                name: 'user'
                             },
                         });
 

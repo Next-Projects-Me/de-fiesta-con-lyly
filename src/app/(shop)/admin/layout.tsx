@@ -13,8 +13,8 @@ export default async function AdminLayout({
     }
 
     return (
-        <>
+        <div className="mt-8">
             {children}
-        </>
+        </div>
     );
 }

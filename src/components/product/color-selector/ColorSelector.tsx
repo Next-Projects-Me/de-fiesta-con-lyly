@@ -8,7 +8,6 @@ interface Props {
 
 export const ColorSelector = ({ selectedColor, availableColors, onColorChanged }: Props) => {
 
-
     return (
         <div className='my-5'>
             <h3 className='font-bold mb-4'>Colores disponibles</h3>

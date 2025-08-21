@@ -1,9 +1,9 @@
 export interface Color {
     id: number,
-    color: string
+    name: string
 }
 
 export interface Size {
     id: number;
-    size: string;
+    name: string;
 }

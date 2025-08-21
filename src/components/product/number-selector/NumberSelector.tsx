@@ -18,7 +18,7 @@ export const NumberSelector = ({ selectedNumber, availableNumbers, onNumberChang
                             key={number}
                             className={
                                 clsx(
-                                    "mx-3 hover:underline text-lg cursor-pointer",
+                                    "mr-3 hover:underline text-lg cursor-pointer",
                                     {
                                         "underline": number === selectedNumber
                                     }

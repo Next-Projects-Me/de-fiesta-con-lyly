@@ -17,6 +17,7 @@ import {
 } from 'react-icons/io5';
 import { FaUserCircle } from 'react-icons/fa';
 import Image from 'next/image';
+import { MdOutlineViewQuilt } from 'react-icons/md';
 
 export const Sidebar = () => {
 
@@ -68,7 +69,7 @@ export const Sidebar = () => {
                     onClick={closeMenu}
                 />
 
-                <div className="mt-10 p-2 rounded-md self-center">
+                <div className="mt-5 p-2 rounded-md self-center">
                     {
                         (!isAuthenticated || !profileImage)
                             ? <FaUserCircle className="w-28 h-28 text-primary" />
@@ -101,14 +102,14 @@ export const Sidebar = () => {
                                 <IoTicketOutline size={30} />
                                 <span className='ml-3 text-xl'>Mis Ordenes</span>
                             </Link>
+
                         </>
                     )
                 }
 
                 {
-                    isAdmin && (
+                    (isAdmin && isAuthenticated) && (
                         <>
-                            <div className='w-full h-px bg-gray-200 my-5' />
                             <Link
                                 href="/admin/products"
                                 onClick={closeMenu}
@@ -134,6 +135,15 @@ export const Sidebar = () => {
                             >
                                 <IoPeopleOutline size={30} />
                                 <span className='ml-3 text-xl'>Usuarios</span>
+                            </Link>
+
+                            <Link
+                                href="/admin/features"
+                                onClick={closeMenu}
+                                className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                            >
+                                <MdOutlineViewQuilt size={30} />
+                                <span className='ml-3 text-xl'>Interfaz</span>
                             </Link>
                         </>
                     )

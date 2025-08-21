@@ -3,8 +3,7 @@
 import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
 
-
-export const getOrderById = async (id: string) => {
+export const getOrderByCode = async (code: string) => {
 
     try {
 
@@ -18,9 +17,14 @@ export const getOrderById = async (id: string) => {
         }
 
         const order = await prisma.order.findUnique({
-            where: { id },
+            where: { code },
             include: {
-                OrderAddress: true,
+                OrderAddress: {
+                    include: {
+                        city: true,
+                        department: true,
+                    }
+                },
                 OrderItem: {
                     select: {
                         price: true,
@@ -29,6 +33,7 @@ export const getOrderById = async (id: string) => {
                         colors: true,
                         genders: true,
                         numbers: true,
+                        letters: true,
                         product: {
                             select: {
                                 title: true,
@@ -43,14 +48,14 @@ export const getOrderById = async (id: string) => {
                         }
                     }
                 },
-            }
+            },
         });
 
-        if (!order) throw `orden #${id} no existe`;
+        if (!order) throw `orden #${code} no existe`;
 
         if (session.user.roleId !== 1) {
             if (session.user.id !== order.userId) {
-                throw `orden ${id} no es de ese usuario`
+                throw `orden ${code} no es de ese usuario`
             }
         }
 

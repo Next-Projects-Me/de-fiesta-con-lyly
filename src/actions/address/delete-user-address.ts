@@ -1,12 +1,21 @@
 'use server';
 
+import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
 
-export const deleteUserAddress = async (userId: string) => {
+export const deleteUserAddress = async () => {
     try {
 
+        const session = await auth();
+        if (!session?.user) {
+            return {
+                ok: false,
+                message: 'Debe estar autenticado'
+            }
+        }
+
         const userAddress = await prisma.userAddress.findUnique({
-            where: { userId }
+            where: { id: parseInt(session.user.id) }
         });
 
         if (!userAddress) {
@@ -17,7 +26,7 @@ export const deleteUserAddress = async (userId: string) => {
         }
 
         await prisma.userAddress.delete({
-            where: { userId }
+            where: { id: parseInt(session.user.id) }
         });
 
         return {

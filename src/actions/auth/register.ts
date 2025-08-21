@@ -9,7 +9,7 @@ export const registerUser = async (name: string, email: string, password: string
 
         const role = await prisma.role.findFirst({
             where: {
-                role: 'user'
+                id: 2
             },
             select: {
                 id: true,
@@ -18,8 +18,21 @@ export const registerUser = async (name: string, email: string, password: string
 
         if (!role) {
             return {
-                ok: true,
+                ok: false,
                 message: 'No existe el rol de usuario'
+            }
+        };
+
+        const verifyEmail = await prisma.user.findFirst({
+            where: {
+                email: email
+            }
+        });
+
+        if (verifyEmail) {
+            return {
+                ok: false,
+                message: 'Ya hay un usuario registrado con ese correo'
             }
         }
 
@@ -46,7 +59,14 @@ export const registerUser = async (name: string, email: string, password: string
     }
     catch (error) {
 
-        console.log(error);
+        if (error instanceof Error) {
+            console.log(error.message);
+            return {
+                ok: false,
+                message: error.message
+            };
+        }
+
         return {
             ok: false,
             message: 'No se pudo crear el usuario'

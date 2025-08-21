@@ -18,6 +18,10 @@ interface State {
     openModalLogin: () => void;
     closeModalLogin: () => void;
 
+    isSearchbarOpen: boolean;
+    openSearchbar: () => void;
+    closeSearchbar: () => void;
+
     closeAllMenus: () => void;
 }
 
@@ -38,6 +42,10 @@ export const useUiStore = create<State>()((set) => ({
     isModalLoginOpen: false,
     openModalLogin: () => set({ isModalLoginOpen: true }),
     closeModalLogin: () => set({ isModalLoginOpen: false }),
+
+    isSearchbarOpen: false,
+    openSearchbar: () => set({ isSearchbarOpen: true }),
+    closeSearchbar: () => set({ isSearchbarOpen: false }),
 
     closeAllMenus: () => set({
         isModalLoginOpen: false,

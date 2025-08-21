@@ -4,7 +4,7 @@ export default function AuthLayout({ children }: {
 }) {
 
     return (
-        <div>
+        <div className="sm:mt-20">
             {children}
         </div>
     );

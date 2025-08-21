@@ -20,11 +20,9 @@ export default async function AddressPage() {
     const userAddress = await getUserAddress(session.user.id) ?? undefined;
 
     return (
-        <div className="flex flex-col sm:justify-center sm:items-center mb-10 px-10 sm:px-0">
-            <div className="w-full xl:w-[1000px] flex flex-col justify-center text-left">
-                <Title title="Dirección" subtitle="Dirección de entrega" />
-                <AddressForm departments={departments} cities={cities} userStoredAddress={userAddress} />
-            </div>
+        <div className="flex flex-col justify-center text-left border-interface p-5 mx-5 sm:mx-0 mt-8 sm:mt-5 mb-10">
+            <Title title="Mi Dirección" subtitle="¿A dónde quieres enviar tu pedido?" />
+            <AddressForm departments={departments} cities={cities} userAddress={userAddress} />
         </div>
     );
 }

@@ -4,6 +4,7 @@ export interface Address {
     address: string;
     address2?: string | undefined;
     cityId: number;
-    departmentId: string;
+    departmentId: number;
     phone: string;
+    document: string;
 }

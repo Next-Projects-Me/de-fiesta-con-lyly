@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { inter } from "@/config/fonts";
 
 import "./globals.css";
+import "react-datepicker/dist/react-datepicker.css";
 import { Provider } from "@/components/provider/Provider";
 
 export const metadata: Metadata = {

@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 
 export interface SeedProduct {
-    id: string;
+    id: number;
     description: string;
     inStock: number;
     price: number;
@@ -30,10 +30,10 @@ interface SeedUser {
 }
 
 interface SeedData {
-    genders: { id: number, gender: string }[];
-    colors: { id: number, color: string }[];
-    sizes: { id: number, size: string }[];
-    roles: { id: number, role: string }[];
+    genders: { id: number, name: string }[];
+    colors: { id: number, name: string }[];
+    sizes: { id: number, name: string }[];
+    roles: { id: number, name: string }[];
     categories: SeedCategory[];
     users: SeedUser[];
     products: SeedProduct[];
@@ -41,25 +41,25 @@ interface SeedData {
 
 export const initialData: SeedData = {
     genders: [
-        { id: 1, gender: 'Hombre ' },
-        { id: 2, gender: 'Mujer' },
-        { id: 3, gender: 'Niño' },
+        { id: 1, name: 'Hombre ' },
+        { id: 2, name: 'Mujer' },
+        { id: 3, name: 'Niño' },
     ],
     colors: [
-        { id: 1, color: '#ff0000' },
-        { id: 2, color: '#00ff00' },
-        { id: 3, color: '#0000ff' },
+        { id: 1, name: '#ff0000' },
+        { id: 2, name: '#00ff00' },
+        { id: 3, name: '#0000ff' },
     ],
     sizes: [
-        { id: 1, size: 'S' },
-        { id: 2, size: 'M' },
-        { id: 3, size: 'L' },
-        { id: 4, size: 'XL' },
-        { id: 5, size: 'XXL' },
+        { id: 1, name: 'S' },
+        { id: 2, name: 'M' },
+        { id: 3, name: 'L' },
+        { id: 4, name: 'XL' },
+        { id: 5, name: 'XXL' },
     ],
     roles: [
-        { id: 1, role: 'admin' },
-        { id: 2, role: 'user' }
+        { id: 1, name: 'admin' },
+        { id: 2, name: 'user' }
     ],
     categories: [
         { id: 1, name: "Accesorios", icon: 1 },
@@ -88,7 +88,7 @@ export const initialData: SeedData = {
     ],
     products: [
         {
-            id: '8eb95086-9016-4d26-81d5-e1464a32a9d4',
+            id: 1,
             description: "Set de globos metálicos en colores vibrantes para decorar cualquier celebración.",
             inStock: 7,
             price: 75000,
@@ -102,7 +102,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '36ebd777-9b6e-4e77-8878-ff3b8bb91c25',
+            id: 2,
             description: "Guirnaldas LED para iluminar fiestas con un ambiente mágico.",
             inStock: 5,
             price: 20000,
@@ -117,7 +117,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'ed479f41-c6f7-4c52-bb03-0cc2317ad365',
+            id: 3,
             description: "Confeti en forma de estrellas doradas para una decoración elegante.",
             inStock: 10,
             price: 13000,
@@ -133,7 +133,7 @@ export const initialData: SeedData = {
         },
 
         {
-            id: '9eba3e8c-3eb1-47fc-bfb1-e93b0feee22d',
+            id: 4,
             description: "Disfraz de pirata con accesorios incluidos para eventos temáticos.",
             inStock: 50,
             price: 45000,
@@ -148,7 +148,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '760ee46f-e3c3-42c3-b67a-b9965016e605',
+            id: 5,
             description: "Vasos desechables con estampados de unicornios para fiestas infantiles.",
             inStock: 50,
             price: 40000,
@@ -163,7 +163,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'b38dce51-60cb-4273-8d03-df84827d6ab9',
+            id: 6,
             description: "Platos de papel temáticos de superhéroes para fiestas de niños.",
             inStock: 0,
             price: 35000,
@@ -178,7 +178,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '6a3c44c5-8a54-4742-bf8d-f7cf0e888986',
+            id: 7,
             description: "Cañón de confeti con efecto multicolor ideal para grandes celebraciones.",
             inStock: 15,
             price: 35000,
@@ -193,7 +193,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '2c3d1be8-3af4-44c8-bf01-6c264e203bc9',
+            id: 8,
             description: "Cortina de lentejuelas brillante para fondos de fotos en eventos.",
             inStock: 17,
             price: 35000,
@@ -208,7 +208,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '5f7f6642-9028-43b2-b2e3-f437209cf200',
+            id: 9,
             description: "Centro de mesa con luces LED para una decoración llamativa.",
             inStock: 12,
             price: 35000,
@@ -223,7 +223,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'b121387b-bb55-4eee-a3a9-e2b5fbb50929',
+            id: 10,
             description: "Gorros de fiesta en colores pastel para celebraciones elegantes.",
             inStock: 5,
             price: 35000,
@@ -238,7 +238,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '2b1ceec1-74cc-4199-9f91-446c8be8ca6d',
+            id: 11,
             description: "Manteles temáticos de animales de la selva para fiestas infantiles.",
             inStock: 2,
             price: 35000,
@@ -253,7 +253,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '8020728b-0dcd-4082-8133-ef3db082a29e',
+            id: 12,
             description: "Banderines de tela con diseño retro para decorar cumpleaños.",
             inStock: 82,
             price: 35000,
@@ -268,7 +268,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '2945e86f-5a8a-41f3-a71b-ef4e3c47193c',
+            id: 13,
             description: "Disfraz de hada con alas y varita mágica para fiestas de disfraces.",
             inStock: 24,
             price: 35000,
@@ -283,7 +283,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'b4888355-4bf7-44a8-96c4-979a77ceb803',
+            id: 14,
             description: "Velas aromáticas decorativas para ambientar eventos especiales.",
             inStock: 5,
             price: 30000,
@@ -298,7 +298,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'aa397f09-426f-43cc-98c8-5c904e1031a9',
+            id: 15,
             description: "Piñata en forma de estrella rellenable para celebraciones.",
             inStock: 150,
             price: 30000,
@@ -313,7 +313,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '93ccefbc-075c-4bea-9d30-dee5283f46dd',
+            id: 16,
             description: "Cajas sorpresa para souvenirs de fiestas infantiles.",
             inStock: 10,
             price: 35000,
@@ -328,7 +328,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '1bb00fd1-44c5-4e66-a7c7-9fb244b84d7f',
+            id: 17,
             description: "Kit de maquillaje neón para fiestas con luz negra.",
             inStock: 34,
             price: 35000,
@@ -343,7 +343,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '244cd73c-2893-4ae9-81b2-f2ac01f3c143',
+            id: 18,
             description: "Palillos decorativos con figuras temáticas para aperitivos..",
             inStock: 15,
             price: 40000,
@@ -358,7 +358,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '43418db9-a49a-4fb5-8cda-d34e8649f5be',
+            id: 19,
             description: "Lámparas de papel colgantes para una iluminación sofisticada.",
             inStock: 12,
             price: 40000,
@@ -373,7 +373,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '663585e0-a2f0-4a96-af2e-2953bde008a6',
+            id: 20,
             description: "Sombreros brillantes de fiesta para despedidas de soltero/a.",
             inStock: 10,
             price: 115000,
@@ -388,7 +388,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '3c5b5789-97db-42c3-9c92-04e15cf08f54',
+            id: 21,
             description: "Serpentinas de colores para lanzar en momentos especiales.",
             inStock: 10,
             price: 13000,
@@ -403,7 +403,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'c744c144-3a05-4678-910a-dac449c44d9d',
+            id: 22,
             description: "Invitaciones personalizadas con diseños exclusivos para eventos.",
             inStock: 100,
             price: 85000,
@@ -418,7 +418,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '72d17abb-2191-4f65-840a-c4a9df6c0b55',
+            id: 23,
             description: "Pañuelos temáticos para fiestas vaqueras.",
             inStock: 7,
             price: 85000,
@@ -433,7 +433,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '8f357a75-9191-4bf6-9c97-b7469b7ed4fa',
+            id: 24,
             description: "Pulseras fluorescentes que brillan en la oscuridad.",
             inStock: 15,
             price: 85000,
@@ -448,7 +448,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '9d9fca8e-8f39-4da9-90f3-bd46803da13a',
+            id: 25,
             description: "Globos con helio de letras para formar mensajes personalizados.",
             inStock: 15,
             price: 70000,
@@ -464,7 +464,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '5a86b07d-8cdb-49bb-8b55-4c1e6fdd89dd',
+            id: 26,
             description: "Máscaras de superhéroes para fiestas temáticas.",
             inStock: 13,
             price: 60000,
@@ -479,7 +479,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '78d49e94-b480-489e-8b7e-8a807edd7b0d',
+            id: 27,
             description: "Caminos de mesa con purpurina para decoraciones elegantes.",
             inStock: 11,
             price: 30000,
@@ -494,7 +494,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'f4232e61-0d26-41a5-a152-43bdc2fba11d',
+            id: 28,
             description: "Bebidas en polvo con colores vibrantes para cócteles sin alcohol.",
             inStock: 13,
             price: 35000,
@@ -509,7 +509,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '2b3bc1a0-3b38-4c1e-a7b3-8bfa3c6b325b',
+            id: 29,
             description: "Cápsulas de humo de colores para efectos visuales en eventos.",
             inStock: 85,
             price: 22500,
@@ -524,7 +524,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '7e6f56d9-aee7-454e-a535-68188b140ead',
+            id: 30,
             description: "Tiaras con piedras brillantes para fiestas de princesas.",
             inStock: 10,
             price: 13000,
@@ -539,7 +539,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'd56939a8-75b4-4897-bcf5-01f94d91178d',
+            id: 31,
             description: "Disco de luces LED portátil para animar cualquier celebración.",
             inStock: 9,
             price: 11000,
@@ -554,7 +554,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'c259c404-1d59-4ecc-860c-7e32cdfb3fb9',
+            id: 32,
             description: "Pistolas de burbujas para fiestas al aire libre",
             inStock: 10,
             price: 45000,
@@ -569,7 +569,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '6b71279d-609c-4775-a1c9-f2673f9d0eaf',
+            id: 33,
             description: "Collares hawaianos de flores para eventos tropicales",
             inStock: 0,
             price: 40000,
@@ -584,7 +584,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '743ab1f8-0fdf-4845-9b2d-542d54b60c4e',
+            id: 34,
             description: "Servilletas con estampados personalizados para fiestas exclusivas.",
             inStock: 30,
             price: 35000,
@@ -599,7 +599,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'e8d7b2bb-bdc4-4c82-b1d5-438f8885882b',
+            id: 35,
             description: "Globos gigantes en forma de números para aniversarios y cumpleaños.",
             inStock: 16,
             price: 40000,
@@ -615,7 +615,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'e6ce124c-0811-4224-8c76-882417445bf4',
+            id: 36,
             description: "Tarjetas de agradecimiento con diseños modernos para eventos.",
             inStock: 18,
             price: 35000,
@@ -630,7 +630,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'c7a91a14-643a-4efd-9454-5c84efa4e74d',
+            id: 37,
             description: "Carpas plegables con luces para celebraciones al aire libre.",
             inStock: 5,
             price: 35000,
@@ -645,7 +645,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'ff3d248b-25ec-4a87-9689-4195a400e175',
+            id: 38,
             description: "Humo de colores para efectos especiales en sesiones de fotos.",
             inStock: 16,
             price: 35000,
@@ -660,7 +660,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'a339719a-d6ec-446b-a18d-4e442620e153',
+            id: 39,
             description: "Caja de dulces temática con chocolates y caramelos variados",
             inStock: 10,
             price: 130000,
@@ -675,7 +675,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '4622a8ce-28f9-4843-9150-531a9418f9a2',
+            id: 40,
             description: "Cinta adhesiva decorativa con brillo para envolver regalos.",
             inStock: 3,
             price: 90000,
@@ -690,7 +690,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '0e264c36-9328-4762-9afb-0423ae1a50c0',
+            id: 41,
             description: "Pirotecnia fría para darle un toque especial a la fiesta.",
             inStock: 162,
             price: 100000,
@@ -705,7 +705,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '1e268213-ef18-47b9-845c-55ca1c5e32b7',
+            id: 42,
             description: "Cajas de cartón decoradas para entregar souvenirs.",
             inStock: 10,
             price: 30000,
@@ -720,7 +720,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '7d595601-93be-45d4-8ba4-d7bab79b5198',
+            id: 43,
             description: "Set de stickers para personalizar vasos y platos de fiesta.",
             inStock: 0,
             price: 25000,
@@ -735,7 +735,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '39eac5fb-d4c8-4da9-89b7-4c546fa21d03',
+            id: 44,
             description: "Gafas de colores extravagantes para animar cualquier evento.",
             inStock: 10,
             price: 25000,
@@ -750,7 +750,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'a0834265-8282-4937-8e88-3a8578fb76aa',
+            id: 45,
             description: "Carteles personalizables con frases para photobooths.",
             inStock: 10,
             price: 30000,
@@ -765,7 +765,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'fb6d0042-209a-4b2b-a641-7028c1ec1156',
+            id: 46,
             description: "Chapas con frases divertidas para despedidas de soltero/a.",
             inStock: 10,
             price: 30000,
@@ -780,7 +780,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '10d1ff19-3688-4160-96d7-2ccc553ce600',
+            id: 47,
             description: "Guantes LED que cambian de color al ritmo de la música.",
             inStock: 10,
             price: 30000,
@@ -795,7 +795,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '95159d7e-9a90-42c6-9140-add19849c13d',
+            id: 48,
             description: "Botellas de champán decorativas con efectos brillantes",
             inStock: 16,
             price: 25000,
@@ -810,7 +810,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: '3aac1962-a48a-4e4f-b9dc-c57fbd22c06e',
+            id: 49,
             description: "Camisas hawaianas para fiestas temáticas tropicales.",
             inStock: 0,
             price: 30000,
@@ -825,7 +825,7 @@ export const initialData: SeedData = {
             ],
         },
         {
-            id: 'd257f72f-983d-4a33-a113-2c5c7ae42587',
+            id: 50,
             description: "Moldes de hielo con formas divertidas para bebidas especiales.",
             inStock: 10,
             price: 30000,

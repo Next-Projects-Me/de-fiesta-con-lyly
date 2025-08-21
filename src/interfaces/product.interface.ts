@@ -1,12 +1,18 @@
 export interface Product {
+    id: number;
+    subcategory?: string;
     images: string[];
+    ProductImage: {
+        id: number;
+        url: string;
+    }[];
     sizes?: string[];
     colors?: string[];
     numbers?: string[];
     genders?: string[];
+    letters: boolean;
     tags?: string[];
     subcategoryId: number;
-    id: string;
     title: string;
     description: string;
     inStock: number;
@@ -15,7 +21,7 @@ export interface Product {
 }
 
 export interface CartProduct {
-    id: string;
+    id: number;
     slug: string;
     title: string;
     price: number;
@@ -23,6 +29,7 @@ export interface CartProduct {
     size?: string;
     color?: string;
     number?: string;
+    letter?: string;
     gender?: string;
     image: string;
 }
@@ -32,4 +39,5 @@ export interface SummaryInformation {
     tax: number;
     total: number;
     itemsInCart: number;
+    sendingCost: number;
 }
