@@ -103,10 +103,10 @@ export const TopMenu = ({ categories }: Props) => {
                 } >
                     <div className="flex justify-center items-center sm:mb-40 ">
                         <Link href="https://www.instagram.com/de_fiesta_con_lyly?igsh=c2hhZ2drZmRwbDR1" className="hidden sm:block">
-                            <FaSquareInstagram className="w-14 h-14 mr-3 text-white hover:scale-120" />
+                            <FaSquareInstagram className="w-14 h-14 mr-3 text-white hover:scale-120 duration-300 ease-in-out" />
                         </Link>
                         <Link href="https://www.facebook.com/defiestaconlyly" className="hidden sm:block">
-                            <FaSquareFacebook className="w-14 h-14 text-white hover:scale-120" />
+                            <FaSquareFacebook className="w-14 h-14 text-white hover:scale-120 duration-300 ease-in-out" />
                         </Link>
                         <button onClick={openLeftSideMenu} className="block sm:hidden">
                             <IoMenuOutline className="w-10 h-10 text-white cursor-pointer" />
@@ -129,7 +129,7 @@ export const TopMenu = ({ categories }: Props) => {
                         <button type="submit" className="p-2.5 ms-2 hidden sm:block">
                             <IoSearchCircle
                                 onClick={openSearchbar}
-                                className="w-12 h-12 text-white transform hover:scale-125 cursor-pointer" />
+                                className="w-12 h-12 text-white transform hover:scale-125 duration-300 ease-in-out cursor-pointer" />
                         </button>
                         <Link
                             href={
@@ -146,12 +146,12 @@ export const TopMenu = ({ categories }: Props) => {
                                         </span>
                                     )
                                 }
-                                <IoCartOutline className="w-10 h-10 transform hover:scale-125 text-white" />
+                                <IoCartOutline className="w-10 h-10 transform hover:scale-125 duration-300 ease-in-out text-white" />
                             </div>
                         </Link>
                         <button
                             onClick={openSideMenu}
-                            className="m-2 p-2 rounded-md hover:scale-125 cursor-pointer hidden sm:block">
+                            className="m-2 p-2 rounded-md hover:scale-125 duration-300 ease-in-out cursor-pointer hidden sm:block">
                             <IoMenuOutline className="w-10 h-10 text-white cursor-pointer" />
                         </button>
                     </div>

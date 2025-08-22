@@ -1,6 +1,6 @@
 'use client';
 
-import { changeUserRole } from '@/actions/users/change-user-rol';
+// import { changeUserRole } from '@/actions/users/change-user-rol';
 import { changeUserStatus } from '@/actions/users/change-user-status';
 import { CheckBox } from '@/components/ui/checkbox/CheckBox';
 import { FaUserCircle } from 'react-icons/fa';
@@ -74,9 +74,9 @@ export const AdminUsersCard = ({ page }: Props) => {
     }
 
     const onChangeRole = async (userId: string, value: number) => {
-        await changeUserRole(userId, value);
-        toast.success('Permisos actualizados');
-        await getInitialUsers(dataForm);
+        // await changeUserRole(userId, value);
+        // toast.success('Permisos actualizados');
+        // await getInitialUsers(dataForm);
     }
 
     return (
@@ -181,6 +181,7 @@ export const AdminUsersCard = ({ page }: Props) => {
                                                             <div className="p-2 border rounded-md w-fit">
                                                                 <Toaster richColors position='bottom-right' />
                                                                 <select
+                                                                    disabled={true}
                                                                     value={user.roleId}
                                                                     onChange={e => onChangeRole(user.id, parseInt(e.target.value))}
                                                                     className="h-full outline-0 w-fit">

@@ -122,7 +122,6 @@ model Product {
   colors      String[]
   numbers     String[]
   letters     Boolean  @default(false)
-  tags        String[]
 
   subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
   subcategoryId Int

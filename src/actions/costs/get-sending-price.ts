@@ -12,7 +12,7 @@ export const getSendingCost = async () => {
             }
         });
 
-        return sending?.price
+        return sending?.price ?? 0
 
     }
     catch {
