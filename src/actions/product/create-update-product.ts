@@ -127,7 +127,7 @@ const uploadImagesToBunny = async (images: File[]) => {
 
         for (const file of images) {
 
-            const response = await fetch(`${URLBase}/${storageZoneName}/${base}_${file.name}`, {
+            const response = await fetch(`${URLBase}/${storageZoneName}/store/${base}_${file.name}`, {
                 method: "PUT",
                 headers: {
                     Accesskey: storagePassword,
@@ -138,7 +138,7 @@ const uploadImagesToBunny = async (images: File[]) => {
             });
 
             if (response.ok) {
-                uploadedUrls.push(`${bunnyCND}/${base}_${file.name}`);
+                uploadedUrls.push(`${bunnyCND}/store/${base}_${file.name}`);
             } else {
                 console.error("Upload failed for", file.name);
             }

@@ -53,7 +53,7 @@ export const deleteProductImageBunny = async (imageId: number, imageUrl: string)
         const storageZoneName = process.env.BUNNY_ZONE_NAME ?? "";
         const storagePassword = process.env.BUNNY_ACCESS_KEY ?? "";
 
-        const response = await fetch(`${URLBase}/${storageZoneName}/${imageName}`, {
+        const response = await fetch(`${URLBase}/${storageZoneName}/store/${imageName}`, {
             method: "DELETE",
             headers: {
                 Accesskey: storagePassword,
