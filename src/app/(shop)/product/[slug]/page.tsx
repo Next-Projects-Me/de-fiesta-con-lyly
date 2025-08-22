@@ -39,7 +39,7 @@ export default async function ProductBySlugPage({ params }: Props) {
     }
 
     return (
-        <div className="sm:mt-20 mb-20 flex flex-col justify-center lg:flex-row gap-3">
+        <div className="sm:mt-20 mb-20 grid grid-cols-1 md:grid-cols-2 justify-center lg:flex-row gap-3">
             <div className="">
 
                 <ProductMobileSlideshow

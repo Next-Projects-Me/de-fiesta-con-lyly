@@ -1,19 +1,19 @@
 "use client";
 
-import { Product } from "@/interfaces/product.interface";
+import { CheckBox } from "@/components/ui/checkbox/CheckBox";
+import { Color, Size } from "@/interfaces/feature.interface";
 import { Controller, useForm } from "react-hook-form";
-import clsx from 'clsx';
+import { createUpdateProduct } from "@/actions/product/create-update-product";
+import { deleteProductImageBunny } from "@/actions/product/delete-product-image";
+import { Product } from "@/interfaces/product.interface";
 import { ProductImage } from "@/components/product/product-image/ProductImage";
 import { ProductImage as IProductImage } from "@/interfaces/productImage.interface";
-import { deleteProductImage } from "@/actions/product/delete-product-image";
-import { Color, Size } from "@/interfaces/feature.interface";
 import { Subcategory } from "@/interfaces/category.interface";
 import { toast, Toaster } from "sonner";
-import { useRouter } from "next/navigation";
-import { createUpdateProduct } from "@/actions/product/create-update-product";
-import { CheckBox } from "@/components/ui/checkbox/CheckBox";
 import { useEffect } from "react";
-
+import { useRouter } from "next/navigation";
+import clsx from 'clsx';
+import { IoCheckbox } from "react-icons/io5";
 
 interface Props {
     product: Partial<Product> & { ProductImage?: IProductImage[] };
@@ -32,7 +32,6 @@ interface FormInputs {
     colors: string[];
     numbers: string[];
     letters: boolean;
-    tags: string[];
     subcategoryId: number;
     images?: FileList;
 }
@@ -52,7 +51,6 @@ export const AdminProductForm = ({ product, subcategories, sizes, colors }: Prop
     } = useForm<FormInputs>({
         defaultValues: {
             ...product,
-            tags: product.tags ?? [],
             sizes: product.sizes ?? [],
             colors: product.colors ?? [],
             numbers: product.numbers ?? [],
@@ -66,6 +64,8 @@ export const AdminProductForm = ({ product, subcategories, sizes, colors }: Prop
     watch('numbers');
 
     const title = watch('title');
+    const files = watch('images');
+
 
     useEffect(() => {
         if (title) {
@@ -139,7 +139,6 @@ export const AdminProductForm = ({ product, subcategories, sizes, colors }: Prop
         formData.append('colors', productToSave.colors.toString());
         formData.append('numbers', productToSave.numbers.toString());
         formData.append('letters', productToSave.letters.toString());
-        formData.append('tags', productToSave.tags.toString());
         formData.append('subcategoryId', productToSave.subcategoryId.toString());
 
         if (images) {
@@ -154,6 +153,7 @@ export const AdminProductForm = ({ product, subcategories, sizes, colors }: Prop
             return;
         }
 
+        setValue("images", undefined);
         toast.success('Producto actualizado correctamente');
         router.replace(`/admin/product/${updatedProduct?.slug}`);
     }
@@ -199,11 +199,6 @@ export const AdminProductForm = ({ product, subcategories, sizes, colors }: Prop
                 <div className="flex flex-col mb-2">
                     <label className="font-bold">Price</label>
                     <input type="number" className="p-2 border rounded-md bg-gray-200" {...register('price', { required: true, min: 0 })} />
-                </div>
-
-                <div className="flex flex-col mb-2">
-                    <label className="font-bold">Tags</label>
-                    <input type="text" className="p-2 border rounded-md bg-gray-200" {...register('tags', { required: true })} />
                 </div>
 
                 <div className="flex flex-col mb-2">
@@ -328,9 +323,22 @@ export const AdminProductForm = ({ product, subcategories, sizes, colors }: Prop
                             className="p-2 border rounded-md bg-gray-200 cursor-pointer"
                             accept="image/png, image/jpeg, image/avif"
                         />
-
+                        {
+                            files && (
+                                <div className="mt-2">
+                                    <p >Imágenes a cargar:</p>
+                                    {
+                                        Array.from(files).map((file, index) => (
+                                            <div className="flex items-center" key={index}>
+                                                <li className="mr-2">{file.name}</li>
+                                                <IoCheckbox className="text-lime-700" />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            )
+                        }
                     </div>
-
                     <div className="flex flex-wrap">
                         {
                             product.ProductImage?.map(image => (
@@ -345,7 +353,7 @@ export const AdminProductForm = ({ product, subcategories, sizes, colors }: Prop
                                     <button
                                         type="button"
                                         className="btn-danger rounded-b-xl w-30 sm:w-44 cursor-pointer"
-                                        onClick={() => deleteProductImage(image.id, image.url)}
+                                        onClick={() => deleteProductImageBunny(image.id, image.url)}
                                     >
                                         Eliminar
                                     </button>

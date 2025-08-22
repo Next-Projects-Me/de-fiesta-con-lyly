@@ -1,10 +1,11 @@
 'use server';
 
-import prisma from '@/lib/prisma';
 import { Product } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
 import { v2 as cloudinary } from 'cloudinary';
+import { z } from 'zod';
+import prisma from '@/lib/prisma';
+import { format } from 'date-fns';
 
 cloudinary.config(process.env.CLOUDINARY_URL ?? '');
 
@@ -26,7 +27,6 @@ const productSchema = z.object({
     colors: z.coerce.string().transform(val => val.split(',').filter(s => s.trim() !== '')),
     numbers: z.coerce.string().transform(val => val.split(',').filter(s => s.trim() !== '')),
     letters: z.coerce.string().transform(val => val === 'true'),
-    tags: z.coerce.string(),
 })
 
 
@@ -50,16 +50,11 @@ export const createUpdateProduct = async (formData: FormData) => {
         const prismaTx = await prisma.$transaction(async () => {
 
             let product: Product;
-            const tagsArray = rest.tags.split(',').map(tag => tag.trim().toLowerCase());
-
             if (id) {
                 product = await prisma.product.update({
                     where: { id },
                     data: {
                         ...rest,
-                        tags: {
-                            set: tagsArray
-                        }
                     }
                 });
 
@@ -74,22 +69,20 @@ export const createUpdateProduct = async (formData: FormData) => {
                     data: {
                         id: lastId!.id + 1,
                         ...rest,
-                        tags: {
-                            set: tagsArray
-                        }
                     }
                 })
             }
 
             if (formData.getAll('images')) {
-                const images = await uploadImages(formData.getAll('images') as File[]);
+                // const images = await uploadImagesToCloudinary(formData.getAll('images') as File[]);
+                const images = await uploadImagesToBunny(formData.getAll('images') as File[]);
                 if (!images) {
-                    throw new Error('No se pudo cargar las imágenes, rollingback ')
+                    throw new Error('No se pudo cargar las imágenes, rollingBack ')
                 }
 
                 await prisma.productImage.createMany({
-                    data: images.map(image => ({
-                        url: image!,
+                    data: images.map(url => ({
+                        url: url!,
                         productId: product.id
                     }))
                 });
@@ -118,33 +111,74 @@ export const createUpdateProduct = async (formData: FormData) => {
     }
 }
 
-
-const uploadImages = async (images: File[]) => {
+const uploadImagesToBunny = async (images: File[]) => {
 
     try {
-        const uploadPromises = images.map(async (image) => {
 
-            try {
+        const currentDate = new Date();
+        const base = format(currentDate, "yyyyMMddHHmmssSSS");
 
-                const buffer = await image.arrayBuffer();
-                const base64Image = Buffer.from(buffer).toString('base64');
+        const uploadedUrls = [];
 
-                return cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`)
-                    .then(r => r.secure_url);
-            } catch (error) {
-                console.log(error);
-                return null;
+        const URLBase = process.env.BUNNY_BASE ?? "";
+        const bunnyCND = process.env.BUNNY_CDN ?? "";
+        const storageZoneName = process.env.BUNNY_ZONE_NAME ?? "";
+        const storagePassword = process.env.BUNNY_ACCESS_KEY ?? "";
+
+        for (const file of images) {
+
+            const response = await fetch(`${URLBase}/${storageZoneName}/${base}_${file.name}`, {
+                method: "PUT",
+                headers: {
+                    Accesskey: storagePassword,
+                    "content-Type": "application/octet-stream",
+                },
+                body: file,
+                cache: 'no-cache'
+            });
+
+            if (response.ok) {
+                uploadedUrls.push(`${bunnyCND}/${base}_${file.name}`);
+            } else {
+                console.error("Upload failed for", file.name);
             }
+        }
 
-        });
-
-        const uploadedImages = await Promise.all(uploadPromises);
-        return uploadedImages;
-
-
+        return uploadedUrls;
+      
     } catch (error) {
         console.log(error);
         return null;
     }
-
 }
+
+
+// const uploadImagesToCloudinary = async (images: File[]) => {
+
+//     try {
+//         const uploadPromises = images.map(async (image) => {
+
+//             try {
+
+//                 const buffer = await image.arrayBuffer();
+//                 const base64Image = Buffer.from(buffer).toString('base64');
+
+//                 return cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`)
+//                     .then(r => r.secure_url);
+//             } catch (error) {
+//                 console.log(error);
+//                 return null;
+//             }
+
+//         });
+
+//         const uploadedImages = await Promise.all(uploadPromises);
+//         return uploadedImages;
+
+
+//     } catch (error) {
+//         console.log(error);
+//         return null;
+//     }
+
+// }

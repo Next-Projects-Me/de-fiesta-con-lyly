@@ -1,6 +1,5 @@
 'use client';
 
-import { changeUserRole } from '@/actions/users/change-user-rol';
 import { changeUserStatus } from '@/actions/users/change-user-status';
 import { CheckBox } from '@/components/ui/checkbox/CheckBox';
 import { FaUserCircle } from 'react-icons/fa';
@@ -73,11 +72,11 @@ export const AdminUsersCard = ({ page }: Props) => {
         await getInitialUsers(dataForm);
     }
 
-    const onChangeRole = async (userId: string, value: number) => {
-        await changeUserRole(userId, value);
-        toast.success('Permisos actualizados');
-        await getInitialUsers(dataForm);
-    }
+    // const onChangeRole = async () => {
+    //     // await changeUserRole(userId, value);
+    //     // toast.success('Permisos actualizados');
+    //     // await getInitialUsers(dataForm);
+    // }
 
     return (
         <div>
@@ -181,8 +180,9 @@ export const AdminUsersCard = ({ page }: Props) => {
                                                             <div className="p-2 border rounded-md w-fit">
                                                                 <Toaster richColors position='bottom-right' />
                                                                 <select
+                                                                    disabled={true}
                                                                     value={user.roleId}
-                                                                    onChange={e => onChangeRole(user.id, parseInt(e.target.value))}
+                                                                    // onChange={e => onChangeRole(user.id, parseInt(e.target.value))}
                                                                     className="h-full outline-0 w-fit">
                                                                     <option value={1}>Admin</option>
                                                                     <option value={2}>User</option>
@@ -190,7 +190,6 @@ export const AdminUsersCard = ({ page }: Props) => {
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
