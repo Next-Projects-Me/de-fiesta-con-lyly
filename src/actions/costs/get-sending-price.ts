@@ -13,7 +13,6 @@ export const getSendingCost = async () => {
         });
 
         return sending?.price ?? 0
-
     }
     catch {
         throw new Error('Error al obtener el costo del envío');

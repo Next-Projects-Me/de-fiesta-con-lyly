@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import clsx from 'clsx';
 import { IoCheckbox } from "react-icons/io5";
 
-
 interface Props {
     product: Partial<Product> & { ProductImage?: IProductImage[] };
     subcategories: Subcategory[];
@@ -66,6 +65,7 @@ export const AdminProductForm = ({ product, subcategories, sizes, colors }: Prop
 
     const title = watch('title');
     const files = watch('images');
+
 
     useEffect(() => {
         if (title) {
@@ -339,8 +339,6 @@ export const AdminProductForm = ({ product, subcategories, sizes, colors }: Prop
                             )
                         }
                     </div>
-
-
                     <div className="flex flex-wrap">
                         {
                             product.ProductImage?.map(image => (

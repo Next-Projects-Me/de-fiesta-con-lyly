@@ -145,7 +145,7 @@ const uploadImagesToBunny = async (images: File[]) => {
         }
 
         return uploadedUrls;
-
+      
     } catch (error) {
         console.log(error);
         return null;

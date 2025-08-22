@@ -100,6 +100,63 @@ export const ProductSlideshow = ({ images, title = "Titulo", className }: Props)
                         }
                     </Swiper>
                 </div>
+        <div className={`${className} flex-col h-full place-items-center`}>
+            <div className="w-[600px] h-[600px] rounded">
+                <Swiper
+                    style={{
+                        '--swiper-navigation-color': '#fff',
+                        '--swiper-pagination-color': '#fff',
+                    } as React.CSSProperties
+                    }
+                    pagination={{ clickable: true }}
+                    spaceBetween={10}
+                    navigation={true}
+                    thumbs={{
+                        swiper: thumbsSwiper
+                    }}
+                    modules={[FreeMode, Navigation, Thumbs, Pagination]}
+                    className="w-full h-full"
+                >
+                    {
+                        images?.map(image => (
+                            <SwiperSlide key={image} className="flex justify-center">
+                                <ProductImage
+                                    className="object-contain rounded cursor-zoom-in"
+                                    width={800}
+                                    height={800}
+                                    src={image}
+                                    alt={title}
+                                    onClick={() => handleImageClick(image)}
+                                />
+                            </SwiperSlide>
+                        ))
+                    }
+                </Swiper>
+            </div>
+
+            <div className="w-full h-[150px]">
+                <Swiper
+                    onSwiper={setThumbsSwiper}
+                    spaceBetween={2}
+                    slidesPerView={4}
+                    freeMode={true}
+                    watchSlidesProgress={true}
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    className="mySwiper w-[600px] h-full"
+                >
+                    {
+                        images?.map(image => (
+                            <SwiperSlide key={image}>
+                                <ProductImage
+                                    className="rounded-lg object-fill"
+                                    width={900}
+                                    height={900}
+                                    src={image}
+                                    alt={title} />
+                            </SwiperSlide>
+                        ))
+                    }
+                </Swiper>
             </div>
 
             {

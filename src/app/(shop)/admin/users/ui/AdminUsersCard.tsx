@@ -1,6 +1,5 @@
 'use client';
 
-// import { changeUserRole } from '@/actions/users/change-user-rol';
 import { changeUserStatus } from '@/actions/users/change-user-status';
 import { CheckBox } from '@/components/ui/checkbox/CheckBox';
 import { FaUserCircle } from 'react-icons/fa';
@@ -191,7 +190,6 @@ export const AdminUsersCard = ({ page }: Props) => {
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
